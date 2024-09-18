@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chat</title>
+</head>
+<body>
+    <h1>Chat</h1>
+    <form method="post">
+        <label for="recipient">Destinatario:</label>
+        <input type="text" id="recipient" name="recipient" required>
+        <br>
+        <label for="message">Mensaje:</label>
+        <input type="text" id="message" name="message" required>
+        <br>
+        <button type="submit">Enviar</button>
+    </form>
+    <h2>Mensajes</h2>
+    <ul>
+        {% for msg in messages %}
+            {% if msg.recipient == username or msg.sender == username %}
+                <li><strong>{{ msg.sender }}:</strong> {{ msg.message }}</li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+</body>
+</html>
