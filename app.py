@@ -31,7 +31,7 @@ def register():
         users, messages = load_data()
         if username in users:
             return 'Usuario ya registrado'
-        users[username] = password
+        users[username] = password, "user"
         save_data(users, messages)
         return redirect(url_for('login'))
     return render_template('register.html')
@@ -42,7 +42,7 @@ def login():
         username = request.form['username']
         password = request.form['password']
         users, messages = load_data()
-        if username in users and users[username] == password:
+        if username in users and users[username][1] == password:
             session['username'] = username
             return redirect(url_for('chat'))
         return 'Credenciales incorrectas'
