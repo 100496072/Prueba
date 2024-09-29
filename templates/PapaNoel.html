@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+
+<html lang="es" xmlns="http://www.w3.org/1999/html"> <!-- Establecer idioma en Español -->
+
+<head> <!-- Metadatos pincipales y cosas varias -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <title>Papá Noel</title>
+    <link rel="icon" href="../static/images/favicon.png" type="image/png">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style/general.css') }}">
+
+
+</head>
+
+<body>
+
+    <header>
+
+        <div id="headerheader">
+            <img src="../static/images/favicon.png" alt="Logo" id="favicon">
+            <audio controls autoplay id="audio">
+                    <source src="../static/images/musica.mp3" type="audio/mpeg">
+            </audio>
+        </div>
+
+
+        <nav id="panel">
+            <ul>
+                <li><a class="active" href="#pn_2"> Papá Noel </a></li>
+                <li><a href="#pn_3"> Las cartas </a></li>
+                <li><a href="#pn_4"> Envía </a></li>
+                <li><a href="#pn_5"> ¡Juega! </a></li>
+            </ul>
+        </nav>
+
+         <div id="bot">
+             <a href="/login" class="botonesheader"> Inicio Sesión </a>
+             <a href="/register" class="botonesheader"> Registrarse </a>
+         </div>
+    </header>
+
+    <main>
+
+        <section id="pn_1">
+            <!-- Titulo Principal con cuenta atrás y botón-->
+            <h1> ¿Dónde está Papá Noel? </h1>
+            <p id="PP"> Quedan 66 días 12 horas 02 minutos y 14 segundos para que venga </p>
+            <button id="BotonL" > Localízale </button>
+        </section>
+
+        <img src="../static/images/renos1.png" alt="renos" class="renos">
+
+        <section  id="pn_2">
+            <div id="title2">
+                <h2>Papá Noel</h2>
+            </div>
+            <div id="pn_22">
+                <div class="imaPapa">
+                    <img src="../static/images/entrada_casa.png" alt="entrada_casa" class="imaPapaa">
+                    <img src="../static/images/salon_casa.png" alt="salon_casa" class="imaPapaa">
+                    <img src="../static/images/cocina.png" alt="cocina" class="imaPapaa">
+                    <img src="../static/images/baño.avif" alt="baño" class="imaPapaa">
+                    <img src="../static/images/dormitorio.png" alt="dormitorio" class="imaPapaa">
+                    <img src="../static/images/papanoel.jpg" alt="papa_noel" class="imaPapaa">
+                </div>
+                 <article id="PN_text_content">
+
+                    <h3> La casa de Papá Noel</h3>
+
+                    <p> ¿Alguna vez te has preguntado la casa en la que vive Papa Noel? <br>
+                    Hemos enviado a nuestro mejor reportero para que nos cuente cómo es la casa del
+                    famosísimo Santa Claus, y que descubra si es tan mágica como él.<br>
+                    Lo primero que destaca de su casa, es la entrada, pese al frío del Polo Norte, desprende calidez
+                    y un olor a nubes de azúcar que sacan una sonrisa hasta a los renos. La casa dispone de 4
+                        habitaciones: un salón, una cocina, el dormitorio y un cuarto de baño.<br>
+                    El salón tiene una gran chimenea que calienta la casa y ofrece un lugar perfecto para
+                    una lectura a la luz de la lumbre, la cocina huele de maravilla, por lo que nos han contado,
+                    más de la mitad del año se preparan galletas, tartas y otros dulces en un horno mágico,
+                    el baño tiene una bañera amplia y acogedora con vistas a la nieve donde refugiarse en los días más fríos,
+                        y por último, el dormitorio parece sacado de un cuento, la cama, probada por nuestro enviado, es la
+                        más cómoda del mundo, según sus palabras: "un roce y ya querrás echarte una cabezadita", además, dispone de un
+                        teléfono con línea directa al taller de juguetes, donde se crea la magia que nos llega todas las
+                    Navidades.<br>
+                    Esperamos que os haya gustado este pequeño vistazo a esta mágica casa, adjuntamos fotos para que
+                        toméis inspiración y conozcáis un poco más a nuestro más que especial amigo.</p>
+                </article>
+            </div>
+        </section>
+
+        <img src="../static/images/renos2.png" alt="renos" class="renos">
+
+
+        <section id="pn_3">
+            <div>
+                <h2>Las cartas </h2>
+            </div>
+            <div id="horizontal">
+                    <div class="celda_carta">
+                        <img src="../static/images/persona1.jpg" alt="foto_user" class="img_user">
+                        <p class="carta">Nombre: Pepe <br>
+                        Ciudad: Matalascañas<br>
+                        País: España<br>
+                        Carta: Este año a Papá Noel le pido una nave Lego de Star Wars y unas vacaciones
+                            en la playa con mis padres.</p>
+                    </div>
+                    <div class="celda_carta">
+                         <img src="../static/images/persona2.jpg" alt="foto_user" class="img_user">
+                        <p class="carta">Nombre: Ana<br>
+                        Ciudad: París<br>
+                        País: Francia<br>
+                        Carta: Para estas navidades me gustaría tener la cueva pirata de Playmobil y
+                            un set de magia para principiantes.</p>
+                    </div>
+                    <div class="celda_carta">
+                        <img src="../static/images/persona3.jpg" alt="foto_user" class="img_user">
+                        <p class="carta">Nombre: Laura<br>
+                        Ciudad: Berlín<br>
+                        País: Alemania<br>
+                        Carta: A Papá Noel le pido este año: una guitarra clásica para empezar a dar clases,
+                            y un set de botánica para empezar mi propio huerto, con instrumentos incluidos</p>
+                    </div>
+                    <div class="celda_carta">
+                        <img src="../static/images/persona4.jpg" alt="foto_user" class="img_user">
+                        <p class="carta">Nombre: Daniel<br>
+                        Ciudad: Madrid<br>
+                        País: España<br>
+                        Carta: Este 25 de diciembre me gustaría levantarme y encontrar un coche teledirigido,
+                            una nave espacial, y una mochila nueva para el cole.</p>
+                    </div>
+                    <div class="celda_carta">
+                        <img src="../static/images/persona5.jpg" alt="foto_user" class="img_user">
+                        <p class="carta">Nombre: Sofía<br>
+                        Ciudad: Brujas<br>
+                        País: Bélgica<br>
+                        Carta: Para este año me gustaría recibir un ordenador para aprender a programar
+                            y hacer mis juegos en un futuro, además un ratón y un teclado.</p>
+                    </div>
+                    <div class="celda_carta">
+                        <img src="../static/images/persona6.jpg" alt="foto_user" class="img_user">
+                        <p class="carta">Nombre: Pablo<br>
+                        Ciudad: Roma<br>
+                        País: Italia<br>
+                        Carta: Me gustaría pedir a Papá Noel la paz para todo el mundo, y comida para los
+                        que más lo necesitan. Y una Playstation 5.</p>
+                    </div>
+            </div>
+        </section>
+
+
+        <img src="../static/images/renos1.png" alt="renos" class="renos">
+
+        <section id="pn_4">
+            <h2>Envía tu Carta</h2>
+            <!--class="pn_write" -->
+            <form id="tu_carta">
+                <div class="label.container">
+                <label for="name"> Name: </label>
+                <input type="text" name="name" id="name">
+                </div>
+                <div class="label.container">
+                <label for="email"> Correo electrónico: </label>
+                <input type="email" name="email" id="email">
+                </div>
+                <div class="label.container">
+                <label for="city"> Ciudad: </label>
+                <input type="text" name="city" id="city">
+                </div>
+                <div class="label.container">
+                <label for="country"> País: </label>
+                <input type="text" name="country" id="country">
+                </div>
+                <!-- Como no tiene que funcionar, creo que habría que sacarlo fuera del form,
+                luego habría que colocar con css-->
+                <div class="textarea.container">
+                <p>Escribe tu carta: </p>
+                    <label>
+                        <textarea></textarea>
+                    </label>
+                </div>
+                <div class="button.container">
+                <button id="reg_button" type="button"> Envía </button>
+                </div>
+            </form>
+        </section>
+
+        <img src="../static/images/renos2.png" alt="renos" class="renos">
+
+
+
+        <section id="pn_5">
+            <!--class="pn_write" -->
+            <h3>¡Juega! </h3>
+            <div id="game">
+                <div id="opciones_juego">
+                    <div class="option">
+                        <input type="radio" id="toggle1" name="game" checked>
+                        <label for="toggle1">Juego 1</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="toggle2" name="game">
+                        <label for="toggle2">Juego 2</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="toggle3" name="game">
+                        <label for="toggle3">Juego 3</label>
+                    </div>
+                </div>
+                <div class="images">
+
+                    <img src="../static/images/juego1.jpg" alt="foto_user" class="Imagen1">
+                    <img src="../static/images/juego2.jpg" alt="foto_user" class="Imagen2">
+                    <img src="../static/images/juego3.jpg" alt="foto_user" class="Imagen3">
+
+
+                </div>
+
+
+            </div>
+        </section>
+
+    </main>
+
+    <footer> <!-- Pie de página -->
+
+        <div >
+            <a href="https://www.facebook.com" target="_blank">
+                <img src="../static/images/facebook.png" alt="Facebook" class="redes">
+            </a>
+            <a href="https://www.twitter.com" target="_blank">
+                <img src="../static/images/twitter.png" alt="Twitter" class="redes">
+            </a>
+            <a href="https://www.instagram.com" target="_blank">
+                <img src="../static/images/instagram.png" alt="Instagram" class="redes">
+            </a>
+            <a href="https://www.youtube.com" target="_blank">
+                <img src="../static/images/youtube.png" alt="youtube" class="redes">
+            </a>
+        </div>
+
+        <div>
+            <nav >
+                <ul class="contacto">
+                    <li class="contacto-elem"><a href="" class="contacto-icon"> Quiénes somos </a></li>
+                    <li class="contacto-elem"><a href="" class="contacto-icon"> Trabaja con nosotros </a></li>
+                    <li class="contacto-elem"><a href="" class="contacto-icon"> Atención al cliente </a></li>
+                    <li class="contacto-elem"><a href="" class="contacto-icon"> Blog </a></li>
+                    <li class="contacto-elem"><a href="" class="contacto-icon"> Política de Privacidad </a></li>
+                </ul>
+            </nav>
+        </div>
+
+        <p>&copy; 2024 Papa Noel </p>
+
+
+    </footer>
+
+</body>
+</html>

@@ -20,8 +20,9 @@ def save_data(users, messages):
         json.dump(messages, f)
 
 @app.route('/')
+@app.route('/PapaNoel')
 def index():
-    return render_template('index.html')
+    return render_template("PapaNoel.html")
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -42,7 +43,7 @@ def login():
         username = request.form['username']
         password = request.form['password']
         users, messages = load_data()
-        if username in users and users[username][1] == password:
+        if username in users and users[username][0] == password:
             session['username'] = username
             return redirect(url_for('chat'))
         return 'Credenciales incorrectas'

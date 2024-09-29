@@ -1,26 +1,33 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chat</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style/chatc.css') }}">
 </head>
 <body>
-    <h1>Chat</h1>
-    <form method="post">
-        <label for="recipient">Destinatario:</label>
-        <input type="text" id="recipient" name="recipient" required>
-        <br>
-        <label for="message">Mensaje:</label>
-        <input type="text" id="message" name="message" required>
-        <br>
-        <button type="submit">Enviar</button>
-    </form>
-    <h2>Mensajes</h2>
-    <ul>
-        {% for msg in messages %}
-            {% if msg.recipient == username or msg.sender == username %}
-                <li><strong>{{ msg.sender }}:</strong> {{ msg.message }}</li>
-            {% endif %}
-        {% endfor %}
-    </ul>
+    <div class="container">
+        <h1>Chat</h1>
+        <form method="post">
+            <div class="form-group">
+                <label for="recipient">Destinatario:</label>
+                <input type="text" id="recipient" name="recipient" required>
+            </div>
+            <div class="form-group">
+                <label for="message">Mensaje:</label>
+                <input type="text" id="message" name="message" required>
+            </div>
+            <button type="submit">Enviar</button>
+        </form>
+        <h2>Mensajes</h2>
+        <ul class="messages">
+            {% for msg in messages %}
+                {% if msg.recipient == username or msg.sender == username %}
+                    <li><strong>{{ msg.sender }}:</strong> {{ msg.message }}</li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    </div>
 </body>
 </html>
