@@ -15,9 +15,11 @@ def load_data():
 # Guardar usuarios y mensajes en JSON
 def save_data(users, messages):
     with open('users.json', 'w') as f:
-        json.dump(users, f)
+        f.write(json.dumps(users, indent=3, sort_keys=True))
+        f.write('\n')
     with open('messages.json', 'w') as f:
-        json.dump(messages, f)
+        f.write(json.dumps(messages, indent=3, sort_keys=True))
+        f.write('\n')
 
 @app.route('/')
 @app.route('/PapaNoel')
