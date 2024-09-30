@@ -1,21 +1,21 @@
 [
    {
-      "name": "Romo",
+      "username": "Romo",
       "password": "Romo",
       "rol": "Admin"
    },
    {
-      "name": "Luca",
+      "username": "Luca",
       "password": "Luca",
       "rol": "Tecnico"
    },
    {
-      "name": "a",
+      "username": "a",
       "password": "a",
       "rol": "Usuario"
    },
    {
-      "name": "q",
+      "username": "q",
       "password": "q",
       "rol": "Usuario"
    }

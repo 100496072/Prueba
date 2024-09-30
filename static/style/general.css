@@ -29,8 +29,8 @@ main{
 
 
 .renos{
-    max-width: 40%;
-    margin: 5% 30%;
+    max-width: 30%;
+    margin: 3vw auto 3vw;
 }
 
 
@@ -111,8 +111,6 @@ header{
 
 
 .botonesheader{
-    text-decoration: none;
-    color: #1c1c1c;
     width: auto;
     padding: 1vw;
     text-align: center;
@@ -138,34 +136,30 @@ header{
 
 
 #pn_1 {
-    padding: 1.3rem;
+    padding: 4rem;
     text-align: center;
     display: grid;
     position: relative;
-    width: 80vw;
-    margin: 10vw auto;
-
+    margin: 4vw auto;
     border: 0.4rem solid #d32f2f;
     box-shadow: 0.3rem 0.3rem 1.3rem rgba(0, 0, 0, 0.4);
     border-radius: 1.3rem;
     background: linear-gradient(to right, #ffe6e6, #fff5e6);
     color: #8b0000;
-    font-family: 'Times New Roman', serif;
-    min-height: 100vh;
-}
+    font-family: 'Times New Roman', serif;}
 
 
 
 h1{
-    text-shadow: 6px 6px 20px gray; /* Añade sombra al texto */
-    font-size: 6.5rem;
-    margin: 10vw auto;
+    text-shadow: 6px 6px 20px gray;
+    font-size: 4rem;
+    margin: 1vw auto;
     height: fit-content;
 }
 
 #PP{
     height: fit-content;
-    font-size: 3rem;
+    font-size: 2rem;
     font-family: "Comic Sans MS", serif;
 }
 
@@ -174,13 +168,12 @@ h1{
     border-radius: 1rem;
     position: relative;
     text-decoration: none;
-    font-size: clamp(1rem, 7vw, 4rem);
+    font-size: clamp(1rem, 4vw, 2rem);
     align-items: center;
     font-family: "Times New Roman", serif;
-    margin: auto;
-    padding: 4rem;
+    margin: 2rem auto;
+    padding: 2rem;
     width: fit-content;
-    height: 5vh;
 }
 
 #BotonL:hover{
@@ -195,34 +188,29 @@ h1{
 
 
 h2{
-    font-family: 'Arial', sans-serif; /* Cambia la fuente */
-    font-size: 6rem;
-    text-shadow: 2px 2px 4px gray; /* Añade sombra al texto */
-    padding: 1rem; /* Añade espacio alrededor del texto */
-
-    width: 100%;
-    height: 80%;
+    font-family: 'Arial', sans-serif;
+    font-size: 2.5rem;
+    text-shadow: 2px 2px 4px gray;
+    padding: 1rem;
     text-align: center;
 
 }
 #title2{
     margin:0;
     width: 100%;
-    height: 80%;
+    height: fit-content;
     text-align: center;
-    padding-top: 4%;
 }
 
 #pn_2{
     display: grid;
     border: 3px solid #e74c3c;
-    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5); /* Sombra más pronunciada */
-    border-radius: 15px; /* Bordes redondeados */
+    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5);
+    border-radius: 15px;
     background: linear-gradient(to right, #ff7e5f, #feb47b);
     align-items: center;
     margin: auto;
     width: 80vw;
-    min-height: 100vh;
 }
 
 
@@ -230,22 +218,26 @@ h2{
     display: grid;
     grid-template-columns: auto 1fr;
     padding: 0 3vw;
-    margin: 3vw;
+    margin: 3rem auto;
     width: 80%;
 }
 #PN_text_content{
-    padding: 3vw;
+    height: fit-content;
+    padding: 1vw;
+    font-size: 1rem;
+    margin: auto;
 }
 
 p{
-    font-size: clamp(0.6rem, 3vw, 3rem);
+    font-size: clamp(0.6rem, 5vw, 3rem);
 }
 
 
 h3{
-    font-size: 3rem;
+    font-size: 2rem;
     font-family: "Verdana", serif;
     text-align: center;
+    margin-bottom: 8rem;
 }
 
 
@@ -258,14 +250,14 @@ h3{
 
 
 .imaPapaa{
-    margin: 2rem 0;
-    width: clamp(5rem, 7vw, 15rem);
-    height: clamp(5rem, 7vw, 15rem);
+    margin: 0.5rem 0;
+    width: clamp(5rem, 5vw, 7rem);
+    height: clamp(5rem, 5vw, 7rem);
 }
 
 .imaPapaa:hover{
     transition-duration: 2s;
-    transform: translateX(500px) scale(400%);
+    transform: translateX(30rem) scale(400%);
 }
 
 
@@ -280,40 +272,36 @@ h3{
 
 #pn_3{
     border: 0.5rem solid #2c3e50;
-    box-shadow: 0.5rem 0.5rem 1rem rgba(0, 0, 0, 0.3); /* Sombra */
-    background: linear-gradient(to right, #b8c6db, #f5f7fa); /* Degradado de fondo */
-    color: #2c3e50; /* Color del texto */
-    font-family: 'Georgia', serif; /* Fuente */
+    box-shadow: 0.5rem 0.5rem 1rem rgba(0, 0, 0, 0.3);
+    background: linear-gradient(to right, #b8c6db, #f5f7fa);
+    color: #2c3e50;
+    font-family: 'Georgia', serif;
     margin: auto;
     width: 80%;
     border-spacing: 2rem;
     border-radius: 100px;
-    min-height: 100vh;
-
 }
-
 
 
 .celda_carta{
 
     margin: auto;
-    overflow: auto;
     border-radius: 3rem;
     border: 1px black solid;
     padding: 1rem;
     object-position: center;
-    position: relative;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    flex-grow: 2;
+    height: 90%;
+    width: 70%;
 }
 
 
 .carta{
-    width: 80%;
-    font-size: 1.2rem;
+    width: 70%;
+    font-size: 1rem;
     text-align: justify;
     line-height: 2rem;
     font-family: Verdana, serif;
@@ -336,30 +324,28 @@ h3{
 
 
 #pn_4{
-    border: 0.5rem solid #2e8b57; /* Verde mar */
-    box-shadow: 0.5rem 0.5rem 1rem rgba(0, 128, 0, 0.3); /* Sombra verde */
-    background: linear-gradient(to right, #a8e6cf, #dcedc1); /* Degradado de fondo verde */
-    color: #1c1c1c; /* Color del texto oscuro */
-    font-family: 'Courier New', Courier, monospace; /* Tipo de letra especial */
-    width: 80%;
+    border: 0.5rem solid #2e8b57;
+    box-shadow: 0.5rem 0.5rem 1rem rgba(0, 128, 0, 0.3);
+    background: linear-gradient(to right, #a8e6cf, #dcedc1);
+    color: #1c1c1c;
+    font-family: 'Courier New', Courier, monospace;
+    width: 65%;
     border-spacing: 2rem;
     border-radius: 100px;
-    min-height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
 }
 
-#pn_4 h2{
-    height: auto;
-}
 
 
 #tu_carta{
     display: grid;
+    padding: 3rem 15rem;
     justify-content: center;
     grid-template-columns: repeat(1,1fr);
     margin-bottom: 3vw;
+    gap: 1rem;
 }
 
 
@@ -369,12 +355,13 @@ h3{
     width: auto;
     justify-items: center;
     justify-content: center;
-    margin: 1vw;
+    margin: 1vw 0;
     font-size: 1.2rem;
 }
 
 .label\.container label{
     width: fit-content;
+    height: fit-content;
 
 }
 .label\.container input{
@@ -387,6 +374,7 @@ h3{
     display: grid;
     justify-items: center;
     margin: 1vw;
+    font-size: 1.2rem;
 }
 
 .textarea\.container textarea{
@@ -394,11 +382,13 @@ h3{
     width: 50vw;
     height: 10rem;
 }
+
 .button\.container{
     display: flex;
     justify-content: center;
     margin: 1vw;
 }
+
 
 
 #reg_button {
@@ -431,37 +421,34 @@ h3{
 
 
 #pn_5{
-    min-height: 100vh;
-    display: grid;
-    width: 50%;
-
+    display: flex;
+    padding: 2rem 10rem;
+    flex-direction: column;
+    width: fit-content;
+    border: 0.3rem solid red;
+    box-shadow: 0.4rem 0.4rem 1rem rgba(0, 0, 0, 0.3);
     text-align: center;
-    align-items: center;
-
-    font-family: 'Verdana', serif; /* Fuente */
-    justify-content: center;
+    font-family: 'Verdana', serif;
+    justify-content: space-between;
+    border-radius: 1rem;
+    background: linear-gradient(to right, #ffcccc, #ffe6e6);
+    margin: 5rem 0;
 }
 
 
 #game{
-    margin: auto;
     display: flex;
+    width: fit-content;
     flex-direction: column;
     justify-content: space-between;
     align-content: center;
     vertical-align: center;
-    border: 0.3rem solid red;
-    box-shadow: 0.4rem 0.4rem 1rem rgba(0, 0, 0, 0.3); /* Sombra */
-    border-radius: 1rem; /* Bordes redondeados */
-    background: white;
-    color: red; /* Color del texto rojo oscuro */
-    padding: 2rem;
 }
 
 #opciones_juego{
     margin-bottom: 5vw;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: space-between;
     background-color: white;
 }
@@ -472,7 +459,7 @@ h3{
     text-align: center;
     font-family: "Verdana", serif;
     background-color: white;
-    font-size: 1rem;
+    font-size: 1.2rem;
     white-space: nowrap;
     justify-content: space-between;
     display: block;
@@ -483,13 +470,17 @@ h3{
     color: wheat;
 }
 
-#toggle1, #toggle2, #toggle3{
+#juego1, #juego2, #juego3{
     display: none;
 
     white-space: nowrap;
 
 }
-#toggle1:checked ~ label, #toggle2:checked ~ label, #toggle3:checked ~ label{
+.option{
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+#juego1:checked ~ label, #juego2:checked ~ label, #juego3:checked ~ label{
     background-color: red;
     color: white;
 
@@ -500,19 +491,19 @@ h3{
 
 .Imagen1, .Imagen2, .Imagen3{
     display: none;
-    width: 25vw;
-    height: 25vw;
+    width: 15vw;
+    height: 15vw;
 }
 
-#opciones_juego:has(#toggle1:checked) ~ .images .Imagen1{
+#opciones_juego:has(#juego1:checked) ~ .images .Imagen1{
     display: block;
 
 }
-#opciones_juego:has(#toggle2:checked) ~ .images .Imagen2{
+#opciones_juego:has(#juego2:checked) ~ .images .Imagen2{
     display: block;
 
 }
-#opciones_juego:has(#toggle3:checked) ~ .images .Imagen3{
+#opciones_juego:has(#juego3:checked) ~ .images .Imagen3{
     display: block;
 
 }
@@ -551,7 +542,7 @@ footer{
 
 .contacto-icon{
     color: white;
-    font-size: clamp(0.75rem, 2vw, 2rem);
+    font-size: clamp(0.75rem, 2vw, 1.3rem);
     display: inline-block;
     text-decoration: none;
     margin: 0.3rem 0.8rem;
@@ -571,7 +562,7 @@ footer{
     flex-wrap: wrap;
     margin: 0.8rem 0.8rem;
     width: fit-content;
-    height: 5vw;
+    height: 3vw;
     max-height: 3rem;
 }
 
@@ -591,21 +582,24 @@ footer{
     #horizontal{
         display: grid;
         grid-template-columns: repeat(2,1fr);
+        grid-auto-rows: auto;
     }
     #tu_carta{
-        display: grid;
         grid-template-columns: repeat(2,1fr);
         gap: 2vh;
-        margin: 10%;
+        margin: 3%;
     }
-
+    .carta{
+        font-size: 0.8rem;
+        font-family: "Arial", serif;
+    }
 
     p{
         font-size: 20px;
     }
     .img_user{
-    width: 5vw;
-    height: 5vw;
+    width: 15vw;
+    height: 15vw;
     margin: 1rem;
     border-radius: 2rem;
     vertical-align: center;
@@ -618,14 +612,6 @@ footer{
     .button\.container{
         margin: 1vw;
         grid-column: span 2;
-    }
-
-    #tu_carta{
-        border: solid black 0.2rem;
-        border-radius: 2rem;
-        padding: 5rem 1rem;
-        display: grid;
-        grid-template-columns: repeat(1,1fr);
     }
 
     .label\.container{
@@ -648,7 +634,9 @@ footer{
         align-items: center;
         align-content: center;
     }
-
+    h2{
+        font-size: 4rem;
+    }
     #headerheader{
         width: 30vw;
         display: flex;
@@ -704,21 +692,22 @@ footer{
         display: grid;
         grid-template-columns: repeat(3,1fr);
         gap: 2vh;
-        margin: 10%;
+        margin: 2%;
     }
     p{
-        font-size: 30px;
+        font-size: 1.2rem;
     }
     .img_user{
-        width: 5vw;
-        height: 5vw;
-        margin: 1rem;
+        width: 6vw;
+        height: 6vw;
+        margin: 1rem 0;
         border-radius: 2rem;
         vertical-align: center;
     }
-    .textarea\.container{
-        margin: 1vw;
-        grid-column: span 2;
+    .carta{
+        font-size: 0.8rem;
+        width: 80%;
+        line-height: 1.2rem;
     }
     .button\.container{
         margin: 1vw;
@@ -728,8 +717,6 @@ footer{
     #tu_carta{
         border: solid black 0.2rem;
         border-radius: 2rem;
-        padding: 5rem 1rem;
-        display: grid;
         grid-template-columns: repeat(1,1fr);
     }
 
@@ -741,13 +728,11 @@ footer{
         width: 25vw;
     }
 
-    #pn_5{
-        width: 80%;
-    }
     #game{
         flex-direction: row;
         column-gap: 2vw;
         vertical-align: center;
+        margin: 3rem auto;
     }
     #opciones_juego{
         flex-direction: column;

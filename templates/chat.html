@@ -12,7 +12,7 @@
         <ul class="numerousuarios">
             {% for usr in users %}
             <li>
-                <strong class= "a">{{usr.name}}</strong>
+                <strong class= "a">{{usr.username}}</strong>
                         <strong class= "b"> >>> </strong>
                         <strong class= "c">{{usr.rol}}</strong>
             </li>
@@ -37,10 +37,10 @@
             <a href="/PapaNoel" class="botonesheader">Home</a>
             <a href="/login" class="botonesheader">Cambiar Usuario</a>
             {% for usr in users %}
-                {% if username == usr.name and ('Admin' == usr.rol or 'Tecnico' == usr.rol)%}
+                {% if username == usr.username and ('Admin' == usr.rol or 'Tecnico' == usr.rol)%}
                     <a href="#Usuario" class="botonesheader">Usuarios</a>
                 {% endif %}
-                {% if username == usr.name and 'Admin' == usr.rol %}
+                {% if username == usr.username and 'Admin' == usr.rol %}
                     <a href="#cartas" class="botonesheader">Cartas</a>
                 {% endif %}
             {% endfor %}

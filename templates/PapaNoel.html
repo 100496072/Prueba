@@ -43,6 +43,9 @@
 
         <section id="pn_1">
             <!-- Titulo Principal con cuenta atrás y botón-->
+            <div>
+
+            </div>
             <h1> ¿Dónde está Papá Noel? </h1>
             <p id="PP"> Quedan 66 días 12 horas 02 minutos y 14 segundos para que venga </p>
             <button id="BotonL" > Localízale </button>
@@ -69,19 +72,19 @@
 
                     <p> ¿Alguna vez te has preguntado la casa en la que vive Papa Noel? <br>
                     Hemos enviado a nuestro mejor reportero para que nos cuente cómo es la casa del
-                    famosísimo Santa Claus, y que descubra si es tan mágica como él.<br>
-                    Lo primero que destaca de su casa, es la entrada, pese al frío del Polo Norte, desprende calidez
+                    famosísimo Santa Claus, y que descubra si es tan mágica como él.</p>
+                    <p>Lo primero que destaca de su casa, es la entrada, pese al frío del Polo Norte, desprende calidez
                     y un olor a nubes de azúcar que sacan una sonrisa hasta a los renos. La casa dispone de 4
-                        habitaciones: un salón, una cocina, el dormitorio y un cuarto de baño.<br>
-                    El salón tiene una gran chimenea que calienta la casa y ofrece un lugar perfecto para
+                        habitaciones: un salón, una cocina, el dormitorio y un cuarto de baño.</p>
+                    <p>El salón tiene una gran chimenea que calienta la casa y ofrece un lugar perfecto para
                     una lectura a la luz de la lumbre, la cocina huele de maravilla, por lo que nos han contado,
                     más de la mitad del año se preparan galletas, tartas y otros dulces en un horno mágico,
                     el baño tiene una bañera amplia y acogedora con vistas a la nieve donde refugiarse en los días más fríos,
                         y por último, el dormitorio parece sacado de un cuento, la cama, probada por nuestro enviado, es la
                         más cómoda del mundo, según sus palabras: "un roce y ya querrás echarte una cabezadita", además, dispone de un
                         teléfono con línea directa al taller de juguetes, donde se crea la magia que nos llega todas las
-                    Navidades.<br>
-                    Esperamos que os haya gustado este pequeño vistazo a esta mágica casa, adjuntamos fotos para que
+                    Navidades.</p>
+                    <p>Esperamos que os haya gustado este pequeño vistazo a esta mágica casa, adjuntamos fotos para que
                         toméis inspiración y conozcáis un poco más a nuestro más que especial amigo.</p>
                 </article>
             </div>
@@ -150,35 +153,36 @@
         <img src="../static/images/renos1.png" alt="renos" class="renos">
 
         <section id="pn_4">
-            <h2>Envía tu Carta</h2>
+            <div>
+                <h2>Envía tu Carta</h2>
+            </div>
+
             <!--class="pn_write" -->
             <form id="tu_carta">
                 <div class="label.container">
-                <label for="name"> Name: </label>
-                <input type="text" name="name" id="name">
+                    <label for="name"> Name: </label>
+                    <input type="text" name="name" id="name">
                 </div>
                 <div class="label.container">
-                <label for="email"> Correo electrónico: </label>
-                <input type="email" name="email" id="email">
+                    <label for="email"> Email: </label>
+                    <input type="email" name="email" id="email">
                 </div>
                 <div class="label.container">
-                <label for="city"> Ciudad: </label>
-                <input type="text" name="city" id="city">
+                    <label for="city"> Ciudad: </label>
+                    <input type="text" name="city" id="city">
                 </div>
                 <div class="label.container">
-                <label for="country"> País: </label>
-                <input type="text" name="country" id="country">
+                    <label for="country"> País: </label>
+                    <input type="text" name="country" id="country">
                 </div>
                 <!-- Como no tiene que funcionar, creo que habría que sacarlo fuera del form,
                 luego habría que colocar con css-->
                 <div class="textarea.container">
-                <p>Escribe tu carta: </p>
-                    <label>
-                        <textarea></textarea>
-                    </label>
+                    <label for="escribe"> Escribe tu carta:</label>
+                    <textarea id="escribe"></textarea>
                 </div>
                 <div class="button.container">
-                <button id="reg_button" type="button"> Envía </button>
+                    <button id="reg_button" type="button"> Envía </button>
                 </div>
             </form>
         </section>
@@ -189,20 +193,23 @@
 
         <section id="pn_5">
             <!--class="pn_write" -->
-            <h3>¡Juega! </h3>
+            <div>
+                <h2>¡Juega! </h2>
+            </div>
+
             <div id="game">
                 <div id="opciones_juego">
                     <div class="option">
-                        <input type="radio" id="toggle1" name="game" checked>
-                        <label for="toggle1">Juego 1</label>
+                        <input type="radio" id="juego1" name="game" checked>
+                        <label for="juego1">Juego 1</label>
                     </div>
                     <div class="option">
-                        <input type="radio" id="toggle2" name="game">
-                        <label for="toggle2">Juego 2</label>
+                        <input type="radio" id="juego2" name="game">
+                        <label for="juego2">Juego 2</label>
                     </div>
                     <div class="option">
-                        <input type="radio" id="toggle3" name="game">
-                        <label for="toggle3">Juego 3</label>
+                        <input type="radio" id="juego3" name="game">
+                        <label for="juego3">Juego 3</label>
                     </div>
                 </div>
                 <div class="images">

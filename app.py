@@ -1,8 +1,20 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 import json
+from flask_wtf import FlaskForm
+from wtforms import StringField, PasswordField
+from wtforms.validators import DataRequired, Length
+
 
 app = Flask(__name__)
-app.secret_key = 'supersecretkey'
+app.config['SECRET_KEY'] = 'supersecretkey'
+app.config['SESSION_COOKIE_HTTPONLY'] = True
+app.config['SESSION_COOKIE_SECURE'] = True
+
+
+class RegistrationForm(FlaskForm):
+    username = StringField('username', validators=[DataRequired(), Length(min=1, max=25)])
+    password = PasswordField('password', validators=[DataRequired(), Length(min=1, max=25)])
+
 
 # Cargar usuarios y mensajes desde JSON
 def load_data():
@@ -28,16 +40,18 @@ def index():
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
-    if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
+    form = RegistrationForm()
+    if form.validate_on_submit():
+        username = form.username.data
+        password = form.password.data
         users, messages = load_data()
-        if username in users:
+        if any(user['name'] == username for user in users):
             return 'Usuario ya registrado'
-        users.append({'name':username, 'password': password, 'rol': 'Usuario'})
+        users.append({'name': username, 'password': password, 'rol': 'Usuario'})
         save_data(users, messages)
         return redirect(url_for('login'))
-    return render_template('register.html')
+    return render_template('register.html', form=form)
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -46,7 +60,7 @@ def login():
         password = request.form['password']
         users, messages = load_data()
         for urs in users:
-            if username == urs["name"]:
+            if username == urs["username"]:
                 if password == urs["password"]:
                     session['username'] = username
                     return redirect(url_for('chat'))
@@ -64,7 +78,7 @@ def chat():
         message = request.form['message']
         encontrado = 'False'
         for usr in users:
-            if recipient == usr['name']:
+            if recipient == usr['username']:
                 messages.append({'sender': session['username'], 'recipient': recipient, 'message': message})
                 save_data(users, messages)
                 encontrado = 'True'
