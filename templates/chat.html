@@ -7,6 +7,18 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style/chatc.css') }}">
 </head>
 <body>
+    <div class="usuarios">
+        <h1>Usuarios</h1>
+        <ul class="usuarios2">
+            {% for usr in users %}
+            <li>
+                <strong>
+                    {{users}}
+                </strong>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
     <div class="container">
         <h1>Chat</h1>
         <form method="post">
@@ -24,10 +36,16 @@
         <ul class="messages">
             {% for msg in messages %}
                 {% if msg.recipient == username or msg.sender == username %}
-                    <li><strong>{{ msg.sender }}:</strong> {{ msg.message }}</li>
+                    <li><strong id= "a">{{ msg.sender }}</strong>
+                        <strong id= "b"> >>> </strong>
+                        <strong id= "c">{{msg.recipient}}:</strong>
+                        {{ msg.message }}</li>
                 {% endif %}
             {% endfor %}
         </ul>
+        <div class="links">
+            <a href="/PapaNoel" class="botonesheader">Home</a>
+        </div>
     </div>
 </body>
 </html>
