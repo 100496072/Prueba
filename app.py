@@ -34,7 +34,7 @@ def register():
         users, messages = load_data()
         if username in users:
             return 'Usuario ya registrado'
-        users[username] = password, "user"
+        users.append({'name':username, 'password': password, 'rol': 'user'})
         save_data(users, messages)
         return redirect(url_for('login'))
     return render_template('register.html')
@@ -45,10 +45,13 @@ def login():
         username = request.form['username']
         password = request.form['password']
         users, messages = load_data()
-        if username in users and users[username][0] == password:
-            session['username'] = username
-            return redirect(url_for('chat'))
-        return 'Credenciales incorrectas'
+        for urs in users:
+            if username == urs["name"]:
+                if password == urs["password"]:
+                    session['username'] = username
+                    return redirect(url_for('chat'))
+                else:
+                    return 'Credenciales incorrectas'
     return render_template('login.html')
 
 @app.route('/chat', methods=['GET', 'POST'])
@@ -64,7 +67,7 @@ def chat():
             save_data(users, messages)
         else:
             return 'Usuario no encontrado'
-    return render_template('chat.html', messages=messages, username=session['username'])
+    return render_template('chat.html', messages=messages, users=users, username=session['username'])
 
 if __name__ == '__main__':
     app.run(debug=True)

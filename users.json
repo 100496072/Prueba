@@ -1,14 +1,22 @@
-{
-   "a": [
-      "a",
-      "user"
-   ],
-   "admin": [
-      "admin",
-      "admin"
-   ],
-   "pepe": [
-      "pepe",
-      "user"
-   ]
-}
+[
+   {
+      "name": "admin",
+      "password": "admin",
+      "rol": "admin"
+   },
+   {
+      "name": "pedro",
+      "password": "pedro",
+      "rol": "pedro"
+   },
+   {
+      "name": "a",
+      "password": "a",
+      "rol": "user"
+   },
+   {
+      "name": "q",
+      "password": "q",
+      "rol": "user"
+   }
+]

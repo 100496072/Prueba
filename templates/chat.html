@@ -9,16 +9,17 @@
 <body>
     <div class="usuarios">
         <h1>Usuarios</h1>
-        <ul class="usuarios2">
+        <ul class="numerousuarios">
             {% for usr in users %}
             <li>
-                <strong>
-                    {{users}}
-                </strong>
+                <strong class= "a">{{usr.name}}</strong>
+                        <strong class= "b"> >>> </strong>
+                        <strong class= "c">{{usr.rol}}</strong>
             </li>
             {% endfor %}
         </ul>
     </div>
+    <div class="espacio"></div>
     <div class="container">
         <h1>Chat</h1>
         <form method="post">
@@ -36,9 +37,9 @@
         <ul class="messages">
             {% for msg in messages %}
                 {% if msg.recipient == username or msg.sender == username %}
-                    <li><strong id= "a">{{ msg.sender }}</strong>
-                        <strong id= "b"> >>> </strong>
-                        <strong id= "c">{{msg.recipient}}:</strong>
+                    <li><strong class= "a">{{ msg.sender }}</strong>
+                        <strong class= "b"> >>> </strong>
+                        <strong class= "c">{{msg.recipient}}:</strong>
                         {{ msg.message }}</li>
                 {% endif %}
             {% endfor %}
