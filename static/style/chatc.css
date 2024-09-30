@@ -9,6 +9,10 @@ body {
     height: 100vh;
 }
 
+.espacio{
+    margin: 1%;
+}
+
 .usuarios{
     background-color: #fff;
     padding: 20px;
@@ -17,7 +21,7 @@ body {
     width: 100%;
     max-width: 300px;
     text-align: center;
-    max-height: 60vh;
+    height: 50vh;
     overflow: auto;
 }
 
@@ -30,41 +34,40 @@ body {
 .numerousuarios li {
     text-align: center;
     font-size: 1rem;
-    background-color: #f9f9f9;
-    margin-bottom: 10px;
-    padding: 10px;
+    background-color: #ededed;
+    margin: 20px;
+    padding: 15px 20px;
     border-radius: 4px;
 }
 
-.espacio{
-    margin: 2.5%;
-}
+
 
 .container {
     background-color: #fff;
-    padding: 20px;
+    padding: 20px 40px;
     border-radius: 8px;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
     width: 100%;
     max-width: 600px;
-    max-height: 60vh;
+    height: 50vh;
     overflow: auto;
     text-align: center;
 }
 
-h1 {
+h2 {
+    font-size: 2.5rem;
     color: #333;
-    margin-bottom: 20px;
+    margin-bottom: 40px;
 }
 
 .form-group {
-    margin-bottom: 15px;
+    margin-bottom: 30px;
     text-align: left;
 }
 
 label {
     display: block;
-    margin-bottom: 5px;
+    margin-bottom: 15px;
     font-weight: bold;
 }
 
@@ -104,9 +107,9 @@ ul.messages {
 
 ul.messages li {
     font-size: 1rem;
-    background-color: #f9f9f9;
-    margin-bottom: 10px;
-    padding: 10px;
+    background-color: #ededed;
+    margin: 10px;
+    padding: 15px 20px;
     border-radius: 4px;
     text-align: left;
 }
@@ -122,13 +125,13 @@ ul.messages li {
 }
 
 .links {
-    margin-top: 20px;
+    margin-top: 30px;
 }
 
 a.botonesheader {
     display: inline-block;
     margin: 5px;
-    padding: 10px 15px;
+    padding: 10px 30px;
     background-color: #007BFF;
     color: white;
     text-decoration: none;

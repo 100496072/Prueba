@@ -1,22 +1,22 @@
 [
    {
-      "name": "admin",
-      "password": "admin",
-      "rol": "admin"
+      "name": "Romo",
+      "password": "Romo",
+      "rol": "Admin"
    },
    {
-      "name": "pedro",
-      "password": "pedro",
-      "rol": "pedro"
+      "name": "Luca",
+      "password": "Luca",
+      "rol": "Tecnico"
    },
    {
       "name": "a",
       "password": "a",
-      "rol": "user"
+      "rol": "Usuario"
    },
    {
       "name": "q",
       "password": "q",
-      "rol": "user"
+      "rol": "Usuario"
    }
 ]

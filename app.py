@@ -34,7 +34,7 @@ def register():
         users, messages = load_data()
         if username in users:
             return 'Usuario ya registrado'
-        users.append({'name':username, 'password': password, 'rol': 'user'})
+        users.append({'name':username, 'password': password, 'rol': 'Usuario'})
         save_data(users, messages)
         return redirect(url_for('login'))
     return render_template('register.html')
@@ -62,10 +62,13 @@ def chat():
     if request.method == 'POST':
         recipient = request.form['recipient']
         message = request.form['message']
-        if recipient in users:
-            messages.append({'sender': session['username'], 'recipient': recipient, 'message': message})
-            save_data(users, messages)
-        else:
+        encontrado = 'False'
+        for usr in users:
+            if recipient == usr['name']:
+                messages.append({'sender': session['username'], 'recipient': recipient, 'message': message})
+                save_data(users, messages)
+                encontrado = 'True'
+        if encontrado == 'False':
             return 'Usuario no encontrado'
     return render_template('chat.html', messages=messages, users=users, username=session['username'])
 

@@ -8,7 +8,7 @@
 </head>
 <body>
     <div class="usuarios">
-        <h1>Usuarios</h1>
+        <h2>Usuarios</h2>
         <ul class="numerousuarios">
             {% for usr in users %}
             <li>
@@ -21,10 +21,10 @@
     </div>
     <div class="espacio"></div>
     <div class="container">
-        <h1>Chat</h1>
+        <h2>Usuario: {{username}}</h2>
         <form method="post">
             <div class="form-group">
-                <label for="recipient">Destinatario:</label>
+                <label for="recipient">Destinatario mensaje:</label>
                 <input type="text" id="recipient" name="recipient" required>
             </div>
             <div class="form-group">
@@ -33,7 +33,22 @@
             </div>
             <button type="submit">Enviar</button>
         </form>
-        <h2>Mensajes</h2>
+        <div class="links">
+            <a href="/PapaNoel" class="botonesheader">Home</a>
+            <a href="/login" class="botonesheader">Cambiar Usuario</a>
+            {% for usr in users %}
+                {% if username == usr.name and ('Admin' == usr.rol or 'Tecnico' == usr.rol)%}
+                    <a href="#Usuario" class="botonesheader">Usuarios</a>
+                {% endif %}
+                {% if username == usr.name and 'Admin' == usr.rol %}
+                    <a href="#cartas" class="botonesheader">Cartas</a>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+    <div class="espacio"></div>
+    <div class="container">
+        <h2>Mensajes de {{username}}</h2>
         <ul class="messages">
             {% for msg in messages %}
                 {% if msg.recipient == username or msg.sender == username %}
@@ -44,9 +59,6 @@
                 {% endif %}
             {% endfor %}
         </ul>
-        <div class="links">
-            <a href="/PapaNoel" class="botonesheader">Home</a>
-        </div>
     </div>
 </body>
 </html>
