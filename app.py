@@ -14,6 +14,7 @@ app.config['SESSION_COOKIE_SECURE'] = True
 class RegistrationForm(FlaskForm):
     username = StringField('username', validators=[DataRequired(), Length(min=1, max=25)])
     password = PasswordField('password', validators=[DataRequired(), Length(min=1, max=25)])
+    correo = StringField('correo', validators=[DataRequired(), Length(min=1, max=25)])
 
 
 # Cargar usuarios y mensajes desde JSON
@@ -40,18 +41,18 @@ def index():
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
-    form = RegistrationForm()
-    if form.validate_on_submit():
-        username = form.username.data
-        password = form.password.data
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        correo = request.form['correo']
         users, messages = load_data()
-        if any(user['name'] == username for user in users):
-            return 'Usuario ya registrado'
-        users.append({'name': username, 'password': password, 'rol': 'Usuario'})
+        for urs in users:
+            if username == urs['username']:
+                return 'Usuario ya registrado'
+        users.append({'rol': 'Usuario', 'username':username, 'password': password, 'correo':correo})
         save_data(users, messages)
         return redirect(url_for('login'))
-    return render_template('register.html', form=form)
-
+    return render_template('register.html')
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -59,13 +60,14 @@ def login():
         username = request.form['username']
         password = request.form['password']
         users, messages = load_data()
+        encontrado = False
         for urs in users:
-            if username == urs["username"]:
+            if username == urs['username']:
                 if password == urs["password"]:
                     session['username'] = username
                     return redirect(url_for('chat'))
-                else:
-                    return 'Credenciales incorrectas'
+        if encontrado==False:
+            return 'Credenciales incorrectas'
     return render_template('login.html')
 
 @app.route('/chat', methods=['GET', 'POST'])

@@ -1,22 +1,32 @@
 [
    {
-      "username": "Romo",
+      "correo": "prueba@gmail.com",
       "password": "Romo",
-      "rol": "Admin"
+      "rol": "Admin",
+      "username": "Romo"
    },
    {
-      "username": "Luca",
+      "correo": "prueba@gmail.com",
       "password": "Luca",
-      "rol": "Tecnico"
+      "rol": "Tecnico",
+      "username": "Luca"
    },
    {
-      "username": "a",
-      "password": "a",
-      "rol": "Usuario"
+      "correo": "b@gmai.com",
+      "password": "b",
+      "rol": "Usuario",
+      "username": "b"
    },
    {
-      "username": "q",
-      "password": "q",
-      "rol": "Usuario"
+      "correo": "b@gmai.com",
+      "password": "b",
+      "rol": "Usuario",
+      "username": "ba"
+   },
+   {
+      "correo": "b@gmai.com",
+      "password": "c",
+      "rol": "Usuario",
+      "username": "c"
    }
 ]

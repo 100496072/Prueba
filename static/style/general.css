@@ -234,7 +234,7 @@ p{
 
 
 h3{
-    font-size: 2rem;
+    font-size: 4rem;
     font-family: "Verdana", serif;
     text-align: center;
     margin-bottom: 8rem;
@@ -630,34 +630,35 @@ footer{
     header{
         display: flex;
         flex-direction: row;
-        height: clamp(1rem, 8vw, 5rem);
+        height: clamp(0.5rem, 8vw, 3rem);
         align-items: center;
         align-content: center;
     }
-    h2{
-        font-size: 4rem;
-    }
+
     #headerheader{
-        width: 30vw;
+        width: 20vw;
+        height: fit-content;
         display: flex;
         flex-direction: row;
         align-items: center;
         align-content: center;
+        margin-right: 0;
     }
 
     #favicon{
-        height: 6vw;
-        width: 6vw;
+        height: 3.5vw;
+        width: 3.5vw;
     }
 
     #audio{
-        height: 3vw;
-        width: 30vw;
+        height: 2.85rem;
+        width: 15vw;
+        margin: auto;
     }
 
 
     #panel{
-        width: 40vw;
+        width: fit-content;
         padding: 0;
         display: grid;
     }
@@ -672,7 +673,7 @@ footer{
     #panel li a{
         width: fit-content;
         border: 0.1rem solid;
-        font-size: 1.5vw;
+        font-size: 0.8vw;
     }
 
     #bot{
@@ -681,12 +682,20 @@ footer{
     }
 
     .botonesheader{
+        text-decoration: none;
+        color: #1c1c1c;
         width: fit-content;
         margin-left: 1vw;
+        border-radius: 5px;
         padding: 1vw;
-        font-size: 1.3vw;
+        font-size: 0.8vw;
     }
 
+
+
+    h2{
+        font-size: 2rem;
+    }
 
     #horizontal{
         display: grid;
