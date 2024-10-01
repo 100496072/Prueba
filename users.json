@@ -34,5 +34,17 @@
       "password": "a",
       "rol": "Usuario",
       "username": "Kevin"
+   },
+   {
+      "correo": "1004920486633@alumnos.uc3m.es",
+      "password": "1234",
+      "rol": "Usuario",
+      "username": "lucapi"
+   },
+   {
+      "correo": "100496633@alumnos.uc3m.es",
+      "password": "1234",
+      "rol": "Usuario",
+      "username": "lucapi2"
    }
 ]
