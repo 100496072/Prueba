@@ -34,5 +34,11 @@
       "password": "a",
       "rol": "Usuario",
       "username": "Kevin"
+   },
+   {
+      "correo": "c@gmail.com",
+      "password": "12",
+      "rol": "Usuario",
+      "username": "12"
    }
 ]

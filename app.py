@@ -78,7 +78,7 @@ def login():
                     msg = MIMEMultipart()
                     codigofinal = random.randint(100000, 999999)
 
-                    msg['From'] = "avionesmarcos@gmail.com"
+                    msg['From'] = "tester132q3@gmail.com"
                     msg['To'] = urs["correo"]
                     msg['Subject'] = "Codigo de Verificacion"
 
@@ -89,7 +89,7 @@ def login():
                         server = smtplib.SMTP('smtp.gmail.com: 587')
                         server.starttls()
 
-                        server.login(msg['From'], "fsfv rjzs gamc ihlx")
+                        server.login(msg['From'], "nbjc rsrz rloz bqri")
                         server.sendmail(msg['From'], msg['To'], msg.as_string())
                         server.quit()
 
