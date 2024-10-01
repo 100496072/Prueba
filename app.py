@@ -3,6 +3,12 @@ import json
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField
 from wtforms.validators import DataRequired, Length
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+import smtplib
+import random
+
+
 
 
 app = Flask(__name__)
@@ -10,6 +16,8 @@ app.config['SECRET_KEY'] = 'supersecretkey'
 app.config['SESSION_COOKIE_HTTPONLY'] = True
 app.config['SESSION_COOKIE_SECURE'] = True
 
+
+codigofinal = None
 
 class RegistrationForm(FlaskForm):
     username = StringField('username', validators=[DataRequired(), Length(min=1, max=25)])
@@ -56,6 +64,7 @@ def register():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    global codigofinal
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
@@ -65,10 +74,48 @@ def login():
             if username == urs['username']:
                 if password == urs["password"]:
                     session['username'] = username
-                    return redirect(url_for('chat'))
+
+                    msg = MIMEMultipart()
+                    codigofinal = random.randint(100000, 999999)
+
+                    msg['From'] = "avionesmarcos@gmail.com"
+                    msg['To'] = urs["correo"]
+                    msg['Subject'] = "Codigo de Verificacion"
+
+                    msg.attach(MIMEText(str(codigofinal), 'plain'))
+
+                    try:
+                        # create server
+                        server = smtplib.SMTP('smtp.gmail.com: 587')
+                        server.starttls()
+
+                        server.login(msg['From'], "fsfv rjzs gamc ihlx")
+                        server.sendmail(msg['From'], msg['To'], msg.as_string())
+                        server.quit()
+
+                    except smtplib.SMTPAuthenticationError as e:
+                        print(f'Error de Autenticación: {e.smtp_code} - {e.smtp_error.decode("utf-8")}')
+                    except Exception as e:
+                        print(f'Ocurrió un error: {str(e)}')
+
+
+                    return redirect(url_for('codigo'))
+
         if encontrado==False:
             return 'Credenciales incorrectas'
     return render_template('login.html')
+
+
+@app.route('/codigo', methods=['GET', 'POST'])
+def codigo():
+    global codigofinal
+    if request.method == 'POST':
+        codigo = request.form['codigo']
+
+        if codigofinal and codigofinal == int(codigo):
+            return redirect(url_for('chat'))
+
+    return render_template('codigo.html')
 
 @app.route('/chat', methods=['GET', 'POST'])
 def chat():

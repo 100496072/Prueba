@@ -1,12 +1,12 @@
 [
    {
-      "correo": "prueba@gmail.com",
+      "correo": "romomarcos13@gmail.com",
       "password": "Romo",
       "rol": "Admin",
       "username": "Romo"
    },
    {
-      "correo": "prueba@gmail.com",
+      "correo": "pruebatest_1234@protonmail.com",
       "password": "Luca",
       "rol": "Tecnico",
       "username": "Luca"
@@ -28,5 +28,11 @@
       "password": "c",
       "rol": "Usuario",
       "username": "c"
+   },
+   {
+      "correo": "pepe@gmail.com",
+      "password": "a",
+      "rol": "Usuario",
+      "username": "Kevin"
    }
 ]
