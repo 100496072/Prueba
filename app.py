@@ -195,5 +195,13 @@ def chat():
             return 'Usuario no encontrado'
     return render_template('chat.html', messages=messages, users=users, username=session['username'])
 
+@app.route('/PapaNoel', methods=['POST'])
+def PapaNoel():
+
+    if request.method == 'POST':
+        carta = request.form['escribe']
+        
+    return render_template('PapaNoel.html')
+
 if __name__ == '__main__':
     app.run(debug=True)

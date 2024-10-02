@@ -7,5 +7,14 @@
           "rol": "Usuario",
           "salt": "05EOYAvjL1Nai_t7YcMPEQ==",
           "username": "Romo"
+     },
+     {
+          "correo": "100496633@alumnos.uc3m.es",
+          "ip_public": "79.117.56.226",
+          "key": "Haw5L43_imwlcaT51o3DYpfJJjSDVjwLwi2Qa8Gfvg4=",
+          "password": "1234",
+          "rol": "Usuario",
+          "salt": "YZQsDeMOgu3b4-qVJbY_Hw==",
+          "username": "lucapi"
      }
 ]
