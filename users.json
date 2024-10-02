@@ -1,6 +1,7 @@
 [
    {
       "correo": "romomarcos13@gmail.com",
+      "ip_public": "163.117.64.10",
       "password": "Romo",
       "rol": "Admin",
       "username": "Romo"
@@ -8,43 +9,15 @@
    {
       "correo": "pruebatest_1234@protonmail.com",
       "password": "Luca",
+      "ip_public": "163.117.64.11",
       "rol": "Tecnico",
       "username": "Luca"
    },
    {
-      "correo": "b@gmai.com",
-      "password": "b",
+      "correo": "as@gmail.com",
+      "ip_public": "163.117.64.10",
+      "password": "as",
       "rol": "Usuario",
-      "username": "b"
-   },
-   {
-      "correo": "b@gmai.com",
-      "password": "b",
-      "rol": "Usuario",
-      "username": "ba"
-   },
-   {
-      "correo": "b@gmai.com",
-      "password": "c",
-      "rol": "Usuario",
-      "username": "c"
-   },
-   {
-      "correo": "pepe@gmail.com",
-      "password": "a",
-      "rol": "Usuario",
-      "username": "Kevin"
-   },
-   {
-      "correo": "1004920486633@alumnos.uc3m.es",
-      "password": "1234",
-      "rol": "Usuario",
-      "username": "lucapi"
-   },
-   {
-      "correo": "100496633@alumnos.uc3m.es",
-      "password": "12345",
-      "rol": "Usuario",
-      "username": "lucapi2"
+      "username": "Ad"
    }
 ]

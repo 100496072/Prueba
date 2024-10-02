@@ -7,6 +7,8 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 import smtplib
 import random
+import socket
+import requests
 
 
 
@@ -57,7 +59,13 @@ def register():
         for urs in users:
             if username == urs['username']:
                 return 'Usuario ya registrado'
-        users.append({'rol': 'Usuario', 'username':username, 'password': password, 'correo':correo})
+
+        hostname = socket.gethostname()
+        ip_local = socket.gethostbyname(hostname)
+
+        ip_publica = requests.get('https://api.ipify.org').text
+
+        users.append({'rol': 'Usuario', 'username':username, 'password': password, 'correo':correo, 'ip_public': ip_publica})
         save_data(users, messages)
         return redirect(url_for('login'))
     return render_template('register.html')
@@ -98,8 +106,12 @@ def login():
                     except Exception as e:
                         print(f'Ocurrió un error: {str(e)}')
 
+                    ip_publica = requests.get('https://api.ipify.org').text
 
-                    return redirect(url_for('codigo'))
+                    if ip_publica != urs["ip_public"]:
+                        return redirect(url_for('codigo'))
+                    else:
+                        return redirect(url_for('chat'))
 
         if encontrado==False:
             return 'Credenciales incorrectas'
