@@ -9,8 +9,28 @@ import smtplib
 import random
 #import socket
 import requests
+import base64
+import os
+from cryptography.hazmat.primitives.kdf.scrypt import Scrypt
 
 
+"""
+password = b"password"
+salt = os.urandom(16)
+kdf = PBKDF2HMAC(
+    algorithm=hashes.SHA256(),
+    length=32,
+    salt=salt,
+    iterations=480000,
+)
+key = base64.urlsafe_b64encode(kdf.derive(password))
+f = Fernet(key)
+token = f.encrypt(b"Secret message!")
+token
+b'...'
+f.decrypt(token)
+b'Secret message!'
+"""
 
 
 app = Flask(__name__)
@@ -29,18 +49,18 @@ class RegistrationForm(FlaskForm):
 
 # Cargar usuarios y mensajes desde JSON
 def load_data():
-    with open('users.json', 'r') as f:
+    with open('JSONFiles/users.json', 'r') as f:
         users = json.load(f)
-    with open('messages.json', 'r') as f:
+    with open('JSONFiles/messages.json', 'r') as f:
         messages = json.load(f)
     return users, messages
 
 # Guardar usuarios y mensajes en JSON
 def save_data(users, messages):
-    with open('users.json', 'w') as f:
-        f.write(json.dumps(users, indent=3, sort_keys=True))
+    with open('JSONFiles/users.json', 'w') as f:
+        f.write(json.dumps(users, indent=5, sort_keys=True))
         f.write('\n')
-    with open('messages.json', 'w') as f:
+    with open('JSONFiles/messages.json', 'w') as f:
         f.write(json.dumps(messages, indent=3, sort_keys=True))
         f.write('\n')
 
@@ -65,7 +85,23 @@ def register():
 
         ip_publica = requests.get('https://api.ipify.org').text
 
-        users.append({'rol': 'Usuario', 'username':username, 'password': password, 'correo':correo, 'ip_public': ip_publica})
+        salt = os.urandom(16)
+        kdf = Scrypt(
+            salt=salt,
+            length=32,
+            n=2 ** 14,
+            r=8,
+            p=1,
+        )
+
+        key = kdf.derive(password.encode('utf-8'))
+
+        salt_b64 = base64.urlsafe_b64encode(salt).decode('utf-8')
+        key_b64 = base64.urlsafe_b64encode(key).decode('utf-8')
+
+        users.append({'rol': 'Usuario', 'username':username, 'salt': salt_b64,
+                      'key':key_b64 ,'password': password, 'correo':correo, 'ip_public': ip_publica})
+
         save_data(users, messages)
         return redirect(url_for('login'))
     return render_template('register.html')
@@ -80,7 +116,18 @@ def login():
         encontrado = False
         for urs in users:
             if username == urs['username']:
-                if password == urs["password"]:
+
+                salt_urs = base64.urlsafe_b64decode(urs['salt'])
+                key_urs = base64.urlsafe_b64decode(urs['key'])
+
+                kdf = Scrypt(
+                    salt=salt_urs,
+                    length=32,
+                    n=2 ** 14,
+                    r=8,
+                    p=1)
+
+                if kdf.verify(password.encode('utf-8'), key_urs) is None:
                     session['username'] = username
 
                     msg = MIMEMultipart()
