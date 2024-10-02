@@ -7,7 +7,7 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 import smtplib
 import random
-import socket
+#import socket
 import requests
 
 
@@ -60,8 +60,8 @@ def register():
             if username == urs['username']:
                 return 'Usuario ya registrado'
 
-        hostname = socket.gethostname()
-        ip_local = socket.gethostbyname(hostname)
+        #hostname = socket.gethostname()
+        #ip_local = socket.gethostbyname(hostname)
 
         ip_publica = requests.get('https://api.ipify.org').text
 
@@ -113,7 +113,7 @@ def login():
                     else:
                         return redirect(url_for('chat'))
 
-        if encontrado==False:
+        if not encontrado:
             return 'Credenciales incorrectas'
     return render_template('login.html')
 
@@ -122,9 +122,9 @@ def login():
 def codigo():
     global codigofinal
     if request.method == 'POST':
-        codigo = request.form['codigo']
+        codigoform = request.form['codigo']
 
-        if codigofinal and (codigofinal == int(codigo) or int(codigo) == 123) :
+        if codigofinal and (codigofinal == int(codigoform) or int(codigoform) == 123) :
             return redirect(url_for('chat'))
 
     return render_template('codigo.html')
