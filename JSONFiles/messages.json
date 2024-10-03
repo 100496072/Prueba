@@ -78,5 +78,10 @@
       "message": "Hola",
       "recipient": "Romo",
       "sender": "lucapi"
+   },
+   {
+      "message": "R",
+      "recipient": "Romo",
+      "sender": "lucapi"
    }
 ]
