@@ -1,92 +1,15 @@
 [
-   {
-      "message": "pe",
-      "recipient": "as2",
-      "sender": "121"
-   },
-   {
-      "message": "que pasa tron",
-      "recipient": "admin",
-      "sender": "pedro2"
-   },
-   {
-      "message": "pedro feo",
-      "recipient": "admin",
-      "sender": "admin"
-   },
-   {
-      "message": "QE",
-      "recipient": "Romo",
-      "sender": "Luca"
-   },
-   {
-      "message": "Tio",
-      "recipient": "Romo",
-      "sender": "Luca"
-   },
-   {
-      "message": "tio",
-      "recipient": "Luca",
-      "sender": "Romo"
-   },
-   {
-      "message": "a",
-      "recipient": "Luca",
-      "sender": "Romo"
-   },
-   {
-      "message": "asd",
-      "recipient": "a",
-      "sender": "Romo"
-   },
-   {
-      "message": "asd",
-      "recipient": "a",
-      "sender": "Romo"
-   },
-   {
-      "message": "0ep",
-      "recipient": "ba",
-      "sender": "c"
-   },
-   {
-      "message": "PP",
-      "recipient": "Romo",
-      "sender": "Kevin"
-   },
-   {
-      "message": "a",
-      "recipient": "Romo",
-      "sender": "Romo"
-   },
-   {
-      "message": "a",
-      "recipient": "Romo",
-      "sender": "Romo"
-   },
-   {
-      "message": "as",
-      "recipient": "Luca",
-      "sender": "Romo"
-   },
-   {
-      "message": "conseguidoooooooooooooo \u00ac0-0",
-      "recipient": "Romo",
-      "sender": "lucapi2"
-   },
-   {
-      "message": "Hola",
-      "recipient": "Romo",
-      "sender": "lucapi"
-   },
-   {
-      "message": "R",
-      "recipient": "Romo",
-      "sender": "lucapi"
-   },
-   {
-      "message": "Otro mensajito",
-      "recipient": "luca2",
-      "sender": "lucapi"
-   }
+  {
+    "_message": "holaaaa",
+    "_recipient": {
+      "_rol": "Usuario",
+      "_username": "lucapi",
+      "_salt": "8dQRY84uf22uUtihfNLF2w==",
+      "_key": "Ev7Ix9aBuObkTaX-aRP7LmT36SpwSWKVmXddchtTSc4=",
+      "_password": "1234",
+      "_correo": "a",
+      "_public_ip": "79.117.56.226"
+    },
+    "_sender": "luca2"
+  }
 ]

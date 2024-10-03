@@ -1,38 +1,20 @@
 [
-     {
-          "correo": "romomarcos13@gmail.com",
-          "ip_public": "163.117.64.10",
-          "key": "MoyE3xkSsDSScyd-XV1u1qWHlzhPkixlx5LWNJ7GqJk=",
-          "password": "Romo",
-          "rol": "Usuario",
-          "salt": "05EOYAvjL1Nai_t7YcMPEQ==",
-          "username": "Romo"
-     },
-     {
-          "correo": "100496633@alumnos.uc3m.es",
-          "ip_public": "79.117.56.226",
-          "key": "Haw5L43_imwlcaT51o3DYpfJJjSDVjwLwi2Qa8Gfvg4=",
-          "password": "1234",
-          "rol": "Usuario",
-          "salt": "YZQsDeMOgu3b4-qVJbY_Hw==",
-          "username": "lucapi"
-     },
-     {
-          "correo": "a",
-          "ip_public": "163.117.64.14",
-          "key": "wHAc-ZMwM1WqIiajah0c3FKKGioePAoEq0mDSdQCfu4=",
-          "password": "1234",
-          "rol": "Usuario",
-          "salt": "CWMTFRKbCTz72K8U57go5Q==",
-          "username": "luca2"
-     },
-     {
-          "correo": "b",
-          "ip_public": "163.117.64.14",
-          "key": "loxnljo6mN6Rdla36JPpi0TiNwv9aKUgya2Gs_98FdI=",
-          "password": "1234",
-          "rol": "Usuario",
-          "salt": "nitiaC6RZ-Ook-48AZyk8w==",
-          "username": "luca_test"
-     }
+  {
+    "_rol": "Usuario",
+    "_username": "lucapi",
+    "_salt": "8dQRY84uf22uUtihfNLF2w==",
+    "_key": "Ev7Ix9aBuObkTaX-aRP7LmT36SpwSWKVmXddchtTSc4=",
+    "_password": "1234",
+    "_correo": "a",
+    "_public_ip": "79.117.56.226"
+  },
+  {
+    "_rol": "Usuario",
+    "_username": "luca2",
+    "_salt": "cISLq6_d6rmkFYlQCNXgIg==",
+    "_key": "kgRcer2gOExEv94WlI6WnrpiPkuAnnc3All2MMtnyA8=",
+    "_password": "1111",
+    "_correo": "b",
+    "_public_ip": "79.117.56.226"
+  }
 ]

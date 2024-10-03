@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 import json
 from flask_wtf import FlaskForm
+from pyexpat.errors import messages
 from wtforms import StringField, PasswordField
 from wtforms.validators import DataRequired, Length
 from email.mime.multipart import MIMEMultipart
@@ -10,10 +11,11 @@ import random
 #import socket
 import requests
 import base64
-import os
 from cryptography.hazmat.primitives.kdf.scrypt import Scrypt
-#from storage import json_store_register
-
+from app_user import AppUser
+from app_chat import AppChat
+from storage.json_store_login import JsonStoreLogin
+from storage.json_store_chat import JsonStoreChat
 
 """
 password = b"password"
@@ -73,91 +75,20 @@ def index():
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
-        return reg_user(request.form['username'], request.form['password'], request.form['correo'])
+        AppUser.reg_user(request.form['username'], request.form['password'], request.form['correo'])
+        return redirect(url_for('login'))
     return render_template('register.html')
-
-
-def reg_user(username, password, correo):
-    users, messages = load_data()
-    for urs in users:
-        if username == urs['username']:
-            return 'Usuario ya registrado'
-    # hostname = socket.gethostname()
-    # ip_local = socket.gethostbyname(hostname)
-    ip_publica = requests.get('https://api.ipify.org').text
-    salt = os.urandom(16)
-    kdf = Scrypt(
-        salt=salt,
-        length=32,
-        n=2 ** 14,
-        r=8,
-        p=1,
-    )
-    key = kdf.derive(password.encode('utf-8'))
-    salt_b64 = base64.urlsafe_b64encode(salt).decode('utf-8')
-    key_b64 = base64.urlsafe_b64encode(key).decode('utf-8')
-    users.append({'rol': 'Usuario', 'username': username, 'salt': salt_b64,
-                  'key': key_b64, 'password': password, 'correo': correo, 'ip_public': ip_publica})
-    save_data(users, messages)
-    return redirect(url_for('login'))
 
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     global codigofinal
     if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
-        users, messages = load_data()
-        encontrado = False
-        for urs in users:
-            if username == urs['username']:
+        if AppUser.log_user(request.form['username'], request.form['password']):
+            return redirect(url_for('codigo'))
+        else:
+            return redirect(url_for('chat'))
 
-                salt_urs = base64.urlsafe_b64decode(urs['salt'])
-                key_urs = base64.urlsafe_b64decode(urs['key'])
-
-                kdf = Scrypt(
-                    salt=salt_urs,
-                    length=32,
-                    n=2 ** 14,
-                    r=8,
-                    p=1)
-
-                if kdf.verify(password.encode('utf-8'), key_urs) is None:
-                    session['username'] = username
-
-                    msg = MIMEMultipart()
-                    codigofinal = random.randint(100000, 999999)
-
-                    msg['From'] = "tester132q3@gmail.com"
-                    msg['To'] = urs["correo"]
-                    msg['Subject'] = "Codigo de Verificacion"
-
-                    msg.attach(MIMEText(str(codigofinal), 'plain'))
-
-                    try:
-                        # create server
-                        server = smtplib.SMTP('smtp.gmail.com: 587')
-                        server.starttls()
-
-                        server.login(msg['From'], "nbjc rsrz rloz bqri")
-                        server.sendmail(msg['From'], msg['To'], msg.as_string())
-                        server.quit()
-
-                    except smtplib.SMTPAuthenticationError as e:
-                        print(f'Error de Autenticación: {e.smtp_code} - {e.smtp_error.decode("utf-8")}')
-                    except Exception as e:
-                        print(f'Ocurrió un error: {str(e)}')
-
-                    ip_publica = requests.get('https://api.ipify.org').text
-
-                    if ip_publica != urs["ip_public"]:
-                        return redirect(url_for('codigo'))
-                    else:
-                        return redirect(url_for('chat'))
-
-        if not encontrado:
-            return 'Credenciales incorrectas'
     return render_template('login.html')
 
 
@@ -175,21 +106,15 @@ def codigo():
 
 @app.route('/chat', methods=['GET', 'POST'])
 def chat():
+    print(session)
     if 'username' not in session:
         return redirect(url_for('login'))
-    users, messages = load_data()
+
     if request.method == 'POST':
-        recipient = request.form['recipient']
-        message = request.form['message']
-        encontrado = 'False'
-        for usr in users:
-            if recipient == usr['username']:
-                messages.append({'sender': session['username'], 'recipient': recipient, 'message': message})
-                save_data(users, messages)
-                encontrado = 'True'
-        if encontrado == 'False':
-            return 'Usuario no encontrado'
-    return render_template('chat.html', messages=messages, users=users, username=session['username'])
+        AppChat.send_message(message= request.form['message'], recipient= request.form['recipient'], sender= session['username'])
+    messages = JsonStoreChat()
+    users = JsonStoreLogin()
+    return render_template('chat.html', messages= messages.data_list, users= users.data_list, username=session['username'])
 
 @app.route('/PapaNoel', methods=['POST'])
 def PapaNoel():
