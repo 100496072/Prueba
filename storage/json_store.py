@@ -1,6 +1,5 @@
 import json
-from textwrap import indent
-from typing import TextIO
+
 
 from app_errors import AppError
 
@@ -29,7 +28,6 @@ class JsonStore:
 
     def save_store(self):
         try:
-            file: TextIO
             with open(self._file_name, "w", encoding="utf-8", newline="") as file:
                 json.dump(self._data_list, file, indent=2)
         except FileNotFoundError as exception:
@@ -53,5 +51,10 @@ class JsonStore:
             raise AppError("JSON Decode Error - Wrong JSON format") from exception
         return self._data_list
 
-
-
+    def delete_item(self, wanted_user):
+        self.load_storage(self._file_name)
+        for user_data in self._data_list:
+            if wanted_user == user_data["user"]:
+                self._data_list.remove(user_data)
+                self.save_store()
+        return None
