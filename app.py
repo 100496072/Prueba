@@ -12,6 +12,7 @@ import requests
 import base64
 import os
 from cryptography.hazmat.primitives.kdf.scrypt import Scrypt
+#from storage import json_store_register
 
 
 """
@@ -72,39 +73,34 @@ def index():
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
-        correo = request.form['correo']
-        users, messages = load_data()
-        for urs in users:
-            if username == urs['username']:
-                return 'Usuario ya registrado'
-
-        #hostname = socket.gethostname()
-        #ip_local = socket.gethostbyname(hostname)
-
-        ip_publica = requests.get('https://api.ipify.org').text
-
-        salt = os.urandom(16)
-        kdf = Scrypt(
-            salt=salt,
-            length=32,
-            n=2 ** 14,
-            r=8,
-            p=1,
-        )
-
-        key = kdf.derive(password.encode('utf-8'))
-
-        salt_b64 = base64.urlsafe_b64encode(salt).decode('utf-8')
-        key_b64 = base64.urlsafe_b64encode(key).decode('utf-8')
-
-        users.append({'rol': 'Usuario', 'username':username, 'salt': salt_b64,
-                      'key':key_b64 ,'password': password, 'correo':correo, 'ip_public': ip_publica})
-
-        save_data(users, messages)
-        return redirect(url_for('login'))
+        return reg_user(request.form['username'], request.form['password'], request.form['correo'])
     return render_template('register.html')
+
+
+def reg_user(username, password, correo):
+    users, messages = load_data()
+    for urs in users:
+        if username == urs['username']:
+            return 'Usuario ya registrado'
+    # hostname = socket.gethostname()
+    # ip_local = socket.gethostbyname(hostname)
+    ip_publica = requests.get('https://api.ipify.org').text
+    salt = os.urandom(16)
+    kdf = Scrypt(
+        salt=salt,
+        length=32,
+        n=2 ** 14,
+        r=8,
+        p=1,
+    )
+    key = kdf.derive(password.encode('utf-8'))
+    salt_b64 = base64.urlsafe_b64encode(salt).decode('utf-8')
+    key_b64 = base64.urlsafe_b64encode(key).decode('utf-8')
+    users.append({'rol': 'Usuario', 'username': username, 'salt': salt_b64,
+                  'key': key_b64, 'password': password, 'correo': correo, 'ip_public': ip_publica})
+    save_data(users, messages)
+    return redirect(url_for('login'))
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():

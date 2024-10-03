@@ -25,5 +25,14 @@
           "rol": "Usuario",
           "salt": "CWMTFRKbCTz72K8U57go5Q==",
           "username": "luca2"
+     },
+     {
+          "correo": "b",
+          "ip_public": "163.117.64.14",
+          "key": "loxnljo6mN6Rdla36JPpi0TiNwv9aKUgya2Gs_98FdI=",
+          "password": "1234",
+          "rol": "Usuario",
+          "salt": "nitiaC6RZ-Ook-48AZyk8w==",
+          "username": "luca_test"
      }
 ]

@@ -83,5 +83,10 @@
       "message": "R",
       "recipient": "Romo",
       "sender": "lucapi"
+   },
+   {
+      "message": "Otro mensajito",
+      "recipient": "luca2",
+      "sender": "lucapi"
    }
 ]
