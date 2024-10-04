@@ -17,24 +17,6 @@ from app_chat import AppChat
 from storage.json_store_login import JsonStoreLogin
 from storage.json_store_chat import JsonStoreChat
 
-"""
-password = b"password"
-salt = os.urandom(16)
-kdf = PBKDF2HMAC(
-    algorithm=hashes.SHA256(),
-    length=32,
-    salt=salt,
-    iterations=480000,
-)
-key = base64.urlsafe_b64encode(kdf.derive(password))
-f = Fernet(key)
-token = f.encrypt(b"Secret message!")
-token
-b'...'
-f.decrypt(token)
-b'Secret message!'
-"""
-
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'supersecretkey'
@@ -106,15 +88,15 @@ def codigo():
 
 @app.route('/chat', methods=['GET', 'POST'])
 def chat():
-    print(session)
     if 'username' not in session:
         return redirect(url_for('login'))
 
-    if request.method == 'POST':
-        AppChat.send_message(message= request.form['message'], recipient= request.form['recipient'], sender= session['username'])
     messages = JsonStoreChat()
     users = JsonStoreLogin()
-    return render_template('chat.html', messages= messages.data_list, users= users.data_list, username=session['username'])
+
+    if request.method == 'POST':
+        AppChat.send_message(message= request.form['message'], recipient= request.form['recipient'], sender= session['username'])
+    return render_template('chat.html', messages= messages.data_list, users = users.data_list, username=session['username'])
 
 @app.route('/PapaNoel', methods=['POST'])
 def PapaNoel():

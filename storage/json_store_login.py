@@ -5,6 +5,8 @@ class JsonStoreLogin(JsonStore):
     def __init__(self):
         super().__init__()
         self._file_name = JSON_FILES_PATH + "users.json"
+        self.load_storage(self._file_name)
+        print(self._file_name)
         # Hay que ver qué errores queremos poner
 
     @property

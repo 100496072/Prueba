@@ -23,7 +23,7 @@ class AppChat:
     def send_message(cls, message, recipient, sender):
         users = JsonStoreLogin()
         checked_recipient = users.find_item(wanted_item=recipient, key= "_username")
-        communication = cls(message, checked_recipient, sender)
+        communication = cls(message, checked_recipient["_username"], sender)
         man = JsonStoreChat()
         man.add_item(communication)
         return None

@@ -16,5 +16,14 @@
     "_password": "1111",
     "_correo": "b",
     "_public_ip": "79.117.56.226"
+  },
+  {
+    "_rol": "Usuario",
+    "_username": "Romo",
+    "_salt": "H1inWeVaHGnvpnh0hEkGVA==",
+    "_key": "UKZdNrK94xIsYUcmLh0Yn9v1gl5HjlDKxVEfHQBm47E=",
+    "_password": "Romo",
+    "_correo": "a",
+    "_public_ip": "163.117.64.10"
   }
 ]

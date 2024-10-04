@@ -11,11 +11,12 @@
     <div class="usuarios">
         <h2>Usuarios</h2>
         <ul class="numerousuarios">
+
             {% for usr in users %}
             <li>
-                <strong class= "a">{{usr.username}}</strong>
+                <strong class= "a">{{usr._username}}</strong>
                         <strong class= "b"> >>> </strong>
-                        <strong class= "c">{{usr.rol}}</strong>
+                        <strong class= "c">{{usr._rol}}</strong>
             </li>
             {% endfor %}
         </ul>
@@ -38,10 +39,10 @@
             <a href="/PapaNoel" class="botonesheader">Home</a>
             <a href="/login" class="botonesheader">Cambiar Usuario</a>
             {% for usr in users %}
-                {% if username == usr.username and ('Admin' == usr.rol or 'Tecnico' == usr.rol)%}
+                {% if username == usr._username and ('Admin' == usr._rol or 'Tecnico' == usr._rol)%}
                     <a href="#Usuario" class="botonesheader">Usuarios</a>
                 {% endif %}
-                {% if username == usr.username and 'Admin' == usr.rol %}
+                {% if username == usr._username and 'Admin' == usr._rol %}
                     <a href="#cartas" class="botonesheader">Cartas</a>
                 {% endif %}
             {% endfor %}
@@ -52,11 +53,11 @@
         <h2>Mensajes de {{username}}</h2>
         <ul class="messages">
             {% for msg in messages %}
-                {% if msg.recipient == username or msg.sender == username %}
-                    <li><strong class= "a">{{ msg.sender }}</strong>
+                {% if msg._recipient == username or msg._sender == username %}
+                    <li><strong class= "a">{{ msg._sender }}</strong>
                         <strong class= "b"> >>> </strong>
-                        <strong class= "c">{{msg.recipient}}:</strong>
-                        {{ msg.message }}</li>
+                        <strong class= "c">{{msg._recipient}}:</strong>
+                        {{ msg._message }}</li>
                 {% endif %}
             {% endfor %}
         </ul>

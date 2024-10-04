@@ -1,6 +1,4 @@
 import json
-
-
 from app_errors import AppError
 
 
