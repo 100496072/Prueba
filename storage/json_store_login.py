@@ -6,7 +6,6 @@ class JsonStoreLogin(JsonStore):
         super().__init__()
         self._file_name = JSON_FILES_PATH + "users.json"
         self.load_storage(self._file_name)
-        print(self._file_name)
         # Hay que ver qué errores queremos poner
 
     @property
@@ -16,7 +15,6 @@ class JsonStoreLogin(JsonStore):
     def find_item(self, wanted_item, key):
         self.load_storage(self._file_name)
         for user_data in self._data_list:
-            print(user_data)
             if wanted_item == user_data[key]:
                 return user_data
         return 'Credenciales incorrectas'

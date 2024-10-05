@@ -25,5 +25,23 @@
     "_password": "Romo",
     "_correo": "a",
     "_public_ip": "163.117.64.10"
+  },
+  {
+    "_rol": "Usuario",
+    "_username": "Romo",
+    "_salt": "1WdCC6D2ThEVu5O_A1RM3g==",
+    "_key": "DmDOpzNeUpSBEBFWBsjHcJtbz0X-WfbzGNFB0viXK8E=",
+    "_password": "Romo",
+    "_correo": "asd",
+    "_public_ip": "2.153.186.74"
+  },
+  {
+    "_rol": "Usuario",
+    "_username": "R",
+    "_salt": "4qDslx_S-ZBBgGSdCkDplQ==",
+    "_key": "kai-uDE0kcb8jyhw8fGW8Zp0agLQuyxDRi8nQp5FVT0=",
+    "_password": "R",
+    "_correo": "avionesmarcos@gmail.com",
+    "_public_ip": "2.153.186.74"
   }
 ]

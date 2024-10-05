@@ -36,7 +36,6 @@ class JsonStore:
     def find_item(self, wanted_item, key):
         self.load_storage(self._file_name)
         for user_data in self._data_list:
-            print(user_data)
             if wanted_item == user_data[key]:
                 return "Usuario encontrado"
         return None
