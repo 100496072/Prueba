@@ -12,7 +12,7 @@ from storage.json_store_login import JsonStoreLogin
 
 
 class AppUser:
-    def __init__(self,rol , username, salt, key, password, correo, public_ip):
+    def __init__(self,rol , username, salt, key, password, correo, public_ip, claves):
         self._rol = rol
         self._username = username
         self._salt = salt
@@ -20,6 +20,7 @@ class AppUser:
         self._password = password
         self._correo = correo
         self._public_ip = public_ip
+        self._claves = []
 
     @property
     def username(self):
@@ -41,6 +42,10 @@ class AppUser:
     def public_ip(self):
         return self._public_ip
 
+    @property
+    def claves(self):
+        return self._claves
+
     @classmethod
     def reg_user(cls,username, password, correo):
         man = JsonStoreRegister()
@@ -60,7 +65,7 @@ class AppUser:
         salt_b64 = base64.urlsafe_b64encode(salt).decode('utf-8')
         key_b64 = base64.urlsafe_b64encode(key).decode('utf-8')
         new_user = cls(rol='Usuario', username= username, salt= salt_b64,
-                      key= key_b64, password= password, correo= correo, public_ip= ip_publica)
+                      key= key_b64, password= password, correo= correo, public_ip= ip_publica, claves={})
         man.add_item(new_user)
         return None
 

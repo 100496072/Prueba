@@ -1,12 +1,14 @@
 [
   {
-    "_username1": "R",
-    "_username2": "Romo",
-    "_public_key": null
+    "_username1": "A",
+    "_username2": "R"
   },
   {
-    "_username1": "R",
-    "_username2": "Romo",
-    "_public_key": null
+    "_username1": "B",
+    "_username2": "R"
+  },
+  {
+    "_username1": "B",
+    "_username2": "A"
   }
 ]
