@@ -14,14 +14,17 @@ import base64
 from cryptography.hazmat.primitives.kdf.scrypt import Scrypt
 from app_user import AppUser
 from app_chat import AppChat
+from storage.json_store_chatdesencriptados import JsonStoreChatDesencriptados
 from storage.json_store_login import JsonStoreLogin
 from storage.json_store_chat import JsonStoreChat
+from app_mensajesdesencriptados import AppChatDesencriptados
 
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'supersecretkey'
 app.config['SESSION_COOKIE_HTTPONLY'] = True
 app.config['SESSION_COOKIE_SECURE'] = True
+
 
 
 codigofinal = None
@@ -91,7 +94,9 @@ def chat():
     if 'username' not in session:
         return redirect(url_for('login'))
 
-    messages = JsonStoreChat()
+
+
+    messages = JsonStoreChatDesencriptados()
     users = JsonStoreLogin()
 
     if request.method == 'POST':

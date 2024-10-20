@@ -1,14 +1,20 @@
 [
   {
+    "_username1": "R",
+    "_username2": "B",
+    "_clave": "2oMSSG7ohPA-HQdncgRmXK6yGLa5IJLp9EeEAsGH1jf7BrXakS7V7k6pcjBC5obq",
+    "_nonce": "umDVEueSIdPTllQW"
+  },
+  {
+    "_username1": "R",
+    "_username2": "A",
+    "_clave": "BSj7aLPX3qKrZLSVz4Zy6rqB6h_dNlAjLxgvgp783wZEbHnlCvWe3PuyVtql9Blm",
+    "_nonce": "zvh3QYx_KPqb4kBB"
+  },
+  {
     "_username1": "A",
-    "_username2": "R"
-  },
-  {
-    "_username1": "B",
-    "_username2": "R"
-  },
-  {
-    "_username1": "B",
-    "_username2": "A"
+    "_username2": "B",
+    "_clave": "dSjtPmQ-NjMRMbhLYfDpBSXX5ib7ShrugbCLf1Uh_xU9ybQsiB6FAIqgiJRET1En",
+    "_nonce": "oDRh10laToO-VHP3"
   }
 ]

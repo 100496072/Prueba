@@ -1,34 +1,20 @@
 
 from storage.json_store_chat import JsonStoreChat
+from storage.json_store_chatdesencriptados import JsonStoreChatDesencriptados
 from storage.json_store_relaciones import JsonStoreRelaciones
 from storage.json_store_login import JsonStoreLogin
 from app_relacion import AppRelacion
-import base64
-from cryptography.hazmat.primitives import serialization
-from cryptography.hazmat.backends import default_backend
-from cryptography.hazmat.primitives import serialization
-from cryptography.hazmat.primitives.asymmetric import rsa
-from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
-from cryptography.hazmat.primitives import hashes
-from cryptography.hazmat.primitives.kdf.scrypt import Scrypt
-from cryptography.hazmat.backends import default_backend
-from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
-from cryptography.hazmat.primitives import serialization
-from cryptography.hazmat.backends import default_backend
-from cryptography.hazmat.primitives.asymmetric import padding
-from cryptography.hazmat.primitives import hashes
-import base64
-
+from app_mensajesdesencriptados import AppChatDesencriptados
+import os
+from cryptography.hazmat.primitives.ciphers.aead import ChaCha20Poly1305
+from base64 import urlsafe_b64encode, urlsafe_b64decode
 
 class AppChat:
-    def __init__(self, message, recipient, sender):
-        self._message = message
+    def __init__(self, recipient, sender, message, nonce):
         self._recipient = recipient
         self._sender = sender
-
-    @property
-    def message(self):
-        return self._message
+        self._message = message
+        self._nonce = nonce
 
     @property
     def recipient(self):
@@ -37,6 +23,14 @@ class AppChat:
     @property
     def sender(self):
         return self._sender
+
+    @property
+    def message(self):
+        return self._message
+
+    @property
+    def nonce(self):
+        return self._nonce
 
     @classmethod
     def send_message(cls, message, recipient, sender):
@@ -48,40 +42,32 @@ class AppChat:
         for relacion in rel.data_list:
             if ((relacion["_username1"] == sender and relacion["_username2"] == checked_recipient["_username"]) or
                     (relacion["_username1"] == checked_recipient["_username"] and relacion["_username2"] == sender)):
-                for user in users.data_list:
-                    if user["_username"] == sender:
-                        claves = user["_claves"]
-                        cablepublica = None
 
-                        for clave in claves:
-                            if clave[0] == checked_recipient["_username"]:
-                                cablepublica = clave[3]
+                relacionexiste = True
 
-                        public_key_bytes = base64.b64decode(cablepublica)
+                encrypted_data_key = urlsafe_b64decode(relacion["_clave"])
+                nonce_master = urlsafe_b64decode(relacion["_nonce"])
+                AE_Key_stma = b'0123456789ABCDEF0123456789ABCDEF'
 
-                        public_key = serialization.load_pem_public_key(
-                            public_key_bytes,
-                            backend=default_backend()
-                        )
+                chacha_master = ChaCha20Poly1305(AE_Key_stma)
+                clave_publica = chacha_master.decrypt(nonce_master, encrypted_data_key, None)
+                nonce = os.urandom(12)
+                data = message.encode('utf-8')
+                chacha = ChaCha20Poly1305(clave_publica)
+                ct = chacha.encrypt(nonce, data, None)
 
-                        mensajebytes =  message.encode('utf-8')
-                        ciphertext = public_key.encrypt(
-                            mensajebytes,
-                            padding.OAEP(
-                                mgf=padding.MGF1(algorithm=hashes.SHA256()),
-                                algorithm=hashes.SHA256(),
-                                label=None
-                            )
-                        )
+                ct_mensaje = urlsafe_b64encode(ct).decode('utf-8')
+                nonce_mensaje = urlsafe_b64encode(nonce).decode('utf-8')
 
-                        ciphertextbase64 = base64.b64encode(ciphertext).decode('utf-8')
-                        man = JsonStoreChat()
-                        communication = cls(ciphertextbase64, checked_recipient["_username"], sender)
-                        man.add_item(communication)
-                        relacionexiste = True
+                man = JsonStoreChat()
+                communication = cls(checked_recipient["_username"], sender, ct_mensaje, nonce_mensaje)
+                man.add_item(communication)
+
+                AppChatDesencriptados.messages_descifrados(sender)
 
         if relacionexiste is False:
             AppRelacion.reg_relacion(sender, recipient)
             cls.send_message(message, recipient, sender)
         return None
+
 

@@ -58,6 +58,10 @@ class JsonStore:
                 self.save_store()
         return None
 
+    def empty_json(self):
+        self._data_list = []
+        self.save_store()
+
     @property
     def data_list(self):
         return self._data_list
