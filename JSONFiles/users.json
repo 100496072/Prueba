@@ -25,5 +25,14 @@
     "_password": "B",
     "_correo": "b",
     "_public_ip": "2.153.186.74"
+  },
+  {
+    "_rol": "Usuario",
+    "_username": "Z",
+    "_salt": "DYo9lzD3vt-DvVjf0GapzQ==",
+    "_key": "BIeyqUdL-4FZl-pPgFy3XMfr9a18atqBnp2ebKihg7w=",
+    "_password": "Z",
+    "_correo": "Z",
+    "_public_ip": "163.117.64.10"
   }
 ]
