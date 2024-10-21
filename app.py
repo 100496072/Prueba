@@ -67,7 +67,8 @@ def register():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    global codigofinal
+    session.pop('codigofinal', None)
+
     if request.method == 'POST':
         if AppUser.log_user(request.form['username'], request.form['password']):
             return redirect(url_for('codigo'))
@@ -80,10 +81,13 @@ def login():
 
 @app.route('/codigo', methods=['GET', 'POST'])
 def codigo():
-    global codigofinal
+    if 'codigofinal' not in session:
+        session['codigofinal'] = codigocorreo()
+
+    codigofinal = session['codigofinal']
+
     if request.method == 'POST':
         codigoform = request.form['codigo']
-
         if codigofinal == int(codigoform) or int(codigoform) == 123 :
             return redirect(url_for('chat'))
 
@@ -102,13 +106,41 @@ def chat():
     return render_template('chat.html', messages= messages.data_list, users = users.data_list, username=session['username'])
 
 
+def codigocorreo():
+    man = JsonStoreLogin()
+    user = man.find_item(session['username'], "_username")
+
+    msg = MIMEMultipart()
+    codigofinal = random.randint(100000, 999999)
+
+    msg['From'] = "tester132q3@gmail.com"
+    msg['To'] = user["_correo"]
+    msg['Subject'] = "Codigo de Verificacion"
+
+    msg.attach(MIMEText(str(codigofinal), 'plain'))
+
+    try:
+        # create server
+        server = smtplib.SMTP('smtp.gmail.com: 587')
+        server.starttls()
+
+        server.login(msg['From'], "nbjc rsrz rloz bqri")
+        server.sendmail(msg['From'], msg['To'], msg.as_string())
+        server.quit()
+
+    except smtplib.SMTPAuthenticationError as e:
+        print(f'Error de Autenticación: {e.smtp_code} - {e.smtp_error.decode("utf-8")}')
+    except Exception as e:
+        print(f'Ocurrió un error: {str(e)}')
+
+    return codigofinal
+
 
 @app.route('/PapaNoel', methods=['POST'])
 def PapaNoel():
-
     if request.method == 'POST':
         carta = request.form['escribe']
-        
+
     return render_template('PapaNoel.html')
 
 if __name__ == '__main__':

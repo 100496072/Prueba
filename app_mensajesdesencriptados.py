@@ -36,7 +36,7 @@ class AppChatDesencriptados:
         man.vaciar_json()
 
         for mensajes in mensajestotales.data_list:
-            if (mensajes["_recipient"] == sender  or mensajes["_sender"] == sender):
+            if mensajes["_recipient"] == sender or mensajes["_sender"] == sender:
 
                 mensajecifrado = urlsafe_b64decode(mensajes["_message"])
                 noncemensaje = urlsafe_b64decode(mensajes["_nonce"])

@@ -83,29 +83,6 @@ class AppUser:
         if kdf.verify(password.encode('utf-8'), key_urs) is None:
             session['username'] = username
 
-            msg = MIMEMultipart()
-            codigofinal = random.randint(100000, 999999)
-
-            msg['From'] = "tester132q3@gmail.com"
-            msg['To'] = user["_correo"]
-            msg['Subject'] = "Codigo de Verificacion"
-
-            msg.attach(MIMEText(str(codigofinal), 'plain'))
-
-            try:
-                # create server
-                server = smtplib.SMTP('smtp.gmail.com: 587')
-                server.starttls()
-
-                server.login(msg['From'], "nbjc rsrz rloz bqri")
-                server.sendmail(msg['From'], msg['To'], msg.as_string())
-                server.quit()
-
-            except smtplib.SMTPAuthenticationError as e:
-                print(f'Error de Autenticación: {e.smtp_code} - {e.smtp_error.decode("utf-8")}')
-            except Exception as e:
-                print(f'Ocurrió un error: {str(e)}')
-
             ip_publica = requests.get('https://api.ipify.org').text
 
             if ip_publica != user["_public_ip"]:

@@ -5,8 +5,18 @@
     "_message": "aaa"
   },
   {
-    "_recipient": "B",
+    "_recipient": "A",
     "_sender": "R",
-    "_message": "aa"
+    "_message": "dfr"
+  },
+  {
+    "_recipient": "R",
+    "_sender": "A",
+    "_message": "asd"
+  },
+  {
+    "_recipient": "B",
+    "_sender": "A",
+    "_message": "asd"
   }
 ]
