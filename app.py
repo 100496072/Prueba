@@ -84,7 +84,7 @@ def codigo():
     if request.method == 'POST':
         codigoform = request.form['codigo']
 
-        if codigofinal and (codigofinal == int(codigoform) or int(codigoform) == 123) :
+        if codigofinal == int(codigoform) or int(codigoform) == 123 :
             return redirect(url_for('chat'))
 
     return render_template('codigo.html')
@@ -94,14 +94,14 @@ def chat():
     if 'username' not in session:
         return redirect(url_for('login'))
 
-
-
     messages = JsonStoreChatDesencriptados()
     users = JsonStoreLogin()
 
     if request.method == 'POST':
         AppChat.send_message(message= request.form['message'], recipient= request.form['recipient'], sender= session['username'])
     return render_template('chat.html', messages= messages.data_list, users = users.data_list, username=session['username'])
+
+
 
 @app.route('/PapaNoel', methods=['POST'])
 def PapaNoel():

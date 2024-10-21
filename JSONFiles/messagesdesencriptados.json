@@ -1,3 +1,12 @@
 [
-
+  {
+    "_recipient": "A",
+    "_sender": "R",
+    "_message": "aaa"
+  },
+  {
+    "_recipient": "B",
+    "_sender": "R",
+    "_message": "aa"
+  }
 ]
