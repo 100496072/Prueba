@@ -11,7 +11,7 @@ class Attribute:
         myregex = re.compile(self._validation_pattern)
         regex_matches = myregex.fullmatch(attr_value)
         if not regex_matches:
-            raise AppError(self._error_message)
+            return False, self._error_message
         return attr_value
 
     @property

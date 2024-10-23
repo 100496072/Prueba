@@ -1,26 +1,20 @@
 [
   {
     "_username1": "R",
-    "_username2": "B",
-    "_clave": "2oMSSG7ohPA-HQdncgRmXK6yGLa5IJLp9EeEAsGH1jf7BrXakS7V7k6pcjBC5obq",
-    "_nonce": "umDVEueSIdPTllQW"
-  },
-  {
-    "_username1": "R",
     "_username2": "A",
-    "_clave": "BSj7aLPX3qKrZLSVz4Zy6rqB6h_dNlAjLxgvgp783wZEbHnlCvWe3PuyVtql9Blm",
-    "_nonce": "zvh3QYx_KPqb4kBB"
-  },
-  {
-    "_username1": "A",
-    "_username2": "B",
-    "_clave": "dSjtPmQ-NjMRMbhLYfDpBSXX5ib7ShrugbCLf1Uh_xU9ybQsiB6FAIqgiJRET1En",
-    "_nonce": "oDRh10laToO-VHP3"
+    "_clave": "SbUO-IkVT3Q41isvvavhCxTQgsK_IVwypmLz7fBRjw7iAY3biRBpJUpSqUDqnE7r",
+    "_nonce": "lCO_soTv3Ff_JYG8"
   },
   {
     "_username1": "R",
-    "_username2": "R",
-    "_clave": "p5hcK08t6tRdddPwszQBS3QEnjXijTrP5K1LWPYXaUpSVXFSmTfBffdacDCpJ3k8",
-    "_nonce": "hJxbP0U2UUj7sI3x"
+    "_username2": "B",
+    "_clave": "2KgWDlzgislexWeS0FINhj7mdP1SSbgui31l36d7LOjq9ZeubKVvvKNUv2WYspsI",
+    "_nonce": "aesUOLYXJFGaP_p5"
+  },
+  {
+    "_username1": "R",
+    "_username2": "Z",
+    "_clave": "ovJqtY4w0ztYLFjbxNG7Wj-gDF03YE6un9qjNhbZj12aCGOGDBCkefMKi88x-29J",
+    "_nonce": "Xf2VVL3ypnSVQtMM"
   }
 ]

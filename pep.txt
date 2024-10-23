@@ -1,0 +1,4 @@
+c1 = 'supersecretkey'
+c2 = b'0123456789ABCDEF0123456789ABCDEF'
+c3 = 'nbjc rsrz rloz bqri'
+c4 = 'tester132q3@gmail.com'

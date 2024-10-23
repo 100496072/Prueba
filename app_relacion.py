@@ -2,10 +2,18 @@
 from storage.json_store_relaciones import JsonStoreRelaciones
 import os
 from cryptography.hazmat.primitives.ciphers.aead import ChaCha20Poly1305
-from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
-from cryptography.hazmat.primitives.hashes import SHA256
-from cryptography.hazmat.backends import default_backend
+
 from base64 import urlsafe_b64encode, urlsafe_b64decode
+
+# Leer el archivo de texto
+with open('pep.txt', 'r') as file:
+    lines = file.readlines()
+
+c2 = b''
+# Procesar cada línea del archivo
+for line in lines:
+    if line.startswith("c2"):
+        c2 = eval(line.split('=')[1].strip())
 
 
 class AppRelacion:
@@ -36,7 +44,7 @@ class AppRelacion:
 
         key = ChaCha20Poly1305.generate_key()
 
-        AE_Key_stma = b'0123456789ABCDEF0123456789ABCDEF'
+        AE_Key_stma = c2
         chacha_master = ChaCha20Poly1305(AE_Key_stma)
         nonce_master = os.urandom(12)
 

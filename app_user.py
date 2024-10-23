@@ -1,20 +1,18 @@
 import base64
 import os
-import random
-import smtplib
 import requests
-from cryptography.hazmat.primitives.kdf.scrypt import Scrypt
-from email.mime.multipart import MIMEMultipart
-from email.mime.text import MIMEText
 from flask import session
+from cryptography.hazmat.primitives.kdf.scrypt import Scrypt
+from pyexpat.errors import messages
+
 from storage.json_store_register import JsonStoreRegister
 from storage.json_store_login import JsonStoreLogin
-
+from attributes.attribute_user import AttributeUser
 
 class AppUser:
     def __init__(self,rol , username, salt, key, password, correo, public_ip):
         self._rol = rol
-        self._username = username
+        self._username, self._message = AttributeUser(username).value
         self._salt = salt
         self._key = key
         self._password = password
@@ -23,8 +21,16 @@ class AppUser:
 
 
     @property
+    def rol(self):
+        return self._rol
+
+    @property
     def username(self):
         return self._username
+
+    @property
+    def message(self):
+        return self._message
 
     @property
     def salt(self):
@@ -43,12 +49,12 @@ class AppUser:
         return self._public_ip
 
 
+    #Función para el registro de nuevos usuarios
     @classmethod
-    def reg_user(cls,username, password, correo):
+    def reg_user(cls, username, password, correo):
+
         man = JsonStoreRegister()
         man.find_item(username, "_username")
-        # hostname = socket.gethostname()
-        # ip_local = socket.gethostbyname(hostname)
         ip_publica = requests.get('https://api.ipify.org').text
         salt = os.urandom(16)
         kdf = Scrypt(
@@ -66,6 +72,9 @@ class AppUser:
         man.add_item(new_user)
         return None
 
+
+
+    #Función para el inicio de usuarios
     @classmethod
     def log_user(cls, username, password):
         man = JsonStoreLogin()

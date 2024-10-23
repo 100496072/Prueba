@@ -1,13 +1,24 @@
-
+import os
 from storage.json_store_chat import JsonStoreChat
 from storage.json_store_chatdesencriptados import JsonStoreChatDesencriptados
 from storage.json_store_relaciones import JsonStoreRelaciones
 from storage.json_store_login import JsonStoreLogin
 from app_relacion import AppRelacion
 from app_mensajesdesencriptados import AppChatDesencriptados
-import os
 from cryptography.hazmat.primitives.ciphers.aead import ChaCha20Poly1305
 from base64 import urlsafe_b64encode, urlsafe_b64decode
+from flask import Flask, render_template, request, redirect, url_for, session
+
+
+# Leer el archivo de texto
+with open('pep.txt', 'r') as file:
+    lines = file.readlines()
+
+c2 = b''
+# Procesar cada línea del archivo
+for line in lines:
+    if line.startswith("c2"):
+        c2 = eval(line.split('=')[1].strip())
 
 class AppChat:
     def __init__(self, recipient, sender, message, nonce):
@@ -47,7 +58,7 @@ class AppChat:
 
                 encrypted_data_key = urlsafe_b64decode(relacion["_clave"])
                 nonce_master = urlsafe_b64decode(relacion["_nonce"])
-                AE_Key_stma = b'0123456789ABCDEF0123456789ABCDEF'
+                AE_Key_stma = c2
 
                 chacha_master = ChaCha20Poly1305(AE_Key_stma)
                 clave_publica = chacha_master.decrypt(nonce_master, encrypted_data_key, None)
@@ -68,6 +79,10 @@ class AppChat:
         if relacionexiste is False:
             AppRelacion.reg_relacion(sender, recipient)
             cls.send_message(message, recipient, sender)
+
+        messages = JsonStoreChatDesencriptados()
+        users = JsonStoreLogin()
+        print(messages.data_list)
         return None
 
 

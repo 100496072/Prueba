@@ -1,33 +1,38 @@
-from flask import Flask, render_template, request, redirect, url_for, session
+import smtplib
+import random
 import json
+from app_user import AppUser
+from app_chat import AppChat
+from flask import Flask, render_template, request, redirect, url_for, session
 from flask_wtf import FlaskForm
-from pyexpat.errors import messages
 from wtforms import StringField, PasswordField
 from wtforms.validators import DataRequired, Length
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-import smtplib
-import random
-#import socket
-import requests
-import base64
-from cryptography.hazmat.primitives.kdf.scrypt import Scrypt
-from app_user import AppUser
-from app_chat import AppChat
 from storage.json_store_chatdesencriptados import JsonStoreChatDesencriptados
 from storage.json_store_login import JsonStoreLogin
-from storage.json_store_chat import JsonStoreChat
-from app_mensajesdesencriptados import AppChatDesencriptados
 
+
+with open('pep.txt', 'r') as file:
+    lines = file.readlines()
+
+c1 = ""
+c3 = ""
+c4 = ""
+
+for line in lines:
+    if line.startswith("c1"):
+        c1 = eval(line.split('=')[1].strip())
+    if line.startswith("c3"):
+        c3 = eval(line.split('=')[1].strip())
+    if line.startswith("c4"):
+        c4 = eval(line.split('=')[1].strip())
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'supersecretkey'
+app.config['SECRET_KEY'] = c1
 app.config['SESSION_COOKIE_HTTPONLY'] = True
 app.config['SESSION_COOKIE_SECURE'] = True
 
-
-
-codigofinal = None
 
 class RegistrationForm(FlaskForm):
     username = StringField('username', validators=[DataRequired(), Length(min=1, max=25)])
@@ -52,11 +57,17 @@ def save_data(users, messages):
         f.write(json.dumps(messages, indent=3, sort_keys=True))
         f.write('\n')
 
+
+
+#Pagina de Inicio
 @app.route('/')
 @app.route('/PapaNoel')
 def index():
     return render_template("PapaNoel.html")
 
+
+
+#Pagina de registro
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
@@ -65,20 +76,21 @@ def register():
     return render_template('register.html')
 
 
+
+#Pagina de inicio de sesion
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     session.pop('codigofinal', None)
-
     if request.method == 'POST':
         if AppUser.log_user(request.form['username'], request.form['password']):
             return redirect(url_for('codigo'))
         else:
             return redirect(url_for('chat'))
-
     return render_template('login.html')
 
 
 
+#Verificacion Codigo de Seguridad
 @app.route('/codigo', methods=['GET', 'POST'])
 def codigo():
     if 'codigofinal' not in session:
@@ -88,11 +100,34 @@ def codigo():
 
     if request.method == 'POST':
         codigoform = request.form['codigo']
+
+
+        """ELIMINAR"""
+        """ELIMINAR"""
+        """ELIMINAR"""
+        """ELIMINAR"""
+        """ELIMINAR"""
+        """ELIMINAR"""
+        """ELIMINAR"""
+        """ELIMINAR"""
+        """ELIMINAR"""
+        """ELIMINAR"""
+        """ELIMINAR"""
+        """ELIMINAR"""
+        """ELIMINAR"""
+        """ELIMINAR"""
+        """ELIMINAR"""
+        """ELIMINAR"""
+
+
         if codigofinal == int(codigoform) or int(codigoform) == 123 :
             return redirect(url_for('chat'))
 
     return render_template('codigo.html')
 
+
+
+#Pagina de Chats
 @app.route('/chat', methods=['GET', 'POST'])
 def chat():
     if 'username' not in session:
@@ -106,6 +141,8 @@ def chat():
     return render_template('chat.html', messages= messages.data_list, users = users.data_list, username=session['username'])
 
 
+
+#Envio código de seguridad
 def codigocorreo():
     man = JsonStoreLogin()
     user = man.find_item(session['username'], "_username")
@@ -113,7 +150,7 @@ def codigocorreo():
     msg = MIMEMultipart()
     codigofinal = random.randint(100000, 999999)
 
-    msg['From'] = "tester132q3@gmail.com"
+    msg['From'] = c4
     msg['To'] = user["_correo"]
     msg['Subject'] = "Codigo de Verificacion"
 
@@ -124,7 +161,7 @@ def codigocorreo():
         server = smtplib.SMTP('smtp.gmail.com: 587')
         server.starttls()
 
-        server.login(msg['From'], "nbjc rsrz rloz bqri")
+        server.login(msg['From'], c3)
         server.sendmail(msg['From'], msg['To'], msg.as_string())
         server.quit()
 
@@ -136,12 +173,17 @@ def codigocorreo():
     return codigofinal
 
 
+
+"""
 @app.route('/PapaNoel', methods=['POST'])
 def PapaNoel():
     if request.method == 'POST':
         carta = request.form['escribe']
 
     return render_template('PapaNoel.html')
+"""
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)

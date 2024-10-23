@@ -7,6 +7,16 @@ from storage.json_store_relaciones import JsonStoreRelaciones
 from cryptography.hazmat.primitives.ciphers.aead import ChaCha20Poly1305
 from base64 import urlsafe_b64encode, urlsafe_b64decode
 
+# Leer el archivo de texto
+with open('pep.txt', 'r') as file:
+    lines = file.readlines()
+
+c2 = b''
+# Procesar cada línea del archivo
+for line in lines:
+    if line.startswith("c2"):
+        c2 = eval(line.split('=')[1].strip())
+
 class AppChatDesencriptados:
     def __init__(self, recipient, sender, message):
         self._recipient = recipient
@@ -50,7 +60,7 @@ class AppChatDesencriptados:
 
                         encrypted_data_key = urlsafe_b64decode(relacion["_clave"])
                         nonce_master = urlsafe_b64decode(relacion["_nonce"])
-                        AE_Key_stma = b'0123456789ABCDEF0123456789ABCDEF'
+                        AE_Key_stma = c2
 
                         chacha_master = ChaCha20Poly1305(AE_Key_stma)
                         clave_publica = chacha_master.decrypt(nonce_master, encrypted_data_key, None)
