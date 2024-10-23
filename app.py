@@ -13,8 +13,8 @@ from storage.json_store_chatdesencriptados import JsonStoreChatDesencriptados
 from storage.json_store_login import JsonStoreLogin
 
 
-with open('pep.txt', 'r') as file:
-    lines = file.readlines()
+with open('pep.txt', 'r', encoding='utf-8') as file:
+    lines =  file.readlines()
 
 c1 = ""
 c3 = ""

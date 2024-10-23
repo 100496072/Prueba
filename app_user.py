@@ -98,7 +98,6 @@ class AppUser:
         if kdf.verify(password.encode('utf-8'), key_urs) is None:
             session['username'] = username
 
-
             #Verificacion ip publica igual a la ip publica del registro original
             ip_publica = requests.get('https://api.ipify.org').text
             if ip_publica != user["_public_ip"]:

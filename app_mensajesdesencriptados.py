@@ -5,7 +5,7 @@ from storage.json_store_relaciones import JsonStoreRelaciones
 from cryptography.hazmat.primitives.ciphers.aead import ChaCha20Poly1305
 
 # Leer el archivo de texto
-with open('pep.txt', 'r') as file:
+with open('pep.txt', 'r', encoding='utf-8') as file:
     lines = file.readlines()
 
 c2 = b''
