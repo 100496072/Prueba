@@ -1,47 +1,7 @@
 [
   {
-    "_recipient": "A",
-    "_sender": "R",
-    "_message": "assd"
-  },
-  {
-    "_recipient": "A",
-    "_sender": "R",
-    "_message": "asd"
-  },
-  {
-    "_recipient": "A",
-    "_sender": "R",
-    "_message": "sd"
-  },
-  {
-    "_recipient": "A",
-    "_sender": "R",
-    "_message": "drtrtyu"
-  },
-  {
-    "_recipient": "A",
-    "_sender": "R",
-    "_message": "asffggh"
-  },
-  {
-    "_recipient": "B",
-    "_sender": "R",
-    "_message": "sdd"
-  },
-  {
-    "_recipient": "Z",
-    "_sender": "R",
-    "_message": "dfdgf"
-  },
-  {
-    "_recipient": "Z",
-    "_sender": "R",
-    "_message": "dfdgf"
-  },
-  {
-    "_recipient": "Z",
-    "_sender": "R",
-    "_message": "dfdgf"
+    "_recipient": "R",
+    "_sender": "Robert",
+    "_message": "Que pasa tio"
   }
 ]

@@ -1,38 +1,26 @@
 [
   {
-    "_rol": "Usuario",
+    "_rol": "Admin",
     "_username": "R",
     "_salt": "30xjo0c-In0J02RqsNrSPQ==",
     "_key": "cMul3mZbGwluBP6yPwehB8gQh9Jpk7MPmZ0tYe48WGo=",
-    "_password": "R",
     "_correo": "avionesmarcos@gmail.com",
-    "_public_ip": "2.153.186.74"
+    "_public_ip": "163.117.64.100"
   },
   {
     "_rol": "Usuario",
     "_username": "A",
     "_salt": "Q25Z5zl-Sw6GJZrnklvB9A==",
     "_key": "1ugW-sbik69pru3WoBj5unruCi1OJcPICiYBYZYUKnY=",
-    "_password": "A",
     "_correo": "a",
     "_public_ip": "2.153.186.74"
   },
   {
     "_rol": "Usuario",
-    "_username": "B",
-    "_salt": "jaiRzVCWSS77Tkh69D1UOw==",
-    "_key": "vGlM3asdvxBQE7quqglqidt-BTWRUpDhfy88pd-NM04=",
-    "_password": "B",
-    "_correo": "b",
-    "_public_ip": "2.153.186.74"
-  },
-  {
-    "_rol": "Usuario",
-    "_username": "Z",
-    "_salt": "DYo9lzD3vt-DvVjf0GapzQ==",
-    "_key": "BIeyqUdL-4FZl-pPgFy3XMfr9a18atqBnp2ebKihg7w=",
-    "_password": "Z",
-    "_correo": "Z",
+    "_username": "Robert",
+    "_salt": "WHpGGUxcev3V7TB3LUocWA==",
+    "_key": "DuqWmp6ka5egHI1GwBjnofuONj6wGsZngLlm3IXMBB0=",
+    "_correo": "megustalosmacarrones@gmail.com",
     "_public_ip": "163.117.64.10"
   }
 ]

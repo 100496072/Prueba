@@ -71,8 +71,10 @@ def index():
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
-        AppUser.reg_user(request.form['username'], request.form['password'], request.form['correo'])
-        return redirect(url_for('login'))
+        if AppUser.reg_user(request.form['username'], request.form['password'], request.form['correo']):
+            return redirect(url_for('login'))
+        else:
+            return redirect(url_for('register'))
     return render_template('register.html')
 
 

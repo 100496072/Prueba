@@ -1,11 +1,8 @@
-from pylint.pyreverse.printer import Printer
-
+from base64 import urlsafe_b64decode
 from storage.json_store_chat import JsonStoreChat
 from storage.json_store_chatdesencriptados import JsonStoreChatDesencriptados
 from storage.json_store_relaciones import JsonStoreRelaciones
-
 from cryptography.hazmat.primitives.ciphers.aead import ChaCha20Poly1305
-from base64 import urlsafe_b64encode, urlsafe_b64decode
 
 # Leer el archivo de texto
 with open('pep.txt', 'r') as file:
@@ -45,6 +42,7 @@ class AppChatDesencriptados:
         man = JsonStoreChatDesencriptados()
         man.vaciar_json()
 
+        #Descifrado de los mensajes del usario con la sesion iniciada
         for mensajes in mensajestotales.data_list:
             if mensajes["_recipient"] == sender or mensajes["_sender"] == sender:
 
@@ -76,8 +74,6 @@ class AppChatDesencriptados:
                                             message=mensajefinalutf8)
                         man.add_item(communication)
                         break
-
-
 
 
         return None

@@ -1,3 +1,6 @@
+
+ARCHIVOS CON CLAVES QUE GESTIONARÍA EL SISTEMA
+
 c1 = 'supersecretkey'
 c2 = b'0123456789ABCDEF0123456789ABCDEF'
 c3 = 'nbjc rsrz rloz bqri'

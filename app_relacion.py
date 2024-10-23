@@ -1,9 +1,7 @@
-
-from storage.json_store_relaciones import JsonStoreRelaciones
 import os
-from cryptography.hazmat.primitives.ciphers.aead import ChaCha20Poly1305
-
 from base64 import urlsafe_b64encode, urlsafe_b64decode
+from storage.json_store_relaciones import JsonStoreRelaciones
+from cryptography.hazmat.primitives.ciphers.aead import ChaCha20Poly1305
 
 # Leer el archivo de texto
 with open('pep.txt', 'r') as file:
@@ -39,23 +37,28 @@ class AppRelacion:
     def nonce(self):
         return self._nonce
 
+
+    #Creacion de la realacion entre dos personas
     @classmethod
     def reg_relacion(cls, username1, username2):
 
+
+        #Creacion clave simetrica
         key = ChaCha20Poly1305.generate_key()
 
         AE_Key_stma = c2
         chacha_master = ChaCha20Poly1305(AE_Key_stma)
         nonce_master = os.urandom(12)
 
+        #Cifrado clave simetrica
         encrypted_data_key = chacha_master.encrypt(nonce_master, key, None)
 
-        public_key = urlsafe_b64encode(encrypted_data_key).decode('utf-8')
+        clave_simetrica = urlsafe_b64encode(encrypted_data_key).decode('utf-8')
         nonce_maestro = urlsafe_b64encode(nonce_master).decode('utf-8')
 
 
         rel = JsonStoreRelaciones()
-        new_user = cls(username1=username1, username2=username2, clave=public_key, nonce=nonce_maestro)
+        new_user = cls(username1=username1, username2=username2, clave=clave_simetrica, nonce=nonce_maestro)
         rel.add_item(new_user)
 
         return None
