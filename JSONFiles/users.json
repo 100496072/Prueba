@@ -1,26 +1,3 @@
 [
-  {
-    "_rol": "Admin",
-    "_username": "R",
-    "_salt": "30xjo0c-In0J02RqsNrSPQ==",
-    "_key": "cMul3mZbGwluBP6yPwehB8gQh9Jpk7MPmZ0tYe48WGo=",
-    "_correo": "avionesmarcos@gmail.com",
-    "_public_ip": "163.117.64.100"
-  },
-  {
-    "_rol": "Usuario",
-    "_username": "A",
-    "_salt": "Q25Z5zl-Sw6GJZrnklvB9A==",
-    "_key": "1ugW-sbik69pru3WoBj5unruCi1OJcPICiYBYZYUKnY=",
-    "_correo": "a",
-    "_public_ip": "2.153.186.74"
-  },
-  {
-    "_rol": "Usuario",
-    "_username": "Robert",
-    "_salt": "WHpGGUxcev3V7TB3LUocWA==",
-    "_key": "DuqWmp6ka5egHI1GwBjnofuONj6wGsZngLlm3IXMBB0=",
-    "_correo": "megustalosmacarrones@gmail.com",
-    "_public_ip": "163.117.64.10"
-  }
+
 ]

@@ -87,6 +87,8 @@ def login():
         if AppUser.log_user(request.form['username'], request.form['password']):
             return redirect(url_for('codigo'))
         else:
+            man = JsonStoreChatDesencriptados()
+            man.vaciar_json()
             return redirect(url_for('chat'))
     return render_template('login.html')
 
@@ -103,26 +105,9 @@ def codigo():
     if request.method == 'POST':
         codigoform = request.form['codigo']
 
-
-        """ELIMINAR"""
-        """ELIMINAR"""
-        """ELIMINAR"""
-        """ELIMINAR"""
-        """ELIMINAR"""
-        """ELIMINAR"""
-        """ELIMINAR"""
-        """ELIMINAR"""
-        """ELIMINAR"""
-        """ELIMINAR"""
-        """ELIMINAR"""
-        """ELIMINAR"""
-        """ELIMINAR"""
-        """ELIMINAR"""
-        """ELIMINAR"""
-        """ELIMINAR"""
-
-
-        if codigofinal == int(codigoform) or int(codigoform) == 123 :
+        if codigofinal == int(codigoform):
+            man = JsonStoreChatDesencriptados()
+            man.vaciar_json()
             return redirect(url_for('chat'))
 
     return render_template('codigo.html')
@@ -140,6 +125,9 @@ def chat():
 
     if request.method == 'POST':
         AppChat.send_message(message= request.form['message'], recipient= request.form['recipient'], sender= session['username'])
+        messages = JsonStoreChatDesencriptados()
+        return render_template('chat.html', messages=messages.data_list, users=users.data_list,
+                               username=session['username'])
     return render_template('chat.html', messages= messages.data_list, users = users.data_list, username=session['username'])
 
 
