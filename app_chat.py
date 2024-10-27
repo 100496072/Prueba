@@ -84,8 +84,9 @@ class AppChat:
 
         #Si nunca ha habido un contacto previo lo creamos
         if relacionexiste is False:
-            AppRelacion.reg_relacion(sender, recipient)
-            cls.send_message(message, recipient, sender)
+            if sender != recipient:
+                AppRelacion.reg_relacion(sender, recipient)
+                cls.send_message(message, recipient, sender)
 
         return None
 
