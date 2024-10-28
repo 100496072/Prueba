@@ -8,10 +8,8 @@ class Attribute:
         self._attr_value = ""
 
     def _validate(self, attr_value):
-        myregex = re.compile(self._validation_pattern)
-        regex_matches = myregex.fullmatch(attr_value)
-        if not regex_matches:
-            return False, self._error_message
+        if not re.match(self._validation_pattern, attr_value):
+            raise ValueError(self._error_message)
         return attr_value
 
     @property

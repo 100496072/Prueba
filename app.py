@@ -3,6 +3,7 @@ import random
 import json
 from app_user import AppUser
 from app_chat import AppChat
+from attributes.attribute_pwd import AttributePwd
 from flask import Flask, render_template, request, redirect, url_for, session
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField
@@ -71,13 +72,23 @@ def index():
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
-        if AppUser.reg_user(request.form['username'], request.form['password'], request.form['correo']):
-            return redirect(url_for('login'))
-        else:
-            return redirect(url_for('register'))
+        try:
+            if request.form['password1'] == request.form['password2']:
+                try:
+                    AttributePwd(request.form['password1'])
+                    # Si la contraseña es válida, procedemos con el registro
+                    if AppUser.reg_user(request.form['username'], request.form['password1'], request.form['correo']):
+                        return redirect(url_for('login'))
+                    else:
+                        return redirect(url_for('register'))
+                except ValueError as e:
+                    print(e)
+                    return redirect(url_for('register'))  # Redirige si la contraseña no es válida
+            else:
+                return redirect(url_for('register'))  # Redirige si las contraseñas no coinciden
+        except KeyError as e:
+            return f"Falta el campo: {e}", 400
     return render_template('register.html')
-
-
 
 #Pagina de inicio de sesion
 @app.route('/login', methods=['GET', 'POST'])
