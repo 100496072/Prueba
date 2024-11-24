@@ -12,6 +12,7 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from storage.json_store_chatdesencriptados import JsonStoreChatDesencriptados
 from storage.json_store_login import JsonStoreLogin
+import sqlite3 as sql
 
 
 with open('pep.txt', 'r', encoding='utf-8') as file:
@@ -58,12 +59,32 @@ def save_data(users, messages):
         f.write(json.dumps(messages, indent=3, sort_keys=True))
         f.write('\n')
 
+def create_db():
+    conn = sql.connect('cripto.sqlite')
+    conn.commit()
+    conn.close()
 
+def create_users_table():
+    conn = sql.connect('cripto.sqlite')
+    cursor = conn.cursor()
+    cursor.execute("""CREATE TABLE IF NOT EXISTS users(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    username string UNIQUE, 
+    pwd string NOT NULL,
+    salt string NOT NULL,
+    rol string NOT NULL,
+    correo string NOT NULL,
+    public_ip string NOT NULL)
+    """)
+    conn.commit()
+    conn.close()
 
 #Pagina de Inicio
 @app.route('/')
 @app.route('/PapaNoel')
 def index():
+    create_db()
+    create_users_table()
     return render_template("PapaNoel.html")
 
 

@@ -3,9 +3,7 @@ import os
 import requests
 from flask import session
 from cryptography.hazmat.primitives.kdf.scrypt import Scrypt
-from storage.json_store_register import JsonStoreRegister
-from storage.json_store_login import JsonStoreLogin
-from attributes.attribute_user import AttributeUser
+import sqlite3 as sql
 
 class AppUser:
     def __init__(self,rol , username, salt, key, correo, public_ip):
@@ -16,6 +14,7 @@ class AppUser:
         self._key = key
         self._correo = correo
         self._public_ip = public_ip
+
 
 
     @property
@@ -51,8 +50,7 @@ class AppUser:
     @classmethod
     def reg_user(cls, username, password, correo):
 
-        man = JsonStoreRegister()
-        if man.find_item(username, "_username"):
+        if cls.look_info(username) is not None:
             return False
 
         ip_publica = requests.get('https://api.ipify.org').text
@@ -70,37 +68,58 @@ class AppUser:
         salt_b64 = base64.urlsafe_b64encode(salt).decode('utf-8')
         key_b64 = base64.urlsafe_b64encode(key).decode('utf-8')
 
-        #Guardado del nuevo usuario en el json correspondiente
-        new_user = cls(rol='Usuario', username= username, salt= salt_b64,
-                      key= key_b64, correo= correo, public_ip= ip_publica)
-        man.add_item(new_user)
+        cls.insert_user(nombre=username, salt= salt_b64, pwd= key_b64, correo= correo, public_ip= ip_publica)
+
         return True
 
 
+    @classmethod
+    def insert_user(cls, nombre, pwd, salt, correo, public_ip, rol="Usuario"):
+        conn = sql.connect('cripto.sqlite')  # Conectar a la base de datos
+        cursor = conn.cursor()  # Crear un cursor
+        try:
+            # Usar placeholders para insertar los valores
+            cursor.execute("INSERT INTO users (username, pwd, salt, correo, public_ip, rol) VALUES (?,?,?,?,?,?)", (nombre, pwd, salt, correo, public_ip, rol))
+            conn.commit()  # Guardar los cambios
+            print(f"Usuario '{nombre}' insertado correctamente.")
+        except sql.IntegrityError as e:
+            print("Error al insertar:", e)  # Manejar errores de integridad
+        finally:
+            conn.close()  # Cerrar la conexión
+
+    @classmethod
+    def look_info(cls, user):
+        conn = sql.connect('cripto.sqlite')
+        conn.row_factory = sql.Row
+        cursor = conn.cursor()
+        cursor.execute("""SELECT * FROM users WHERE username = ?""", (user,))
+        return cursor.fetchone()
 
     #Función para el inicio de usuarios
     @classmethod
     def log_user(cls, username, password):
-        man = JsonStoreLogin()
-        user = man.find_item(username, "_username")
-        salt_urs = base64.urlsafe_b64decode(user['_salt'])
-        key_urs = base64.urlsafe_b64decode(user['_key'])
 
-        kdf = Scrypt(
-            salt=salt_urs,
-            length=32,
-            n=2 ** 14,
-            r=8,
-            p=1)
+        info  = cls.look_info( username)
+        if info is None:
+            print("No existe el usuario")
+        else:
+            l_salt = info["salt"]
+            kdf = Scrypt(
+                salt= base64.urlsafe_b64decode(l_salt),
+                length=32,
+                n=2 ** 14,
+                r=8,
+                p=1)
 
+            l_pwd = info["pwd"]
+            #Verificacion de contraseña correcta
+            if kdf.verify(password.encode('utf-8'), base64.urlsafe_b64decode(l_pwd)) is None:
+                session['username'] = username
 
-        #Verificacion de contraseña correcta
-        if kdf.verify(password.encode('utf-8'), key_urs) is None:
-            session['username'] = username
-
-            #Verificacion ip publica igual a la ip publica del registro original
-            ip_publica = requests.get('https://api.ipify.org').text
-            if ip_publica != user["_public_ip"]:
-                return True
-            else:
-                return False
+                #Verificacion ip publica igual a la ip publica del registro original
+                ip_publica = requests.get('https://api.ipify.org').text
+                l_ip_publica = info["public_ip"]
+                if ip_publica != l_ip_publica:
+                    return True
+                else:
+                    return False
