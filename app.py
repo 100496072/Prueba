@@ -79,6 +79,13 @@ def create_users_table():
     conn.commit()
     conn.close()
 
+def get_users():
+    conn = sql.connect('cripto.sqlite')
+    conn.row_factory = sql.Row
+    cursor = conn.cursor()
+    cursor.execute("""SELECT * FROM users""")
+    return cursor.fetchall()
+
 #Pagina de Inicio
 @app.route('/')
 @app.route('/PapaNoel')
@@ -153,14 +160,14 @@ def chat():
         return redirect(url_for('login'))
 
     messages = JsonStoreChatDesencriptados()
-    users = JsonStoreLogin()
+    users = get_users()
 
     if request.method == 'POST':
         AppChat.send_message(message= request.form['message'], recipient= request.form['recipient'], sender= session['username'])
         messages = JsonStoreChatDesencriptados()
-        return render_template('chat.html', messages=messages.data_list, users=users.data_list,
+        return render_template('chat.html', messages=messages.data_list, users=users,
                                username=session['username'])
-    return render_template('chat.html', messages= messages.data_list, users = users.data_list, username=session['username'])
+    return render_template('chat.html', messages= messages.data_list, users = users, username=session['username'])
 
 
 
