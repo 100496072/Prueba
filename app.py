@@ -74,10 +74,49 @@ def create_users_table():
     salt string NOT NULL,
     rol string NOT NULL,
     correo string NOT NULL,
-    public_ip string NOT NULL)
+    public_ip string NULL)
     """)
     conn.commit()
     conn.close()
+
+
+def create_chat_table():
+    conn = sql.connect('cripto.sqlite')
+    cursor = conn.cursor()
+    conn.execute('PRAGMA foreign_keys = ON')
+    cursor.execute("""CREATE TABLE IF NOT EXISTS chats(
+        chat_id INTEGER PRIMARY KEY AUTOINCREMENT,
+        user1_id INTEGER NOT NULL, 
+        user2_id INTEGER NOT NULL,
+        last_message_user STRING,
+        last_message TEXT,
+        FOREIGN KEY (user1_id) REFERENCES users(id),
+        FOREIGN KEY (user2_id) REFERENCES users(id),
+        FOREIGN KEY (last_message_user) REFERENCES users(id), 
+        FOREIGN KEY (last_message) REFERENCES messages(id))
+        """)
+    conn.commit()
+    conn.close()
+
+
+def create_messages_table():
+    conn = sql.connect('cripto.sqlite')
+    cursor = conn.cursor()
+    conn.execute('PRAGMA foreign_keys = ON')
+    cursor.execute("""CREATE TABLE IF NOT EXISTS messages(
+    messages_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    sender_id INTEGER NOT NULL,
+    recipient_id INTEGER NOT NULL,
+    chat_id INTEGER NOT NULL,
+    message text NOT NULL,
+    send_time timestamp  NOT NULL,
+    nonce INTEGER NOT NULL,
+    FOREIGN KEY (chat_id) REFERENCES chats(id),
+    FOREIGN KEY (sender_id) REFERENCES users(id),
+    FOREIGN KEY (recipient_id) REFERENCES users(id))""")
+    conn.commit()
+    conn.close()
+
 
 def get_users():
     conn = sql.connect('cripto.sqlite')
@@ -92,6 +131,8 @@ def get_users():
 def index():
     create_db()
     create_users_table()
+    create_chat_table()
+    create_messages_table()
     return render_template("PapaNoel.html")
 
 
@@ -161,8 +202,11 @@ def chat():
 
     messages = JsonStoreChatDesencriptados()
     users = get_users()
+    selected_user = request.args.get('user')
+    print(selected_user)
 
     if request.method == 'POST':
+
         AppChat.send_message(message= request.form['message'], recipient= request.form['recipient'], sender= session['username'])
         messages = JsonStoreChatDesencriptados()
         return render_template('chat.html', messages=messages.data_list, users=users,
@@ -174,13 +218,12 @@ def chat():
 #Envio código de seguridad
 def codigocorreo():
     man = JsonStoreLogin()
-    user = man.find_item(session['username'], "_username")
-
+    user = AppUser.look_info(session['username'])
     msg = MIMEMultipart()
     codigofinal = random.randint(100000, 999999)
 
     msg['From'] = c4
-    msg['To'] = user["_correo"]
+    msg['To'] = user["correo"]
     msg['Subject'] = "Codigo de Verificacion"
 
     msg.attach(MIMEText(str(codigofinal), 'plain'))

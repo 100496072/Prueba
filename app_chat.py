@@ -1,4 +1,6 @@
 import os
+import sqlite3 as sql
+import datetime
 from app_relacion import AppRelacion
 from app_mensajesdesencriptados import AppChatDesencriptados
 from base64 import urlsafe_b64encode, urlsafe_b64decode
@@ -40,8 +42,33 @@ class AppChat:
     @property
     def nonce(self):
         return self._nonce
+    @classmethod
+    def create_relation(cls,user_1, user_2):
+        conn = sql.connect('cripto.sqlite')
+        cursor = conn.cursor()
 
-
+        cursor.execute("""INSERT INTO chat (user1_id, user2_id) VALUES (?,?)""", (user_1, user_2))
+        conn.commit()
+        conn.close()
+    @classmethod
+    def send_message(cls,user1, user2, message, nonce):
+        conn = sql.connect('cripto.sqlite')
+        cursor = conn.cursor()
+        cursor.execute("""SELECT chat_id FROM chats WHERE (user1_id = ? AND user2_id = ?) OR (user2_id = ? AND user1_id 
+        =?)""", (user1, user2, user1, user2))
+        chat_id = cursor.fetchone()
+        if chat_id is None:
+            cls.create_relation(user1, user2)
+            cursor.execute("""SELECT chat_id FROM chats WHERE user1_id = ? AND user2_id = ?""", (user1, user2))
+            chat_id = cursor.fetchone()
+        current_date_time = datetime.datetime.now().timestamp()
+        cursor.execute(
+            """INSERT INTO messages (chat_id, sender_id, recipient_id, message, send_time, nonce) VALUES (?,?,?,?,?,?)""",
+            (chat_id[0], user1, user2, message, current_date_time, nonce))
+        cursor.execute("""UPDATE chats SET last_message = ?, last_message_user = ? WHERE chat_id = ?""",
+                       (message, user1, chat_id[0]))
+        conn.commit()
+        conn.close()
 
     @classmethod
     def send_message(cls, message, recipient, sender):

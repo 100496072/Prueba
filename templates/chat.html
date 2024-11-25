@@ -14,9 +14,11 @@
 
             {% for usr in users %}
             <li>
-                <strong class= "a">{{usr["username"]}}</strong>
+                <a href="/?user={{ user }}" style="text-decoration: none;">
+                    <strong class= "a">{{usr["username"]}}</strong>
                         <strong class= "b"> >>> </strong>
                         <strong class= "c">{{usr["rol"]}}</strong>
+                </a>
             </li>
             {% endfor %}
         </ul>
