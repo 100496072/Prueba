@@ -40,7 +40,7 @@ class AppRelacion:
 
     #Creacion de la realacion entre dos personas
     @classmethod
-    def reg_relacion(cls, username1, username2):
+    def reg_relacion(cls):
 
         #Creacion clave simetrica
         key = ChaCha20Poly1305.generate_key()
@@ -54,8 +54,4 @@ class AppRelacion:
         clave_simetrica = urlsafe_b64encode(encrypted_data_key).decode('utf-8')
         nonce_maestro = urlsafe_b64encode(nonce_master).decode('utf-8')
 
-        rel = JsonStoreRelaciones()
-        new_user = cls(username1=username1, username2=username2, clave=clave_simetrica, nonce=nonce_maestro)
-        rel.add_item(new_user)
-
-        return None
+        return clave_simetrica, nonce_maestro

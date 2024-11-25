@@ -1,6 +1,10 @@
 import smtplib
 import random
 import json
+
+from cryptography.exceptions import InvalidKey
+
+from app_mensajesdesencriptados import AppChatDesencriptados
 from app_user import AppUser
 from app_chat import AppChat
 from attributes.attribute_pwd import AttributePwd
@@ -10,8 +14,11 @@ from wtforms import StringField, PasswordField
 from wtforms.validators import DataRequired, Length
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
+
+from db_functions import get_name_by_id
 from storage.json_store_chatdesencriptados import JsonStoreChatDesencriptados
 from storage.json_store_login import JsonStoreLogin
+import db_functions
 import sqlite3 as sql
 
 
@@ -85,9 +92,11 @@ def create_chat_table():
     cursor = conn.cursor()
     conn.execute('PRAGMA foreign_keys = ON')
     cursor.execute("""CREATE TABLE IF NOT EXISTS chats(
-        chat_id INTEGER PRIMARY KEY AUTOINCREMENT,
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
         user1_id INTEGER NOT NULL, 
         user2_id INTEGER NOT NULL,
+        clave string NOT NULL,
+        nonce string NOT NULL,
         last_message_user STRING,
         last_message TEXT,
         FOREIGN KEY (user1_id) REFERENCES users(id),
@@ -104,13 +113,13 @@ def create_messages_table():
     cursor = conn.cursor()
     conn.execute('PRAGMA foreign_keys = ON')
     cursor.execute("""CREATE TABLE IF NOT EXISTS messages(
-    messages_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
     sender_id INTEGER NOT NULL,
     recipient_id INTEGER NOT NULL,
     chat_id INTEGER NOT NULL,
     message text NOT NULL,
     send_time timestamp  NOT NULL,
-    nonce INTEGER NOT NULL,
+    nonce string NOT NULL,
     FOREIGN KEY (chat_id) REFERENCES chats(id),
     FOREIGN KEY (sender_id) REFERENCES users(id),
     FOREIGN KEY (recipient_id) REFERENCES users(id))""")
@@ -164,12 +173,11 @@ def register():
 def login():
     session.pop('codigofinal', None)
     if request.method == 'POST':
-        if AppUser.log_user(request.form['username'], request.form['password']):
+        try:
+            AppUser.log_user(request.form['username'], request.form['password'])
             return redirect(url_for('codigo'))
-        else:
-            man = JsonStoreChatDesencriptados()
-            man.vaciar_json()
-            return redirect(url_for('chat'))
+        except InvalidKey:
+            print("La contraseña no es correcta")
     return render_template('login.html')
 
 
@@ -200,18 +208,18 @@ def chat():
     if 'username' not in session:
         return redirect(url_for('login'))
 
-    messages = JsonStoreChatDesencriptados()
+    messages = None
     users = get_users()
-    selected_user = request.args.get('user')
-    print(selected_user)
+
 
     if request.method == 'POST':
+        AppChat.send_message(message= request.form['message'], recipient= request.form['recipient'], sender= session['user_id'])
 
-        AppChat.send_message(message= request.form['message'], recipient= request.form['recipient'], sender= session['username'])
-        messages = JsonStoreChatDesencriptados()
-        return render_template('chat.html', messages=messages.data_list, users=users,
-                               username=session['username'])
-    return render_template('chat.html', messages= messages.data_list, users = users, username=session['username'])
+    selected_user = request.args.get('user')
+    if selected_user:
+        messages = AppChatDesencriptados.messages_descifrados(selected_user, session['user_id'])
+
+    return render_template('chat.html', messages= messages, users = users, username=get_name_by_id(session['user_id'])["username"])
 
 
 

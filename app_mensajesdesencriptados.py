@@ -1,8 +1,10 @@
 from base64 import urlsafe_b64decode
-from storage.json_store_chat import JsonStoreChat
-from storage.json_store_chatdesencriptados import JsonStoreChatDesencriptados
-from storage.json_store_relaciones import JsonStoreRelaciones
+from requests import session
+from flask import session
+from db_functions import get_chat_by_id, get_name_by_id
+
 from cryptography.hazmat.primitives.ciphers.aead import ChaCha20Poly1305
+import sqlite3 as sql
 
 # Leer el archivo de texto
 with open('pep.txt', 'r', encoding='utf-8') as file:
@@ -35,45 +37,58 @@ class AppChatDesencriptados:
 
 
     @classmethod
-    def messages_descifrados(cls, sender):
-        mensajestotales = JsonStoreChat()
-        rel = JsonStoreRelaciones()
+    def get_chat(cls, sender, recipient):
+        conn = sql.connect('cripto.sqlite')
+        conn.row_factory = sql.Row
+        cursor = conn.cursor()
+        cursor.execute("""SELECT id, clave, nonce FROM chats WHERE (user1_id = ? AND user2_id = ?) OR (user2_id = ? AND user1_id 
+                =?)""", (sender, recipient, sender, recipient))
+        return cursor.fetchone()
 
-        man = JsonStoreChatDesencriptados()
-        man.vaciar_json()
+    @classmethod
+    def get_messages(cls, sender, recipient):
+        chat = cls.get_chat(sender, recipient)
+        if chat is None:
+            return "Empty"
+        conn = sql.connect('cripto.sqlite')
+        conn.row_factory = sql.Row
+        cursor = conn.cursor()
+        cursor.execute("""SELECT message, nonce, sender_id FROM messages WHERE chat_id = ?""", (chat["id"],))
+        rows = cursor.fetchall()
+        message_dict = [dict(row) for row in rows]
+        for message in message_dict:
+            message["chat_id"] = chat["id"]
+            sender_usr = get_name_by_id(message["sender_id"])["username"]
+            if sender_usr == get_name_by_id(session["user_id"])["username"]:
+                message["sender"] = "Tú"
+            else:
+                message["sender"] = sender_usr
+        return message_dict
 
+    @classmethod
+    def messages_descifrados(cls, sender, recipient):
+
+        message_dict = cls.get_messages(sender, recipient)
+        if message_dict == "Empty":
+            return message_dict
         #Descifrado de los mensajes del usario con la sesion iniciada
-        for mensajes in mensajestotales.data_list:
-            if mensajes["_recipient"] == sender or mensajes["_sender"] == sender:
+        for mensaje in message_dict:
+            mensajecifrado = urlsafe_b64decode(mensaje["message"])
+            noncemensaje = urlsafe_b64decode(mensaje["nonce"])
+            chat_id = mensaje["chat_id"]
+            chat = get_chat_by_id(chat_id)
 
-                mensajecifrado = urlsafe_b64decode(mensajes["_message"])
-                noncemensaje = urlsafe_b64decode(mensajes["_nonce"])
+            encrypted_data_key = urlsafe_b64decode(chat["clave"])
+            nonce_master = urlsafe_b64decode(chat["nonce"])
+            AE_Key_stma = c2
 
-                for relacion in rel.data_list:
-                    if ((relacion["_username1"] == sender and relacion["_username2"] == mensajes["_recipient"] )
-                            or (relacion["_username1"] == sender and relacion["_username2"] == mensajes["_sender"])
-                            or (relacion["_username2"] == sender and relacion["_username1"] == mensajes["_sender"])
-                            or (relacion["_username2"] == sender and relacion["_username1"] == mensajes["_recipient"])):
-
-
-                        encrypted_data_key = urlsafe_b64decode(relacion["_clave"])
-                        nonce_master = urlsafe_b64decode(relacion["_nonce"])
-                        AE_Key_stma = c2
-
-                        chacha_master = ChaCha20Poly1305(AE_Key_stma)
-                        clave_publica = chacha_master.decrypt(nonce_master, encrypted_data_key, None)
+            chacha_master = ChaCha20Poly1305(AE_Key_stma)
+            clave_publica = chacha_master.decrypt(nonce_master, encrypted_data_key, None)
 
 
-                        chacha_data = ChaCha20Poly1305(clave_publica)
-                        mensajefinal = chacha_data.decrypt(noncemensaje, mensajecifrado, None)
+            chacha_data = ChaCha20Poly1305(clave_publica)
+            mensajefinal = chacha_data.decrypt(noncemensaje, mensajecifrado, None)
 
-                        mensajefinalutf8 = mensajefinal.decode('utf-8')
+            mensaje["message"] = mensajefinal.decode('utf-8')
 
-
-                        communication = cls(recipient=mensajes["_recipient"], sender=mensajes["_sender"],
-                                            message=mensajefinalutf8)
-                        man.add_item(communication)
-                        break
-
-
-        return None
+        return message_dict

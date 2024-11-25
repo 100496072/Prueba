@@ -11,10 +11,9 @@
     <div class="usuarios">
         <h2>Usuarios</h2>
         <ul class="numerousuarios">
-
             {% for usr in users %}
             <li>
-                <a href="/?user={{ user }}" style="text-decoration: none;">
+                <a href="/chat?user={{ usr["id"] }}" style="text-decoration: none;">
                     <strong class= "a">{{usr["username"]}}</strong>
                         <strong class= "b"> >>> </strong>
                         <strong class= "c">{{usr["rol"]}}</strong>
@@ -54,14 +53,20 @@
     <div class="container">
         <h2>Mensajes de {{username}}</h2>
         <ul class="messages">
+        {% if messages == "Empty" %}
+            <p>Escribe el primer mensaje</p>
+        {% elif messages is not none %}
             {% for msg in messages %}
-                {% if msg._recipient == username or msg._sender == username %}
-                    <li><strong class= "a">{{ msg._sender }}</strong>
-                        <strong class= "b"> >>> </strong>
-                        <strong class= "c">{{msg._recipient}}:</strong>
-                        {{ msg._message }}</li>
-                {% endif %}
+
+                <li><strong class= "a">{{ msg["sender"] }}</strong>
+                    <strong class= "b"> : </strong>
+                    <strong class= "c">{{ msg["message"]}}</strong>
+                    </li>
+
             {% endfor %}
+        {% else %}
+            <p>Elige un chat</p>
+        {% endif %}
         </ul>
     </div>
 </body>
