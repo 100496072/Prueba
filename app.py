@@ -136,15 +136,18 @@ def get_users():
 
 #Pagina de Inicio
 @app.route('/')
-@app.route('/PapaNoel')
-def index():
+
+
+@app.route('/PapaNoel', methods=['POST'])
+def PapaNoel():
+    if request.method == 'POST':
+        carta = request.form['escribe']
     create_db()
     create_users_table()
     create_chat_table()
     create_messages_table()
-    return render_template("PapaNoel.html")
 
-
+    return render_template('PapaNoel.html')
 
 #Pagina de registro
 @app.route('/register', methods=['GET', 'POST'])
@@ -254,14 +257,9 @@ def codigocorreo():
 
 
 
-"""
-@app.route('/PapaNoel', methods=['POST'])
-def PapaNoel():
-    if request.method == 'POST':
-        carta = request.form['escribe']
 
-    return render_template('PapaNoel.html')
-"""
+
+
 
 
 
