@@ -4,6 +4,7 @@ import json
 
 from cryptography.exceptions import InvalidKey
 
+from app_cartas import send_letter
 from app_mensajesdesencriptados import AppChatDesencriptados
 from app_user import AppUser
 from app_chat import AppChat
@@ -17,8 +18,6 @@ from email.mime.text import MIMEText
 
 from db_functions import get_name_by_id, get_user_by_id
 from storage.json_store_chatdesencriptados import JsonStoreChatDesencriptados
-from storage.json_store_login import JsonStoreLogin
-import db_functions
 import sqlite3 as sql
 
 
@@ -36,6 +35,8 @@ for line in lines:
         c3 = eval(line.split('=')[1].strip())
     if line.startswith("c4"):
         c4 = eval(line.split('=')[1].strip())
+
+
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = c1
@@ -132,13 +133,12 @@ def create_letters_table():
     conn.execute('PRAGMA foreign_keys = ON')
     cursor.execute("""CREATE TABLE IF NOT EXISTS letters(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    user_id INTEGER,
     nombre string NOT NULL,
     correo string NOT NULL,
     ciudad string NOT NULL,
     pais string NOT NULL,
     carta text NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES users(id))""")
+    sign string NOT NULL)""")
 
 
 def get_users():
@@ -155,7 +155,8 @@ def get_users():
 @app.route('/PapaNoel', methods=['POST'])
 def PapaNoel():
     if request.method == 'POST':
-        carta = request.form['escribe']
+        print("hola")
+        send_letter(letter=request.form["escribe"], sender=request.form["name"], correo=request.form["email"], country=request.form["country"], city=request.form["city"])
 
     create_db()
     create_users_table()

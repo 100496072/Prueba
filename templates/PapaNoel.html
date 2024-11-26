@@ -156,31 +156,31 @@
             </div>
 
             <!--class="pn_write" -->
-            <form id="tu_carta">
+            <form id="tu_carta" action="/PapaNoel" method="post">
                 <div class="label.container">
                     <label for="name"> Name: </label>
-                    <input type="text" name="name" id="name">
+                    <input type="text" name="name" id="name" required>
                 </div>
                 <div class="label.container">
                     <label for="email"> Email: </label>
-                    <input type="email" name="email" id="email">
+                    <input type="email" name="email" id="email" required>
                 </div>
                 <div class="label.container">
                     <label for="city"> Ciudad: </label>
-                    <input type="text" name="city" id="city">
+                    <input type="text" name="city" id="city" required>
                 </div>
                 <div class="label.container">
                     <label for="country"> País: </label>
-                    <input type="text" name="country" id="country">
+                    <input type="text" name="country" id="country" required>
                 </div>
                 <!-- Como no tiene que funcionar, creo que habría que sacarlo fuera del form,
                 luego habría que colocar con css-->
                 <div class="textarea.container">
                     <label for="escribe"> Escribe tu carta:</label>
-                    <textarea id="escribe"></textarea>
+                    <textarea id="escribe" name="escribe" required></textarea>
                 </div>
                 <div class="button.container">
-                    <button id="reg_button" type="button"> Envía </button>
+                    <button id="reg_button"> Envía </button>
                 </div>
             </form>
         </section>
