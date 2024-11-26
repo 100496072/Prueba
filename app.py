@@ -15,7 +15,7 @@ from wtforms.validators import DataRequired, Length
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
-from db_functions import get_name_by_id
+from db_functions import get_name_by_id, get_user_by_id
 from storage.json_store_chatdesencriptados import JsonStoreChatDesencriptados
 from storage.json_store_login import JsonStoreLogin
 import db_functions
@@ -126,6 +126,20 @@ def create_messages_table():
     conn.commit()
     conn.close()
 
+def create_letters_table():
+    conn = sql.connect('cripto.sqlite')
+    cursor = conn.cursor()
+    conn.execute('PRAGMA foreign_keys = ON')
+    cursor.execute("""CREATE TABLE IF NOT EXISTS letters(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER,
+    nombre string NOT NULL,
+    correo string NOT NULL,
+    ciudad string NOT NULL,
+    pais string NOT NULL,
+    carta text NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users(id))""")
+
 
 def get_users():
     conn = sql.connect('cripto.sqlite')
@@ -142,11 +156,12 @@ def get_users():
 def PapaNoel():
     if request.method == 'POST':
         carta = request.form['escribe']
+
     create_db()
     create_users_table()
     create_chat_table()
     create_messages_table()
-
+    create_letters_table()
     return render_template('PapaNoel.html')
 
 #Pagina de registro
@@ -208,7 +223,7 @@ def codigo():
 #Pagina de Chats
 @app.route('/chat', methods=['GET', 'POST'])
 def chat():
-    if 'username' not in session:
+    if 'user_id' not in session:
         return redirect(url_for('login'))
 
     messages = None
@@ -228,8 +243,8 @@ def chat():
 
 #Envio código de seguridad
 def codigocorreo():
-    man = JsonStoreLogin()
-    user = AppUser.look_info(session['username'])
+    user = get_user_by_id(session["user_id"])
+    print(user)
     msg = MIMEMultipart()
     codigofinal = random.randint(100000, 999999)
 

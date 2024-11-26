@@ -119,7 +119,8 @@ class AppUser:
             l_pwd = info["pwd"]
             #Verificacion de contraseña correcta
             if kdf.verify(password.encode('utf-8'), base64.urlsafe_b64decode(l_pwd)) is None:
-                session['user_id'] = info["id"]
+                session["user_id"] = info["id"]
+                print(session["user_id"])
                 #Verificacion ip publica igual a la ip publica del registro original
                 ip_publica = requests.get('https://api.ipify.org').text
                 l_ip_publica = info["public_ip"]
