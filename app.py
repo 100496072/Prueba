@@ -38,6 +38,7 @@ for line in lines:
 
 
 
+
 app = Flask(__name__)
 app.config['SECRET_KEY'] = c1
 app.config['SESSION_COOKIE_HTTPONLY'] = True

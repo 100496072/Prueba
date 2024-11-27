@@ -2,13 +2,9 @@ import os
 import sqlite3 as sql
 import datetime
 from app_relacion import AppRelacion
-from app_mensajesdesencriptados import AppChatDesencriptados
 from base64 import urlsafe_b64encode, urlsafe_b64decode
 
 from db_functions import get_id_by_name
-from storage.json_store_chat import JsonStoreChat
-from storage.json_store_login import JsonStoreLogin
-from storage.json_store_relaciones import JsonStoreRelaciones
 from cryptography.hazmat.primitives.ciphers.aead import ChaCha20Poly1305
 
 
