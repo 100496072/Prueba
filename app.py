@@ -6,7 +6,8 @@ from cryptography.exceptions import InvalidKey
 from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.primitives._serialization import BestAvailableEncryption
 from cryptography.hazmat.primitives.asymmetric import rsa
-#from app_cartas import send_letter
+
+from app_cartas import send_letter
 from app_mensajesdesencriptados import AppChatDesencriptados
 from app_user import AppUser
 from app_chat import AppChat
@@ -140,8 +141,10 @@ def create_letters_table():
     correo string NOT NULL,
     ciudad string NOT NULL,
     pais string NOT NULL,
+    date timestamp NOT NULL,
     carta text NOT NULL,
-    sign string NOT NULL)""")
+    sign string NOT NULL,
+    UNIQUE (nombre, date))""")
 
 
 def get_users():
@@ -159,7 +162,7 @@ def get_users():
 def PapaNoel():
     if request.method == 'POST':
         print("hola")
-        #send_letter(letter=request.form["escribe"], sender=request.form["name"], correo=request.form["email"], country=request.form["country"], city=request.form["city"])
+        send_letter(letter=request.form["escribe"], sender=request.form["name"], correo=request.form["email"], country=request.form["country"], city=request.form["city"])
 
     create_db()
     create_users_table()
