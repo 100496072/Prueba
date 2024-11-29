@@ -51,6 +51,7 @@ def send_letter(letter, sender, correo, city, country):
         ),
         hashes.SHA256()
     )
+
     letter_time = datetime.datetime.now().timestamp()
     insert_letter(letter, sender, correo, city, country, letter_signature, letter_time)
     check_letter(sender, letter_time)
@@ -71,8 +72,8 @@ def check_letter(sender, letter_time):
 
 
     try:
-        rsa_private_key.public_key().verify(
-            letter["firma"],  # Firma obtenida
+        Acert.public_key().verify(
+            letter["sign"],  # Firma obtenida
             letter["carta"].encode('utf-8'),  # Contenido firmado
             padding.PSS(
                 mgf=padding.MGF1(hashes.SHA256()),

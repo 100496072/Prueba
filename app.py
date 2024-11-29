@@ -3,9 +3,6 @@ import random
 import json
 
 from cryptography.exceptions import InvalidKey
-from cryptography.hazmat.primitives import serialization
-from cryptography.hazmat.primitives._serialization import BestAvailableEncryption
-from cryptography.hazmat.primitives.asymmetric import rsa
 
 from app_cartas import send_letter
 from app_mensajesdesencriptados import AppChatDesencriptados
@@ -161,7 +158,6 @@ def get_users():
 @app.route('/PapaNoel', methods=['POST'])
 def PapaNoel():
     if request.method == 'POST':
-        print("hola")
         send_letter(letter=request.form["escribe"], sender=request.form["name"], correo=request.form["email"], country=request.form["country"], city=request.form["city"])
 
     create_db()
