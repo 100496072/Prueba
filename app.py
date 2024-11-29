@@ -79,9 +79,10 @@ def register():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-            if log_user(request.form['username'], request.form['password']) is True:
+            log = log_user(request.form['username'], request.form['password'])
+            if log is True:
                 return redirect(url_for('chat'))
-            else:
+            elif log is False:
                 return redirect(url_for('codigo'))
 
     return render_template('login.html')

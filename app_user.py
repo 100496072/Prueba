@@ -48,10 +48,10 @@ def reg_user(username, password, correo):
 
 
 def log_user(username, password):
-
     info  = look_info(username)
     if info is None:
         print("No existe el usuario")
+        return None
     else:
         l_salt = info["salt"]
         kdf = Scrypt(
