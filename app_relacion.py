@@ -1,4 +1,5 @@
 import os
+import sqlite3 as sql
 from base64 import urlsafe_b64encode
 from cryptography.hazmat.primitives.ciphers.aead import ChaCha20Poly1305
 
@@ -27,3 +28,21 @@ def reg_relacion():
     nonce_maestro = urlsafe_b64encode(nonce_master).decode('utf-8')
 
     return clave_simetrica, nonce_maestro
+
+
+def create_relation(user_1, user_2):
+    conn = sql.connect('cripto.sqlite')
+    cursor = conn.cursor()
+    clave, nonce = reg_relacion()
+    cursor.execute("""INSERT INTO chats (user1_id, user2_id, clave, nonce) VALUES (?,?,?,?)""", (user_1, user_2, clave, nonce))
+    conn.commit()
+    conn.close()
+
+
+def search_relation(sender, recipient):
+    conn = sql.connect('cripto.sqlite')
+    conn.row_factory = sql.Row
+    cursor = conn.cursor()
+    cursor.execute("""SELECT id, clave, nonce FROM chats WHERE (user1_id = ? AND user2_id = ?) OR (user2_id = ? AND user1_id 
+        =?)""", (sender, recipient, sender, recipient))
+    return cursor.fetchone()

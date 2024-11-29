@@ -1,9 +1,10 @@
 import datetime
-import sqlite3 as sql
 
 from cryptography import x509
 from cryptography.hazmat.primitives import hashes, serialization
 from cryptography.hazmat.primitives.asymmetric import padding
+
+from db_functions.letter_functions import insert_letter, get_letter
 
 with open('pep.txt', 'r', encoding='utf-8') as file:
     lines =  file.readlines()
@@ -26,20 +27,6 @@ with open("ac1cert.pem", "rb") as file:
         file.read()
     )
 
-def insert_letter(letter, sender, correo, city, country, firma, letter_time):
-    conn = sql.connect('cripto.sqlite')
-    cursor = conn.cursor()
-    cursor.execute("""INSERT INTO letters (nombre, correo, ciudad, pais, carta, sign, date) VALUES (?,?,?,?,?,?,?)""", (sender, correo, city, country,letter, firma, letter_time))
-    conn.commit()
-    conn.close()
-
-def get_letter(sender, letter_time):
-    conn = sql.connect('cripto.sqlite')
-    conn.row_factory = sql.Row
-    cursor = conn.cursor()
-    cursor.execute("""SELECT * FROM letters WHERE (nombre = ? AND date = ?)""", (sender, letter_time))
-    return cursor.fetchone()
-
 def send_letter(letter, sender, correo, city, country):
     letter_signature = rsa_private_key.sign(
         letter.encode('utf-8'),
@@ -57,6 +44,18 @@ def send_letter(letter, sender, correo, city, country):
 def check_letter(sender, letter_time):
     letter = get_letter(sender, letter_time)
     clave_publica_ca = AC1cert.public_key()
+
+    try:
+        clave_publica_ca.verify(
+            AC1cert.signature,  # Firma del certificado
+            AC1cert.tbs_certificate_bytes,  # Contenido del certificado que fue firmado
+            padding.PKCS1v15(),  # Tipo de padding (normalmente PKCS1v15 para X.509)
+            AC1cert.signature_hash_algorithm,  # Algoritmo hash usado (extraído del certificado)
+        )
+        print("El certificado de la CA es válido y fue firmado por la CA.")
+    except Exception as e:
+        print(f"El certificado no es válido: {e}")
+
     try:
         clave_publica_ca.verify(
             Acert.signature,  # Firma del certificado
@@ -67,7 +66,6 @@ def check_letter(sender, letter_time):
         print("El certificado es válido y fue firmado por la CA.")
     except Exception as e:
         print(f"El certificado no es válido: {e}")
-
 
     try:
         Acert.public_key().verify(

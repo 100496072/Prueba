@@ -1,12 +1,13 @@
 import os
-import sqlite3 as sql
 import datetime
-from app_relacion import reg_relacion
+from app_relacion import create_relation, search_relation
 from base64 import urlsafe_b64encode, urlsafe_b64decode
 
-from db_functions import get_id_by_name
+from db_functions.user_functions import get_id_by_name
 from cryptography.hazmat.primitives.ciphers.aead import ChaCha20Poly1305
 
+from db_functions.chat_functions import update_last_message
+from db_functions.message_functions import insert_message
 
 # Leer el archivo de texto
 with open('pep.txt', 'r', encoding='utf-8') as file:
@@ -18,39 +19,6 @@ for line in lines:
     if line.startswith("c2"):
         c2 = eval(line.split('=')[1].strip())
 
-
-
-def create_relation(user_1, user_2):
-    conn = sql.connect('cripto.sqlite')
-    cursor = conn.cursor()
-    clave, nonce = reg_relacion()
-    cursor.execute("""INSERT INTO chats (user1_id, user2_id, clave, nonce) VALUES (?,?,?,?)""", (user_1, user_2, clave, nonce))
-    conn.commit()
-    conn.close()
-
-def search_relation(sender, recipient):
-    conn = sql.connect('cripto.sqlite')
-    conn.row_factory = sql.Row
-    cursor = conn.cursor()
-    cursor.execute("""SELECT id, clave, nonce FROM chats WHERE (user1_id = ? AND user2_id = ?) OR (user2_id = ? AND user1_id 
-        =?)""", (sender, recipient, sender, recipient))
-    return cursor.fetchone()
-
-def insert_message(chat_id, sender, recipient, ct_mensaje, current_date_time, nonce_mensaje):
-    conn = sql.connect('cripto.sqlite')
-    cursor = conn.cursor()
-    cursor.execute("""INSERT INTO messages (chat_id, sender_id, recipient_id, message, send_time, nonce) VALUES (?,?,?,?,?,?)""",
-        (chat_id, sender, recipient, ct_mensaje, current_date_time, nonce_mensaje))
-    conn.commit()
-    conn.close()
-
-def update_last_message(message, sender, chat_id):
-    conn = sql.connect('cripto.sqlite')
-    cursor = conn.cursor()
-    cursor.execute("""UPDATE chats SET last_message = ?, last_message_user = ? WHERE id = ?""",
-                   (message, sender, chat_id))
-    conn.commit()
-    conn.close()
 
 def send_message( sender, recipient , message):
     recipient = get_id_by_name(recipient)["id"]

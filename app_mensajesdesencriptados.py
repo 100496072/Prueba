@@ -1,7 +1,8 @@
 from base64 import urlsafe_b64decode
 from requests import session
 from flask import session
-from db_functions import get_chat_by_id, get_name_by_id
+from db_functions.user_functions import get_name_by_id
+from db_functions.chat_functions import get_chat_by_id
 
 from cryptography.hazmat.primitives.ciphers.aead import ChaCha20Poly1305
 import sqlite3 as sql
