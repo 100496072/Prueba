@@ -5,9 +5,9 @@ import json
 from cryptography.exceptions import InvalidKey
 
 from app_cartas import send_letter
-from app_mensajesdesencriptados import AppChatDesencriptados
-from app_user import AppUser
-from app_chat import AppChat
+from app_mensajesdesencriptados import messages_descifrados
+from app_user import reg_user, log_user
+from app_chat import send_message
 from attributes.attribute_pwd import AttributePwd
 from flask import Flask, render_template, request, redirect, url_for, session
 from flask_wtf import FlaskForm
@@ -176,7 +176,7 @@ def register():
                 try:
                     AttributePwd(request.form['password1'])
                     # Si la contraseña es válida, procedemos con el registro
-                    if AppUser.reg_user(request.form['username'], request.form['password1'], request.form['correo']):
+                    if reg_user(request.form['username'], request.form['password1'], request.form['correo']):
                         return redirect(url_for('login'))
                     else:
                         return redirect(url_for('register'))
@@ -195,7 +195,7 @@ def login():
     session.pop('codigofinal', None)
     if request.method == 'POST':
         try:
-            AppUser.log_user(request.form['username'], request.form['password'])
+            log_user(request.form['username'], request.form['password'])
             return redirect(url_for('codigo'))
         except InvalidKey:
             print("La contraseña no es correcta")
@@ -232,13 +232,12 @@ def chat():
     messages = None
     users = get_users()
 
-
     if request.method == 'POST':
-        AppChat.send_message(message= request.form['message'], recipient= request.form['recipient'], sender= session['user_id'])
+        send_message(message= request.form['message'], recipient= request.form['recipient'], sender= session['user_id'])
 
     selected_user = request.args.get('user')
     if selected_user:
-        messages = AppChatDesencriptados.messages_descifrados(selected_user, session['user_id'])
+        messages = messages_descifrados(selected_user, session['user_id'])
 
     return render_template('chat.html', messages= messages, users = users, username=get_name_by_id(session['user_id'])["username"])
 

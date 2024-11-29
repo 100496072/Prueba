@@ -1,11 +1,9 @@
 import datetime
-from inspect import signature
 import sqlite3 as sql
 
 from cryptography import x509
 from cryptography.hazmat.primitives import hashes, serialization
 from cryptography.hazmat.primitives.asymmetric import padding
-from cryptography.hazmat.primitives.serialization import load_pem_private_key, load_pem_public_key
 
 with open('pep.txt', 'r', encoding='utf-8') as file:
     lines =  file.readlines()
