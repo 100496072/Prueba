@@ -54,7 +54,7 @@ def insert_user(nombre, pwd, salt, correo, rol="Usuario"):
         conn.close()  # Cerrar la conexión
 
 
-def set_ip( ip, user):
+def set_ip(ip, user):
     conn = sql.connect('cripto.sqlite')
     cursor = conn.cursor()
     cursor.execute("""UPDATE users SET public_ip = ? WHERE id = ?""", (ip, user))

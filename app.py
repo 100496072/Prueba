@@ -1,5 +1,4 @@
-import smtplib
-import random
+
 
 from cryptography.exceptions import InvalidKey
 
@@ -12,8 +11,6 @@ from flask import Flask, render_template, request, redirect, url_for, session
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField
 from wtforms.validators import DataRequired, Length
-from email.mime.multipart import MIMEMultipart
-from email.mime.text import MIMEText
 
 from db_functions.user_functions import get_name_by_id, get_user_by_id, get_users
 from db_functions.table_creation import initialize_db
@@ -81,13 +78,12 @@ def register():
 #Pagina de inicio de sesion
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    session.pop('codigofinal', None)
     if request.method == 'POST':
-        try:
-            log_user(request.form['username'], request.form['password'])
-            return redirect(url_for('codigo'))
-        except InvalidKey:
-            print("La contraseña no es correcta")
+            if log_user(request.form['username'], request.form['password']) is True:
+                return redirect(url_for('chat'))
+            else:
+                return redirect(url_for('codigo'))
+
     return render_template('login.html')
 
 
@@ -95,10 +91,7 @@ def login():
 #Verificacion Codigo de Seguridad
 @app.route('/codigo', methods=['GET', 'POST'])
 def codigo():
-    if 'codigofinal' not in session:
-        session['codigofinal'] = codigocorreo()
-
-    codigofinal = session['codigofinal']
+    codigofinal = session["codigofinal"]
 
     if request.method == 'POST':
         codigoform = request.form['codigo']
@@ -109,33 +102,7 @@ def codigo():
     return render_template('codigo.html')
 
 
-def codigocorreo():
-    user = get_user_by_id(session["user_id"])
-    print(session["user_id"])
-    msg = MIMEMultipart()
-    codigofinal = random.randint(100000, 999999)
 
-    msg['From'] = c4
-    msg['To'] = user["correo"]
-    msg['Subject'] = "Codigo de Verificacion"
-
-    msg.attach(MIMEText(str(codigofinal), 'plain'))
-
-    try:
-        # create server
-        server = smtplib.SMTP('smtp.gmail.com: 587')
-        server.starttls()
-
-        server.login(msg['From'], c3)
-        server.sendmail(msg['From'], msg['To'], msg.as_string())
-        server.quit()
-
-    except smtplib.SMTPAuthenticationError as e:
-        print(f'Error de Autenticación: {e.smtp_code} - {e.smtp_error.decode("utf-8")}')
-    except Exception as e:
-        print(f'Ocurrió un error: {str(e)}')
-
-    return codigofinal
 #Pagina de Chats
 @app.route('/chat', methods=['GET', 'POST'])
 def chat():
@@ -155,6 +122,9 @@ def chat():
     return render_template('chat.html', messages= messages, users = users, username=get_name_by_id(session['user_id'])["username"])
 
 
+@app.route("/home")
+def home():
+    return render_template("PapaNoel.html")
 
 #Envio código de seguridad
 

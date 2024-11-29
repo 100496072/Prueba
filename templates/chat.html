@@ -37,7 +37,7 @@
             <button type="submit">Enviar</button>
         </form>
         <div class="links">
-            <a href="/PapaNoel" class="botonesheader">Home</a>
+            <a href="/home" class="botonesheader">Home</a>
             <a href="/login" class="botonesheader">Cambiar Usuario</a>
             {% for usr in users %}
                 {% if username == usr._username and ('Admin' == usr._rol or 'Tecnico' == usr._rol)%}
