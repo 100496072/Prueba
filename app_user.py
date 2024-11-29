@@ -65,7 +65,6 @@ def log_user(username, password):
         #Verificacion de contraseña correcta
         try:
             kdf.verify(password.encode('utf-8'), base64.urlsafe_b64decode(l_pwd))
-            print("hola")
             session["user_id"] = info["id"]
             #Verificacion ip publica igual a la ip publica del registro original
             ip_publica = requests.get('https://api.ipify.org').text
@@ -73,13 +72,11 @@ def log_user(username, password):
             if ip_publica != l_ip_publica:
                 set_ip(ip_publica, info["id"])
                 session["codigofinal"] = codigocorreo()
-                print(session["codigofinal"])
                 return False
             else:
                 return True
         except InvalidKey:
             print("La contraseña no es correcta")
-            return False
 
 
 def codigocorreo():
