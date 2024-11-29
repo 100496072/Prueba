@@ -17,7 +17,6 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
 from db_functions import get_name_by_id, get_user_by_id
-from storage.json_store_chatdesencriptados import JsonStoreChatDesencriptados
 import sqlite3 as sql
 
 
@@ -215,8 +214,6 @@ def codigo():
         codigoform = request.form['codigo']
 
         if codigofinal == int(codigoform):
-            man = JsonStoreChatDesencriptados()
-            man.vaciar_json()
             return redirect(url_for('chat'))
 
     return render_template('codigo.html')
