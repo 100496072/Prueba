@@ -1,17 +1,31 @@
 import datetime
 
+from email.mime.multipart import MIMEMultipart
+import smtplib
+import random
+from email.mime.text import MIMEText
+
+
 from cryptography import x509
 from cryptography.hazmat.primitives import hashes, serialization
 from cryptography.hazmat.primitives.asymmetric import padding
 
 from db_functions.letter_functions import insert_letter, get_letter
 
+
 with open('pep.txt', 'r', encoding='utf-8') as file:
     lines =  file.readlines()
 private_key_pwd = ""
+c3 = ""
+c4 = ""
+
 for line in lines:
     if line.startswith("c5"):
         private_key_pwd = eval(line.split('=')[1].strip())
+    if line.startswith("c3"):
+        c3 = eval(line.split('=')[1].strip())
+    if line.startswith("c4"):
+        c4 = eval(line.split('=')[1].strip())
 
 with open("private_key.pem", "rb") as key_file:
     rsa_private_key = serialization.load_pem_private_key(
@@ -80,3 +94,55 @@ def check_letter(sender, letter_time):
         print("La firma es válida y coincide con el certificado.")
     except Exception as e:
         print(f"La firma no es válida: {e}")
+
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+import smtplib
+
+def cartascorreo(letter, sender, correo, country, city):
+    msg = MIMEMultipart()
+    msg['From'] = c4  # Asumiendo que 'c4' es tu correo
+    msg['To'] = correo
+    msg['Subject'] = "Hemos recibido tu carta"
+
+    # Crea el cuerpo del mensaje utilizando una plantilla
+    html_template = f"""
+    <html>
+        <body style="font-family: Arial, sans-serif; background-color: #f9f9f9; color: #333; line-height: 1.6; margin: 0; padding: 20px;">
+            <div class="container" style="background-color: #ffffff; border-radius: 10px; padding: 20px; max-width: 600px; margin: auto; border: 1px solid #ddd;">
+                <h1 style="color: #d32f2f; text-align: center;">🎅 ¡Gracias por tu carta, {sender}!</h1>
+                <p>Querido/a {sender},</p>
+                <p>
+                    Hemos recibido tu carta desde <strong>{city}, {country}</strong>. Nos emociona mucho saber de ti y que nos hayas escrito esto:
+                </p>
+                <p class="message" style="font-style: italic; color: #555;">"{letter}"</p>
+                <p>
+                    Muchas gracias por compartir tus deseos. Estamos trabajando arduamente aquí en el Polo Norte para cumplirlos. 
+                    Recuerda portarte bien, ¡Santa está observándote! 🎄
+                </p>
+                <p>Con cariño,</p>
+                <p><strong>Santa Claus 🎅</strong></p>
+            </div>
+        </body>
+    </html>
+    """
+
+    # Adjuntar la plantilla como contenido HTML
+    msg.attach(MIMEText(html_template, 'html'))
+
+    try:
+        # Crear servidor
+        server = smtplib.SMTP('smtp.gmail.com: 587')
+        server.starttls()
+
+        server.login(msg['From'], c3)  # 'c3' es la contraseña de tu cuenta de correo
+        server.sendmail(msg['From'], msg['To'], msg.as_string())
+        server.quit()
+
+    except smtplib.SMTPAuthenticationError as e:
+        print(f'Error de Autenticación: {e.smtp_code} - {e.smtp_error.decode("utf-8")}')
+    except Exception as e:
+        print(f'Ocurrió un error: {str(e)}')
+
+    return
+

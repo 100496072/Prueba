@@ -11,6 +11,7 @@ from flask import Flask, render_template, request, redirect, url_for, session
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField
 from wtforms.validators import DataRequired, Length
+from app_cartas import cartascorreo
 
 from db_functions.user_functions import get_name_by_id, get_user_by_id, get_users
 from db_functions.table_creation import initialize_db
@@ -50,6 +51,8 @@ def PapaNoel():
     initialize_db()
     if request.method == 'POST':
         send_letter(letter=request.form["escribe"], sender=request.form["name"], correo=request.form["email"], country=request.form["country"], city=request.form["city"])
+        cartascorreo(letter=request.form["escribe"], sender=request.form["name"], correo=request.form["email"], country=request.form["country"], city=request.form["city"])
+
 
     return render_template('PapaNoel.html')
 
