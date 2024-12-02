@@ -15,8 +15,7 @@
             <li>
                 <a href="/chat?user={{ usr["id"] }}" style="text-decoration: none;">
                     <strong class= "a">{{usr["username"]}}</strong>
-                        <strong class= "b"> >>> </strong>
-                        <strong class= "c">{{usr["rol"]}}</strong>
+
                 </a>
             </li>
             {% endfor %}
@@ -40,11 +39,14 @@
             <a href="/home" class="botonesheader">Home</a>
             <a href="/login" class="botonesheader">Cambiar Usuario</a>
             {% for usr in users %}
-                {% if username == usr._username and ('Admin' == usr._rol or 'Tecnico' == usr._rol)%}
+                {% if username == usr["username"] and ('Admin' == usr["rol"] or 'Tecnico' == usr["rol"])%}
                     <a href="#Usuario" class="botonesheader">Usuarios</a>
                 {% endif %}
-                {% if username == usr._username and 'Admin' == usr._rol %}
-                    <a href="#cartas" class="botonesheader">Cartas</a>
+                {% if username == usr["username"] and 'Admin' == usr["rol"] %}
+                    <a href="/mensajes" class="botonesheader">Mensajes</a>
+                {% endif %}
+                {% if username == usr["username"] and 'Admin' == usr["rol"] %}
+                    <a href="/claves" class="botonesheader">Renovación claves</a>
                 {% endif %}
             {% endfor %}
         </div>

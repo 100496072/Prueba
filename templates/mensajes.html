@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="../static/images/favicon.png" type="image/png">
+    <title>Chat</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style/chatc.css') }}">
+</head>
+<body>
+
+    <div class="container2">
+        <h1>Lista de Mensajes</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Mensaje</th>
+                    <th>Usuario 1</th>
+                    <th>Usuario 2</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for mensaje in mensajes %}
+                <tr>
+                    <td>{{ mensaje.id }}</td>
+                    <td>{{ mensaje.mensaje }}</td>
+                    <td>{{ mensaje.sender_id }}</td>
+                    <td>{{ mensaje.recipient_id }}</td>
+                    <td>
+                        <form action="{{ url_for('eliminar_mensaje', mensaje_id=mensaje.id) }}" method="post" style="display:inline;">
+                            <button type="submit">Eliminar</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="links">
+            <a href="/home" class="botonesheader">Home</a>
+            <a href="/chat" class="botonesheader">Volver a Chats</a>
+        </div>
+    </div>
+</body>
+</html>

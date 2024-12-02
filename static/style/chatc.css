@@ -142,3 +142,30 @@ a.botonesheader:hover {
     background-color: #0056b3;
 }
 
+table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+table, th, td {
+            border: 1px solid black;
+        }
+th, td {
+            padding: 10px;
+            text-align: center;
+        }
+
+th {
+            background-color: #f2f2f2;
+        }
+
+.container2 {
+    background-color: #fff;
+    padding: 20px 40px;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 900px;
+    height: 70vh;
+    overflow: auto;
+    text-align: center;
+}

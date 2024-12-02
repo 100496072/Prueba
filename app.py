@@ -1,6 +1,14 @@
 
 
 from cryptography.exceptions import InvalidKey
+import sqlite3 as sql
+import os
+import datetime
+
+from db_functions.user_functions import get_name_by_id
+from db_functions.chat_functions import get_chat_by_id
+from base64 import urlsafe_b64encode, urlsafe_b64decode
+from cryptography.hazmat.primitives.ciphers.aead import ChaCha20Poly1305
 
 from app_cartas import send_letter
 from app_mensajesdesencriptados import messages_descifrados
@@ -20,12 +28,21 @@ with open('pep.txt', 'r', encoding='utf-8') as file:
     lines =  file.readlines()
 
 c1 = ""
+c2 = b''
 c3 = ""
 c4 = ""
+
+
+# Procesar cada línea del archivo
+for line in lines:
+    if line.startswith("c2"):
+        c2 = eval(line.split('=')[1].strip())
 
 for line in lines:
     if line.startswith("c1"):
         c1 = eval(line.split('=')[1].strip())
+    if line.startswith("c2"):
+        c2 = eval(line.split('=')[1].strip())
     if line.startswith("c3"):
         c3 = eval(line.split('=')[1].strip())
     if line.startswith("c4"):
@@ -130,9 +147,142 @@ def chat():
 def home():
     return render_template("PapaNoel.html")
 
-#Envio código de seguridad
+@app.route('/claves')
+def claves():
+    conn = sql.connect('cripto.sqlite')
+    conn.row_factory = sql.Row
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT id, user1_id, user2_id, clave, nonce FROM chats")
+    chats = cursor.fetchall()
+
+    for chat in chats:
+        chat_id = chat['id']
+        encrypted_data_key = urlsafe_b64decode(chat['clave'])
+        nonce_master = urlsafe_b64decode(chat['nonce'])
+
+        # Descifrado de la clave simétrica original
+        AE_Key_stma = c2  # Debes asegurarte de que `c2` esté definido previamente
+        chacha_master = ChaCha20Poly1305(AE_Key_stma)
+        clave_simetrica_origen = chacha_master.decrypt(nonce_master, encrypted_data_key, None)
+
+        # Generar nueva clave y nonce
+        nueva_clave = ChaCha20Poly1305.generate_key()
+        nuevo_nonce = os.urandom(12)
+
+        # Cifrar la nueva clave simétrica
+        encrypted_nueva_clave = chacha_master.encrypt(nuevo_nonce, nueva_clave, None)
+
+        # Convertir a base64 para almacenamiento en la base de datos
+        clave_cifrada_destino = urlsafe_b64encode(encrypted_nueva_clave).decode('utf-8')
+        nonce_cifrado_destino = urlsafe_b64encode(nuevo_nonce).decode('utf-8')
+
+        # Actualizar la tabla `chats`
+        cursor.execute("""
+            UPDATE chats 
+            SET clave = ?, nonce = ? 
+            WHERE id = ?
+        """, (clave_cifrada_destino, nonce_cifrado_destino, chat_id))
+
+        # Procesar los mensajes relacionados con el chat
+        cursor.execute("SELECT id, message, nonce, sender_id FROM messages WHERE chat_id = ?", (chat_id,))
+        messages = cursor.fetchall()
+
+        for mensaje in messages:
+            mensaje_id = mensaje['id']
+            mensajecifrado = urlsafe_b64decode(mensaje['message'])
+            noncemensaje = urlsafe_b64decode(mensaje['nonce'])
+
+            # Descifrar mensaje con clave simétrica original
+            chacha_data = ChaCha20Poly1305(clave_simetrica_origen)
+            mensajefinal = chacha_data.decrypt(noncemensaje, mensajecifrado, None)
+
+            # Cifrar mensaje con la nueva clave simétrica
+            nuevo_nonce_mensaje = os.urandom(12)
+            chacha_nueva = ChaCha20Poly1305(nueva_clave)
+            nuevo_mensaje_cifrado = chacha_nueva.encrypt(nuevo_nonce_mensaje, mensajefinal, None)
+
+            # Convertir a base64 y obtener timestamp actual
+            ct_mensaje = urlsafe_b64encode(nuevo_mensaje_cifrado).decode('utf-8')
+            nonce_mensaje = urlsafe_b64encode(nuevo_nonce_mensaje).decode('utf-8')
+
+            # Actualizar la tabla `messages`
+            cursor.execute("""
+                UPDATE messages 
+                SET message = ?, nonce = ? 
+                WHERE id = ?
+            """, (ct_mensaje, nonce_mensaje, mensaje_id))
+
+    # Guardar los cambios en la base de datos
+    conn.commit()
+    conn.close()
+
+    return redirect(url_for('chat'))
 
 
+@app.route("/mensajes")
+def mensajescomprobacion():
+    conn = sql.connect('cripto.sqlite')
+    conn.row_factory = sql.Row
+    cursor = conn.cursor()
 
+    # Obtener todos los mensajes
+    cursor.execute("""
+        SELECT id,message, nonce, sender_id, recipient_id, chat_id
+        FROM messages 
+    """)
+    mensajes = cursor.fetchall()
+
+    mensajes_desencriptados = []
+
+    for mensaje in mensajes:
+        chat_id = mensaje['chat_id']
+        cursor.execute("SELECT id, clave, nonce FROM chats WHERE id = ?", (chat_id,))
+        chat = cursor.fetchone()
+
+        if not chat:
+            raise ValueError(f"No se encontró un chat con id {chat_id}")
+
+        # Descifrar la clave simétrica del chat
+        encrypted_data_key = urlsafe_b64decode(chat['clave'])
+        nonce_master = urlsafe_b64decode(chat['nonce'])
+
+        AE_Key_stma = c2  # Asegúrate de que `c2` esté definido previamente
+        chacha_master = ChaCha20Poly1305(AE_Key_stma)
+        clave_simetrica_origen = chacha_master.decrypt(nonce_master, encrypted_data_key, None)
+
+        mensajecifrado = urlsafe_b64decode(mensaje['message'])
+        noncemensaje = urlsafe_b64decode(mensaje['nonce'])
+
+        # Descifrar mensaje con clave simétrica original
+        chacha_data = ChaCha20Poly1305(clave_simetrica_origen)
+        mensajefinal = chacha_data.decrypt(noncemensaje, mensajecifrado, None)
+        mensajes_desencriptados.append({
+            "id": mensaje["id"],
+            "sender_id": get_name_by_id(mensaje["sender_id"])["username"],
+            "recipient_id": get_name_by_id(mensaje["recipient_id"])["username"],
+            "mensaje": mensajefinal.decode('utf-8')  # Convertir a texto
+        })
+
+
+    # Cerrar conexión
+    conn.close()
+
+    # Renderizar la plantilla con mensajes desencriptados
+    return render_template("mensajes.html", mensajes=mensajes_desencriptados)
+
+# Ruta para eliminar mensaje
+@app.route('/eliminar_mensaje/<int:mensaje_id>', methods=['POST'])
+def eliminar_mensaje(mensaje_id):
+    conn = sql.connect('cripto.sqlite')
+    cursor = conn.cursor()
+
+    # Eliminar el mensaje
+    cursor.execute("DELETE FROM messages WHERE id = ?", (mensaje_id,))
+    conn.commit()
+    conn.close()
+
+    # Redirigir a la página de mensajes
+    return redirect(url_for('mensajescomprobacion'))
 if __name__ == '__main__':
     app.run(debug=True)
