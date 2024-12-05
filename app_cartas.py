@@ -27,16 +27,16 @@ for line in lines:
     if line.startswith("c4"):
         c4 = eval(line.split('=')[1].strip())
 
-with open("private_key.pem", "rb") as key_file:
+with open("Certs&keys/private_key.pem", "rb") as key_file:
     rsa_private_key = serialization.load_pem_private_key(
         key_file.read(),
         password=private_key_pwd,
     )
-with open("01.pem", "rb") as file:
+with open("Certs&keys/01.pem", "rb") as file:
     Acert = x509.load_pem_x509_certificate(
         file.read()
     )
-with open("ac1cert.pem", "rb") as file:
+with open("Certs&keys/ac1cert.pem", "rb") as file:
     AC1cert = x509.load_pem_x509_certificate(
         file.read()
     )

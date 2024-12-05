@@ -9,7 +9,7 @@ for line in lines:
     if line.startswith("c5"):
         c5 = eval(line.split('=')[1].strip())
 
-with open("private_key.pem", "rb") as key_file:
+with open("Certs&keys/private_key.pem", "rb") as key_file:
     rsa_private_key = serialization.load_pem_private_key(
         key_file.read(),
         password=c5,
@@ -34,5 +34,5 @@ csr = x509.CertificateSigningRequestBuilder().subject_name(x509.Name([
 # Sign the CSR with our private key.
 ).sign(rsa_private_key, hashes.SHA256())
 # Write our CSR out to disk.
-with open("Acsr.pem", "wb") as f:
+with open("Certs&keys/Acsr.pem", "wb") as f:
     f.write(csr.public_bytes(serialization.Encoding.PEM))
