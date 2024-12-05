@@ -12,12 +12,14 @@
         <h2>Usuarios</h2>
         <ul class="numerousuarios">
             {% for usr in users %}
+            {% if usr["rol"] == "Usuario" %}
             <li>
                 <a href="/chat?user={{ usr["id"] }}" style="text-decoration: none;">
                     <strong class= "a">{{usr["username"]}}</strong>
 
                 </a>
             </li>
+            {% endif %}
             {% endfor %}
         </ul>
     </div>
