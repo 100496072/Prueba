@@ -45,5 +45,4 @@ def send_message( sender, recipient , message):
     current_date_time = datetime.datetime.now().timestamp()
 
     insert_message(chat["id"], sender, recipient, ct_mensaje, current_date_time, nonce_mensaje)
-    update_last_message(message, sender, chat["id"])
 

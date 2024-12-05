@@ -39,12 +39,8 @@ def create_chat_table():
         user2_id INTEGER NOT NULL,
         clave string NOT NULL,
         nonce string NOT NULL,
-        last_message_user STRING,
-        last_message TEXT,
         FOREIGN KEY (user1_id) REFERENCES users(id),
-        FOREIGN KEY (user2_id) REFERENCES users(id),
-        FOREIGN KEY (last_message_user) REFERENCES users(id), 
-        FOREIGN KEY (last_message) REFERENCES messages(id))
+        FOREIGN KEY (user2_id) REFERENCES users(id))
         """)
     conn.commit()
     conn.close()
