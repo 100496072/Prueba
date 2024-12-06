@@ -169,3 +169,9 @@ th {
     overflow: auto;
     text-align: center;
 }
+
+#vetar{
+    width: fit-content;
+    padding-left: 20px;
+    padding-right: 20px;
+}

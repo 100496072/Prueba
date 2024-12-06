@@ -42,7 +42,7 @@
             <a href="/login" class="botonesheader">Cambiar Usuario</a>
             {% for usr in users %}
                 {% if username == usr["username"] and ('Admin' == usr["rol"] or 'Tecnico' == usr["rol"])%}
-                    <a href="#Usuario" class="botonesheader">Usuarios</a>
+                    <a href="/vetar" class="botonesheader">Usuarios</a>
                 {% endif %}
                 {% if username == usr["username"] and 'Admin' == usr["rol"] %}
                     <a href="/mensajes" class="botonesheader">Mensajes</a>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="../static/images/favicon.png" type="image/png">
+    <title>Chat</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style/chatc.css') }}">
+</head>
+<body>
+
+    <div class="container2">
+        <h1>Lista de Mensajes</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Correo</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in usuariostotales %}
+                <tr>
+                    <td>{{ user.id }}</td>
+                    <td>{{ user.username }}</td>
+                    <td>{{ user.correo }}</td>
+                    <td>
+                        <form action="{{ url_for('eliminar_usuario', user_id=user.id, correo=user.correo, username=user.username) }}" method="post" style="display:inline;">
+                            <button id="vetar" type="submit">Vetar</button>
+                        </form>
+                    </td>
+
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="links">
+            <a href="/home" class="botonesheader">Home</a>
+            <a href="/chat" class="botonesheader">Volver a Chats</a>
+        </div>
+    </div>
+</body>
+</html>

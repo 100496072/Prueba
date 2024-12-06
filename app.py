@@ -83,10 +83,14 @@ def register():
                     AttributePwd(request.form['password1'])
                     # Si la contraseña es válida, procedemos con el registro
                     info = look_info_ban(request.form['correo'])
-                    if reg_user(request.form['username'], request.form['password1'], request.form['correo']):
-                        return redirect(url_for('login'))
+                    if info is None:
+                        if reg_user(request.form['username'], request.form['password1'], request.form['correo']):
+                            return redirect(url_for('login'))
+                        else:
+                            print("Usuario ya existe")
+                            return redirect(url_for('register'))
                     else:
-                        print("Usuario ya existe")
+                        print("Usuario vetado")
                         return redirect(url_for('register'))
 
                 except ValueError as e:
@@ -287,5 +291,62 @@ def eliminar_mensaje(mensaje_id):
 
     # Redirigir a la página de mensajes
     return redirect(url_for('mensajescomprobacion'))
+
+@app.route("/vetar")
+def vetarusuarios():
+    conn = sql.connect('cripto.sqlite')
+    conn.row_factory = sql.Row
+    cursor = conn.cursor()
+
+    # Obtener todos los mensajes
+    cursor.execute("""
+        SELECT id, username, correo
+        FROM users 
+    """)
+    usuariosto = cursor.fetchall()
+    usuariostotales = []
+
+    for user in usuariosto:
+        usuariostotales.append({
+            "id": user["id"],
+            "username": user["username"],
+            "correo": user["correo"]
+        })
+
+    # Cerrar conexión
+    conn.close()
+    usuariostotales = sorted(usuariostotales, key=lambda x: x['id'])
+
+    # Renderizar la plantilla con mensajes desencriptados
+    return render_template("vetar.html", usuariostotales=usuariostotales)
+
+@app.route('/eliminar_usuario/<int:user_id>/<string:correo>,/<string:username>', methods=['POST'])
+def eliminar_usuario(user_id, correo, username):
+    conn = sql.connect('cripto.sqlite')
+    cursor = conn.cursor()
+
+    # Eliminar el mensaje
+    cursor.execute("DELETE FROM messages WHERE sender_id = ?", (user_id,))
+    cursor.execute("DELETE FROM messages WHERE recipient_id = ?", (user_id,))
+    cursor.execute("DELETE FROM chats WHERE user1_id = ?", (user_id,))
+    cursor.execute("DELETE FROM chats WHERE user2_id = ?", (user_id,))
+    cursor.execute("DELETE FROM users WHERE id = ?", (user_id,))
+
+    try:
+        # Usar placeholders para insertar los valores
+        cursor.execute("INSERT INTO ban (username, correo) VALUES (?,?)",
+                       (username, correo))
+        conn.commit()  # Guardar los cambios
+        print(f"Correo '{correo}' vetado correctamente.")
+    except sql.IntegrityError as e:
+        print("Error al insertar:", e)  # Manejar errores de integridad
+
+    conn.commit()
+    conn.close()
+
+    # Redirigir a la página de mensajes
+    return redirect(url_for('vetarusuarios'))
+
+
 if __name__ == '__main__':
     app.run(debug=True)

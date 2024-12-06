@@ -28,6 +28,7 @@ for line in lines:
 def reg_user(username, password, correo):
 
     if look_info(username) is not None:
+        print("Usuario ya existe")
         return False
     salt = os.urandom(16)
     kdf = Scrypt(
