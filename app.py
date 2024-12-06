@@ -5,11 +5,11 @@ import sqlite3 as sql
 import os
 import datetime
 
-from db_functions.user_functions import get_name_by_id
+from db_functions.user_functions import get_name_by_id, look_info_ban
 from db_functions.chat_functions import get_chat_by_id
 from base64 import urlsafe_b64encode, urlsafe_b64decode
 from cryptography.hazmat.primitives.ciphers.aead import ChaCha20Poly1305
-
+from db_functions.user_functions import look_info, insert_user, set_ip, get_user_by_id
 from app_cartas import send_letter
 from app_mensajesdesencriptados import messages_descifrados
 from app_user import reg_user, log_user
@@ -82,10 +82,13 @@ def register():
                 try:
                     AttributePwd(request.form['password1'])
                     # Si la contraseña es válida, procedemos con el registro
+                    info = look_info_ban(request.form['correo'])
                     if reg_user(request.form['username'], request.form['password1'], request.form['correo']):
                         return redirect(url_for('login'))
                     else:
+                        print("Usuario ya existe")
                         return redirect(url_for('register'))
+
                 except ValueError as e:
                     print(e)
                     return redirect(url_for('register'))  # Redirige si la contraseña no es válida

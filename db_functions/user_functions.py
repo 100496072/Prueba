@@ -39,6 +39,13 @@ def look_info(user):
     cursor.execute("""SELECT * FROM users WHERE username = ?""", (user,))
     return cursor.fetchone()
 
+def look_info_ban(user):
+    conn = sql.connect('cripto.sqlite')
+    conn.row_factory = sql.Row
+    cursor = conn.cursor()
+    cursor.execute("""SELECT * FROM ban WHERE correo = ?""", (user,))
+    return cursor.fetchone()
+
 
 def insert_user(nombre, pwd, salt, correo, rol="Usuario"):
     conn = sql.connect('cripto.sqlite')  # Conectar a la base de datos

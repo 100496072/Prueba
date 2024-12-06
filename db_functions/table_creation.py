@@ -12,6 +12,7 @@ def initialize_db():
     create_chat_table()
     create_messages_table()
     create_letters_table()
+    create_users_ban_table()
 
 def create_users_table():
     conn = sql.connect('cripto.sqlite')
@@ -28,6 +29,15 @@ def create_users_table():
     conn.commit()
     conn.close()
 
+def create_users_ban_table():
+    conn = sql.connect('cripto.sqlite')
+    cursor = conn.cursor()
+    cursor.execute("""CREATE TABLE IF NOT EXISTS ban(
+    username string NOT NULL, 
+    correo string NOT NULL)
+    """)
+    conn.commit()
+    conn.close()
 
 def create_chat_table():
     conn = sql.connect('cripto.sqlite')
