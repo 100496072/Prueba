@@ -15,6 +15,7 @@ from app_mensajesdesencriptados import messages_descifrados
 from app_user import reg_user, log_user
 from app_chat import send_message
 from attributes.attribute_pwd import AttributePwd
+import attributes.attribute_user as attribute_user
 from flask import Flask, render_template, request, redirect, url_for, session
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField
@@ -67,6 +68,10 @@ class RegistrationForm(FlaskForm):
 def PapaNoel():
     initialize_db()
     if request.method == 'POST':
+        attribute_user.AttributeMensaje(request.form["escribe"])
+        attribute_user.AttributeUser(request.form["name"])
+        attribute_user.AttributeUser(request.form["country"])
+        attribute_user.AttributeUser(request.form["city"])
         send_letter(letter=request.form["escribe"], sender=request.form["name"], correo=request.form["email"], country=request.form["country"], city=request.form["city"])
         cartascorreo(letter=request.form["escribe"], sender=request.form["name"], correo=request.form["email"], country=request.form["country"], city=request.form["city"])
 
@@ -78,9 +83,11 @@ def PapaNoel():
 def register():
     if request.method == 'POST':
         try:
+            AttributePwd(request.form['password1'])
+            AttributePwd(request.form['password2'])
+            attribute_user.AttributeUser(request.form['username'])
             if request.form['password1'] == request.form['password2']:
                 try:
-                    AttributePwd(request.form['password1'])
                     # Si la contraseña es válida, procedemos con el registro
                     info = look_info_ban(request.form['correo'])
                     if info is None:
@@ -106,11 +113,13 @@ def register():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-            log = log_user(request.form['username'], request.form['password'])
-            if log is True:
-                return redirect(url_for('chat'))
-            elif log is False:
-                return redirect(url_for('codigo'))
+        AttributePwd(request.form['password'])
+        attribute_user.AttributeUser(request.form['username'])
+        log = log_user(request.form['username'], request.form['password'])
+        if log is True:
+            return redirect(url_for('chat'))
+        elif log is False:
+            return redirect(url_for('codigo'))
 
     return render_template('login.html')
 
@@ -141,6 +150,8 @@ def chat():
     users = get_users()
 
     if request.method == 'POST':
+        attribute_user.AttributeMensaje(request.form["message"])
+        attribute_user.AttributeUser(request.form["recipient"])
         send_message(message= request.form['message'], recipient= request.form['recipient'], sender= session['user_id'])
 
     selected_user = request.args.get('user')

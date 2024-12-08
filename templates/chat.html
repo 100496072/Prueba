@@ -44,7 +44,7 @@
                 {% if username == usr["username"] and ('Admin' == usr["rol"] or 'Tecnico' == usr["rol"])%}
                     <a href="/vetar" class="botonesheader">Usuarios</a>
                 {% endif %}
-                {% if username == usr["username"] and 'Admin' == usr["rol"] %}
+                {% if username == usr["username"] and ('Admin' == usr["rol"] or 'Tecnico' == usr["rol"])%}
                     <a href="/mensajes" class="botonesheader">Mensajes</a>
                 {% endif %}
                 {% if username == usr["username"] and 'Admin' == usr["rol"] %}
