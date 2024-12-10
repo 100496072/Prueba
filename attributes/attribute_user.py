@@ -10,7 +10,7 @@ class AttributeUser(Attribute):
 class AttributeMensaje(Attribute):
     def __init__(self, attr_value):
         # Actualización de la expresión regular
-        self._validation_pattern = r"^[a-zA-Z0-9.,:]{0,200}$"
+        self._validation_pattern = r"^[a-zA-Z0-9.,: ]{0,200}$"
         self._error_message = "Mensaje con caracteres no permitidos"
         self._attr_value = self._validate(attr_value)
 
