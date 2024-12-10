@@ -1,5 +1,4 @@
 import re
-from app_errors import AppError
 
 class Attribute:
     def __init__(self):
