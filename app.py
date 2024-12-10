@@ -76,7 +76,8 @@ def PapaNoel():
         if ciudad.value is False:
             return redirect(url_for('home'))
 
-        send_letter(letter=request.form["escribe"], sender=request.form["name"], correo=request.form["email"], country=request.form["country"], city=request.form["city"])
+        if send_letter(letter=request.form["escribe"], sender=request.form["name"], correo=request.form["email"], country=request.form["country"], city=request.form["city"]) is None:
+            return redirect(url_for('home'))
         cartascorreo(letter=request.form["escribe"], sender=request.form["name"], correo=request.form["email"], country=request.form["country"], city=request.form["city"])
 
 
