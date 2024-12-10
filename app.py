@@ -183,7 +183,8 @@ def chat():
         if user.value is False:
             return redirect(url_for('chat'))
 
-        send_message(message= request.form['message'], recipient= request.form['recipient'], sender= session['user_id'])
+        if send_message(message= request.form['message'], recipient= request.form['recipient'], sender= session['user_id']) is None:
+            return redirect(url_for('chat'))
 
     selected_user = request.args.get('user')
     if selected_user:
