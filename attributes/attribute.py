@@ -1,5 +1,4 @@
 import re
-from app_errors import AppError
 
 class Attribute:
     def __init__(self):
@@ -9,7 +8,8 @@ class Attribute:
 
     def _validate(self, attr_value):
         if not re.match(self._validation_pattern, attr_value):
-            raise ValueError(self._error_message)
+            print(self._error_message)
+            return False
         return attr_value
 
     @property

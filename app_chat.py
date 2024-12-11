@@ -21,7 +21,11 @@ for line in lines:
 
 
 def send_message( sender, recipient , message):
-    recipient = get_id_by_name(recipient)["id"]
+    nombre = get_id_by_name(recipient)
+    if nombre is None:
+        print("Usuario no existe")
+        return None
+    recipient = nombre["id"]
     chat = search_relation(sender, recipient)
     if chat is None:
         create_relation(sender, recipient)

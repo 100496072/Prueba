@@ -69,6 +69,7 @@ def check_letter(sender, letter_time):
         print("El certificado de la CA es válido y fue firmado por la CA.")
     except Exception as e:
         print(f"El certificado no es válido: {e}")
+        return None
 
     try:
         clave_publica_ca.verify(
@@ -80,6 +81,7 @@ def check_letter(sender, letter_time):
         print("El certificado es válido y fue firmado por la CA.")
     except Exception as e:
         print(f"El certificado no es válido: {e}")
+        return None
 
     try:
         Acert.public_key().verify(
@@ -94,6 +96,7 @@ def check_letter(sender, letter_time):
         print("La firma es válida y coincide con el certificado.")
     except Exception as e:
         print(f"La firma no es válida: {e}")
+        return None
 
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
