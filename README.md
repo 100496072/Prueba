@@ -1,3 +1,5 @@
-# Aplicación de Intercambio de Mensajes con Integración Web
+📌 Descripción del proyecto
 
-Proyecto de desarrollo de una aplicación de mensajería entre usuarios, con un diseño web que facilita la navegación y la interacción. La arquitectura permite la incorporación futura de roles de usuario y funciones de moderación, como eliminar mensajes ofensivos o gestionar usuarios.
+Proyecto de desarrollo de una aplicación de intercambio de mensajes con integración web, orientada a facilitar la navegación y la interacción entre usuarios.
+
+La arquitectura está diseñada para permitir la incorporación futura de roles de usuario y funciones de moderación, como la gestión de usuarios y la eliminación de mensajes ofensivos.
